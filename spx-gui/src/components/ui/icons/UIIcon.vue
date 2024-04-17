@@ -10,13 +10,23 @@ import arrowDown from './arrow-down.svg?raw'
 import arrowUp from './arrow-up.svg?raw'
 import play from './play.svg?raw'
 import loading from './loading.svg?raw'
+import plus from './plus.svg?raw'
+import trash from './trash.svg?raw'
+import edit from './edit.svg?raw'
+import eye from './eye.svg?raw'
+import eyeSlash from './eye-slash.svg?raw'
 
 const typeIconMap = {
   file,
   arrowDown,
   arrowUp,
   play,
-  loading
+  loading,
+  plus,
+  trash,
+  edit,
+  eye,
+  eyeSlash
 }
 
 export type Type = keyof typeof typeIconMap
