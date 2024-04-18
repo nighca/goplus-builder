@@ -15,6 +15,7 @@ import trash from './trash.svg?raw'
 import edit from './edit.svg?raw'
 import eye from './eye.svg?raw'
 import eyeSlash from './eye-slash.svg?raw'
+import more from './more.svg?raw'
 
 const typeIconMap = {
   file,
@@ -26,7 +27,8 @@ const typeIconMap = {
   trash,
   edit,
   eye,
-  eyeSlash
+  eyeSlash,
+  more
 }
 
 export type Type = keyof typeof typeIconMap

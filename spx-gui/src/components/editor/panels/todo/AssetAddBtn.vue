@@ -255,7 +255,7 @@ const beforeUpload = async (
           message.error('message.image')
           return false
         }
-        editorCtx.project.stage.setBackdrop(new Backdrop(assetName, file))
+        editorCtx.project.stage.setBackdrop(Backdrop.create(assetName, file))
         break
       }
       case 'sound': {
@@ -263,7 +263,7 @@ const beforeUpload = async (
           message.error('message.sound')
           return false
         }
-        editorCtx.project.addSound(new Sound(assetName, file))
+        editorCtx.project.addSound(Sound.create(assetName, file))
         break
       }
       default:
@@ -320,8 +320,8 @@ const handleSubmitSprite = async (): Promise<void> => {
       .filter((fileInfo) => fileInfo.file !== null)
       .map((fileInfo) => fromNativeFile(fileInfo.file!))
   )
-  const sprite = new Sprite(uploadSpriteName.value)
-  const costumes = files.map((f) => new Costume(stripExt(f.name), f))
+  const sprite = Sprite.create(uploadSpriteName.value)
+  const costumes = files.map((f) => Costume.create(stripExt(f.name), f))
   for (const costume of costumes) {
     sprite.addCostume(costume)
   }
