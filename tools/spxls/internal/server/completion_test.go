@@ -310,6 +310,15 @@ run "assets", {Title: "My Game"}
 		require.NotNil(t, items)
 		assert.NotEmpty(t, items)
 		assert.True(t, containsCompletionItemLabel(items, "recording"))
+
+		items2, err := s.textDocumentCompletion(&CompletionParams{
+			TextDocumentPositionParams: TextDocumentPositionParams{
+				TextDocument: TextDocumentIdentifier{URI: "file:///main.spx"},
+				Position:     Position{Line: 1, Character: 8},
+			},
+		})
+		require.NoError(t, err)
+		assert.Empty(t, items2)
 	})
 
 	t.Run("FuncOverloads", func(t *testing.T) {

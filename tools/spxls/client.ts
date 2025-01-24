@@ -91,9 +91,10 @@ export class Spxlc {
       }
     }).then(
       result => {
+        console.debug(`[LSP] ${method} params:`, params, '->', result)
         if (process.env.NODE_ENV === 'development') {
           const time = performance.now() - sendAt
-          if (time > 20) console.warn(`[LSP] ${method} took ${Math.round(time)}ms, params:`, params)
+          // if (time > 20) console.warn(`[LSP] ${method} took ${Math.round(time)}ms, params:`, params)
         }
         return result
       },
