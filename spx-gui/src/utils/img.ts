@@ -16,7 +16,14 @@ export function convertImg(
         const svgText = await input.text()
         size = await getSVGSize(svgText)
       }
-      const canvas = new OffscreenCanvas(size.width, size.height)
+
+      // We can not use canvas to create a zero size image, so we make it at least 1x1.
+      // This is a temporary workaround which may cause issues as the image size is changed after conversion.
+      // TODO: Fix this issue properly.
+      const canvasWidth = Math.max(1, size.width)
+      const canvasHeight = Math.max(1, size.height)
+
+      const canvas = new OffscreenCanvas(canvasWidth, canvasHeight)
       const ctx = canvas.getContext('2d')!
       ctx.drawImage(img, 0, 0, size.width, size.height)
       resolve(canvas.convertToBlob({ type }))
