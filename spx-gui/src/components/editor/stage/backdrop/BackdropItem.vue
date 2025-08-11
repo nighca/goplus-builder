@@ -41,7 +41,7 @@ const editorCtx = useEditorCtx()
 const [imgSrc, imgLoading] = useFileUrl(() => props.backdrop.img)
 
 const radarNodeMeta = computed(() => {
-  const name = `Backdrop item "${props.backdrop.name}"`
+  const name = `backdrop-item-${encodeURIComponent(props.backdrop.name)}`
   const desc = props.selectable ? 'Click to select the backdrop and view more options' : ''
   return { name, desc }
 })

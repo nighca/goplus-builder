@@ -10,14 +10,14 @@
     </main>
     <footer class="footer">
       <UIButton
-        v-radar="{ name: 'Cancel button', desc: 'Click to cancel the operation in modal' }"
+        v-radar="{ name: 'cancel-button', desc: 'Click to cancel the operation in modal' }"
         type="boring"
         @click="emit('cancel')"
       >
         {{ $t({ en: 'Cancel', zh: '取消' }) }}
       </UIButton>
       <UIButton
-        v-radar="{ name: 'Confirm button', desc: 'Click to submit the modal' }"
+        v-radar="{ name: 'confirm-button', desc: 'Click to submit the modal' }"
         type="primary"
         html-type="submit"
       >

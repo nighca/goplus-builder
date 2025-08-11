@@ -1,6 +1,6 @@
 <template>
   <UIFormModal
-    :radar="{ name: 'Preprocess modal', desc: 'Modal for preprocessing image for costumes' }"
+    :radar="{ name: 'preprocess-modal', desc: 'Modal for preprocessing image for costumes' }"
     style="width: 780px"
     :visible="props.visible && ready"
     :title="$t(title)"
@@ -61,7 +61,7 @@
         </div>
       </div>
       <UIButton
-        v-radar="{ name: 'Confirm button', desc: 'Click to confirm preprocessing' }"
+        v-radar="{ name: 'confirm-button', desc: 'Click to confirm preprocessing' }"
         size="large"
         :disabled="selectedCostumes.length === 0"
         :loading="handleConfirm.isLoading.value"

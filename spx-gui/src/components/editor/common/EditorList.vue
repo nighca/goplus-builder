@@ -1,7 +1,7 @@
 <template>
   <div class="editor-list" :style="cssVars">
     <div class="sider">
-      <div ref="itemsWrapper" v-radar="{ name: 'Items', desc }" class="items">
+      <div ref="itemsWrapper" v-radar="{ name: 'items', desc }" class="items">
         <slot></slot>
       </div>
       <UIDropdownWithTooltip>
@@ -12,7 +12,7 @@
           {{ addText }}
         </template>
         <template #trigger>
-          <button v-radar="{ name: 'Add item', desc: 'Button for adding new items to the list' }" class="add">
+          <button v-radar="{ name: 'add-item', desc: 'Button for adding new items to the list' }" class="add">
             <UIIcon class="icon" type="plus" />
           </button>
         </template>

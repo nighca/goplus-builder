@@ -2,7 +2,7 @@
   <NavbarWrapper centered>
     <template #left>
       <NavbarDropdown
-        :trigger-radar="{ name: 'Project menu', desc: 'Hover to see project options (create/open project)' }"
+        :trigger-radar="{ name: 'project-menu', desc: 'Hover to see project options (create/open project)' }"
       >
         <template #trigger>
           <UIIcon type="plus" />
@@ -17,7 +17,7 @@
       <div class="search">
         <UITextInput
           v-model:value="searchInput"
-          v-radar="{ name: 'Search input', desc: 'Input and press enter to search projects' }"
+          v-radar="{ name: 'search-input', desc: 'Input and press enter to search projects' }"
           :placeholder="$t({ en: 'Search project', zh: '搜索项目' })"
           @keypress.enter="handleSearch"
         >

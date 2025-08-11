@@ -3,7 +3,7 @@
   <div class="line name">
     <AssetName>{{ sprite.name }}</AssetName>
     <UIIcon
-      v-radar="{ name: 'Rename button', desc: 'Button to rename the sprite' }"
+      v-radar="{ name: 'rename-button', desc: 'Button to rename the sprite' }"
       class="icon"
       :title="$t({ en: 'Rename', zh: '重命名' })"
       type="edit"
@@ -13,7 +13,7 @@
     <UITooltip>
       <template #trigger>
         <UIIcon
-          v-radar="{ name: 'Collapse button', desc: 'Button to collapse the sprite basic configuration panel' }"
+          v-radar="{ name: 'collapse-button', desc: 'Button to collapse the sprite basic configuration panel' }"
           class="icon"
           type="doubleArrowDown"
           @click="emit('collapse')"
@@ -29,21 +29,21 @@
   </div>
   <div class="line">
     <UINumberInput
-      v-radar="{ name: 'X position input', desc: 'Input to set sprite X position' }"
+      v-radar="{ name: 'x-position-input', desc: 'Input to set sprite X position' }"
       :value="sprite.x"
       @update:value="handleXUpdate"
     >
       <template #prefix>X:</template>
     </UINumberInput>
     <UINumberInput
-      v-radar="{ name: 'Y position input', desc: 'Input to set sprite Y position' }"
+      v-radar="{ name: 'y-position-input', desc: 'Input to set sprite Y position' }"
       :value="sprite.y"
       @update:value="handleYUpdate"
     >
       <template #prefix>Y:</template>
     </UINumberInput>
     <UINumberInput
-      v-radar="{ name: 'Size input', desc: 'Input to set sprite size percentage' }"
+      v-radar="{ name: 'size-input', desc: 'Input to set sprite size percentage' }"
       :min="0"
       :value="sizePercent"
       @update:value="handleSizePercentUpdate"
@@ -56,7 +56,7 @@
     <p class="with-label">
       {{ $t({ en: 'Rotation', zh: '旋转' }) }}:
       <UIButtonGroup
-        v-radar="{ name: 'Rotation style control', desc: 'Control to set sprite rotation style' }"
+        v-radar="{ name: 'rotation-style-control', desc: 'Control to set sprite rotation style' }"
         :value="sprite.rotationStyle"
         @update:value="(v) => handleRotationStyleUpdate(v as RotationStyle)"
       >
@@ -88,7 +88,7 @@
     </p>
     <UINumberInput
       v-show="sprite.rotationStyle !== RotationStyle.leftRight"
-      v-radar="{ name: 'Heading input', desc: 'Input to set sprite heading angle' }"
+      v-radar="{ name: 'heading-input', desc: 'Input to set sprite heading angle' }"
       :disabled="sprite.rotationStyle === RotationStyle.none"
       :min="-180"
       :max="180"
@@ -106,7 +106,7 @@
     </UINumberInput>
     <UIButtonGroup
       v-show="sprite.rotationStyle === RotationStyle.leftRight"
-      v-radar="{ name: 'Direction control', desc: 'Control to set sprite left or right direction' }"
+      v-radar="{ name: 'direction-control', desc: 'Control to set sprite left or right direction' }"
       type="text"
       :value="headingToLeftRight(sprite.heading)"
       @update:value="(v) => handleHeadingUpdate(leftRightToHeading(v as LeftRight))"
@@ -123,7 +123,7 @@
     <p class="with-label">
       {{ $t({ en: 'Show', zh: '显示' }) }}:
       <UIButtonGroup
-        v-radar="{ name: 'Visibility control', desc: 'Control to toggle sprite visibility' }"
+        v-radar="{ name: 'visibility-control', desc: 'Control to toggle sprite visibility' }"
         :value="sprite.visible ? 'visible' : 'hidden'"
         @update:value="(v) => handleVisibleUpdate(v === 'visible')"
       >

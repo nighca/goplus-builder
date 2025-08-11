@@ -68,7 +68,7 @@ const hovered = useHovered(() => wrapperRef.value?.$el ?? null)
 const animation = computed(() => props.sprite.getDefaultAnimation())
 
 const radarNodeMeta = computed(() => {
-  const name = `Sprite item "${props.sprite.name}"`
+  const name = `sprite-item-${encodeURIComponent(props.sprite.name)}`
   const desc = props.selectable ? 'Click to select the sprite and view more options' : ''
   return { name, desc }
 })

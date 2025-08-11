@@ -283,7 +283,7 @@ const remixesRet = useQuery(
 <template>
   <CenteredWrapper size="large">
     <CommunityCard
-      v-radar="{ name: 'Project content', desc: 'Main content area for project details and runner' }"
+      v-radar="{ name: 'project-content', desc: 'Main content area for project details and runner' }"
       class="main"
     >
       <UILoading v-if="isLoading" cover mask="solid" />
@@ -296,7 +296,7 @@ const remixesRet = useQuery(
             <ProjectRunner ref="projectRunnerRef" :key="`${project.owner}/${project.name}`" :project="project" />
             <div v-show="runnerState === 'initial'" class="runner-mask">
               <UIButton
-                v-radar="{ name: 'Run button', desc: 'Click to run the project' }"
+                v-radar="{ name: 'run-button', desc: 'Click to run the project' }"
                 class="run-button"
                 type="primary"
                 size="large"
@@ -318,7 +318,7 @@ const remixesRet = useQuery(
         <div class="ops">
           <UIButton
             v-if="runnerState === 'initial'"
-            v-radar="{ name: 'Full screen run button', desc: 'Click to run project in full screen' }"
+            v-radar="{ name: 'full-screen-run-button', desc: 'Click to run project in full screen' }"
             type="primary"
             icon="fullScreen"
             @click="isFullScreenRunning = true"
@@ -327,7 +327,7 @@ const remixesRet = useQuery(
           </UIButton>
           <UIButton
             v-if="runnerState === 'running'"
-            v-radar="{ name: 'Rerun button', desc: 'Click to rerun the project' }"
+            v-radar="{ name: 'rerun-button', desc: 'Click to rerun the project' }"
             type="primary"
             icon="rotate"
             :disabled="projectRunnerRef == null"
@@ -338,7 +338,7 @@ const remixesRet = useQuery(
           </UIButton>
           <UIButton
             v-if="runnerState === 'running'"
-            v-radar="{ name: 'Stop button', desc: 'Click to stop the running project' }"
+            v-radar="{ name: 'stop-button', desc: 'Click to stop the running project' }"
             type="boring"
             icon="end"
             @click="handleStop.fn"
@@ -348,7 +348,7 @@ const remixesRet = useQuery(
           <UITooltip>
             <template #trigger>
               <UIButton
-                v-radar="{ name: 'Share button', desc: 'Click to share the project' }"
+                v-radar="{ name: 'share-button', desc: 'Click to share the project' }"
                 type="boring"
                 icon="share"
                 @click="handleShare.fn"
@@ -386,7 +386,7 @@ const remixesRet = useQuery(
           <div class="ops">
             <template v-if="isOwner">
               <UIButton
-                v-radar="{ name: 'Edit button', desc: 'Click to edit the project' }"
+                v-radar="{ name: 'edit-button', desc: 'Click to edit the project' }"
                 type="primary"
                 size="large"
                 icon="edit2"
@@ -396,7 +396,7 @@ const remixesRet = useQuery(
               >
               <UIButton
                 v-if="project.visibility === Visibility.Public"
-                v-radar="{ name: 'Share button', desc: 'Click to share the project' }"
+                v-radar="{ name: 'share-button', desc: 'Click to share the project' }"
                 type="boring"
                 size="large"
                 icon="share"
@@ -405,7 +405,7 @@ const remixesRet = useQuery(
               >
               <UIButton
                 v-else
-                v-radar="{ name: 'Publish button', desc: 'Click to publish the project' }"
+                v-radar="{ name: 'publish-button', desc: 'Click to publish the project' }"
                 type="boring"
                 size="large"
                 icon="share"
@@ -416,7 +416,7 @@ const remixesRet = useQuery(
               <UIDropdown placement="bottom-end" trigger="click">
                 <template #trigger>
                   <UIButton
-                    v-radar="{ name: 'More options button', desc: 'Click to see more project options' }"
+                    v-radar="{ name: 'more-options-button', desc: 'Click to see more project options' }"
                     class="more"
                     type="boring"
                     size="large"
@@ -426,12 +426,12 @@ const remixesRet = useQuery(
                 <UIMenu>
                   <UIMenuItem
                     v-if="project.visibility === Visibility.Public"
-                    v-radar="{ name: 'Unpublish option', desc: 'Click to unpublish the project' }"
+                    v-radar="{ name: 'unpublish-option', desc: 'Click to unpublish the project' }"
                     @click="handleUnpublish.fn"
                     >{{ $t({ en: 'Unpublish', zh: '取消发布' }) }}</UIMenuItem
                   >
                   <UIMenuItem
-                    v-radar="{ name: 'Remove option', desc: 'Click to remove the project' }"
+                    v-radar="{ name: 'remove-option', desc: 'Click to remove the project' }"
                     @click="handleRemove.fn"
                     >{{ $t({ en: 'Remove', zh: '删除' }) }}</UIMenuItem
                   >
@@ -441,7 +441,7 @@ const remixesRet = useQuery(
             <template v-else>
               <UIButton
                 v-if="hasRelease"
-                v-radar="{ name: 'Remix button', desc: 'Click to remix this project' }"
+                v-radar="{ name: 'remix-button', desc: 'Click to remix this project' }"
                 type="primary"
                 size="large"
                 icon="remix"
@@ -450,7 +450,7 @@ const remixesRet = useQuery(
                 >{{ $t({ en: 'Remix', zh: '改编' }) }}</UIButton
               >
               <UIButton
-                v-radar="{ name: 'Like button', desc: 'Click to like or unlike the project' }"
+                v-radar="{ name: 'like-button', desc: 'Click to like or unlike the project' }"
                 :class="{ liking }"
                 type="boring"
                 size="large"
@@ -462,7 +462,7 @@ const remixesRet = useQuery(
                 {{ $t(likeCount!.text) }}
               </UIButton>
               <UIButton
-                v-radar="{ name: 'Share button', desc: 'Click to share the project' }"
+                v-radar="{ name: 'share-button', desc: 'Click to share the project' }"
                 type="boring"
                 size="large"
                 icon="share"
@@ -474,7 +474,7 @@ const remixesRet = useQuery(
           <UIDivider class="divider" />
           <UICollapse
             v-radar="{
-              name: 'Project details',
+              name: 'project-details',
               desc: 'Collapsible sections showing project description, instructions and release history'
             }"
             class="collapse"
@@ -497,7 +497,7 @@ const remixesRet = useQuery(
       </div>
     </CommunityCard>
     <ProjectsSection
-      v-radar="{ name: 'Popular remixes section', desc: 'Section showing popular remixes of this project' }"
+      v-radar="{ name: 'popular-remixes-section', desc: 'Section showing popular remixes of this project' }"
       class="remixes"
       context="project"
       :num-in-row="remixNumInRow"

@@ -44,7 +44,7 @@ const editorCtx = useEditorCtx()
 const removable = computed(() => props.removable && props.selectable && props.selectable.selected)
 
 const radarNodeMeta = computed(() => {
-  const name = `Sound item "${props.sound.name}"`
+  const name = `sound-item-${encodeURIComponent(props.sound.name)}`
   const desc = props.selectable ? 'Click to select the sound and view more options' : ''
   return { name, desc }
 })

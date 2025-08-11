@@ -4,7 +4,7 @@
     <template #left>
       <NavbarDropdown
         :trigger-radar="{
-          name: 'Project menu',
+          name: 'project-menu',
           desc: 'Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import from Scratch, etc.)'
         }"
       >
@@ -59,7 +59,7 @@
       </NavbarDropdown>
       <NavbarDropdown
         v-if="project != null"
-        :trigger-radar="{ name: 'History menu', desc: 'Hover to see history options (undo/redo)' }"
+        :trigger-radar="{ name: 'history-menu', desc: 'Hover to see history options (undo/redo)' }"
       >
         <template #trigger>
           <UIIcon type="clock" />
@@ -93,7 +93,7 @@
     <template #right>
       <div v-show="canManageProject" class="publish">
         <UIButton
-          v-radar="{ name: 'Publish button', desc: 'Click to publish the project' }"
+          v-radar="{ name: 'publish-button', desc: 'Click to publish the project' }"
           type="secondary"
           :disabled="!isOnline"
           @click="handlePublishProject"

@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { inject, reactive, type App, type Directive, type InjectionKey } from 'vue'
 
 export type RadarNodeMeta = {
-  /** Descriptive name of the node */
+  /** Descriptive name of the node, in kebab-case */
   name: string
   /** Description of the node */
   desc: string
@@ -82,7 +82,7 @@ export class Radar {
 
   constructor() {
     this.rootNode = new RadarNodeInfo(document.body, {
-      name: 'Virtual root',
+      name: 'virtual-root',
       desc: 'Virtual node as root of the UI tree'
     })
     this.elNodeMap.set(document.body, this.rootNode)

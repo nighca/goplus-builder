@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <router-link
-    v-radar="{ name: 'Navbar tutorials link', desc: 'Click to open the tutorials page' }"
+    v-radar="{ name: 'navbar-tutorials-link', desc: 'Click to open the tutorials page' }"
     class="navbar-tutorials"
     to="/tutorials"
   >

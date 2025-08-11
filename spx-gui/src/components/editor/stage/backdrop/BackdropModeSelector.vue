@@ -28,7 +28,7 @@
       </UITooltip>
     </div>
     <UIButtonGroup
-      v-radar="{ name: 'Backdrop mode selector', desc: 'Selector to choose backdrop mode for the stage' }"
+      v-radar="{ name: 'backdrop-mode-selector', desc: 'Selector to choose backdrop mode for the stage' }"
       type="text"
       :value="editorCtx.project.stage.mapMode"
       @update:value="(v) => handleUpdateMapMode(v as MapMode)"

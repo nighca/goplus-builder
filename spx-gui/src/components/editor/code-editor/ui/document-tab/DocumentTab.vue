@@ -44,7 +44,7 @@ const [stageImgUrl] = useFileUrl(() => {
     {{ $t(name) }}
     <template #trigger>
       <div
-        v-radar="{ name: 'Code document tab', desc: `Click to open code of ${textDocument.id.uri}` }"
+        v-radar="{ name: 'code-document-tab', desc: `Click to open code of ${textDocument.id.uri}` }"
         class="document-tab"
         :class="{ active: isActive }"
         @click="emit('click')"

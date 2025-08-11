@@ -8,7 +8,7 @@
     @update:show="handleUpdateShow"
   >
     <div
-      v-radar="radar ?? { name: 'Modal', desc: 'A modal dialog for specific purpose' }"
+      v-radar="radar ?? { name: 'modal', desc: 'A modal dialog for specific purpose' }"
       :class="['container', `size-${size || 'medium'}`]"
     >
       <slot></slot>

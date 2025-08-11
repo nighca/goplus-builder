@@ -6,7 +6,7 @@
       <div class="controls">
         <div class="line">
           <UITextInput
-            v-radar="{ name: 'Label input', desc: 'Input field for monitor label' }"
+            v-radar="{ name: 'label-input', desc: 'Input field for monitor label' }"
             class="input"
             :value="monitor.label"
             @update:value="handleLabelUpdate"
@@ -14,7 +14,7 @@
             <template #prefix>{{ $t({ en: 'Label', zh: '标签' }) }}:</template>
           </UITextInput>
           <UITextInput
-            v-radar="{ name: 'Value input', desc: 'Input field for monitor value' }"
+            v-radar="{ name: 'value-input', desc: 'Input field for monitor value' }"
             class="input"
             :value="monitor.variableName"
             @update:value="handleValueUpdate"
@@ -25,7 +25,7 @@
         <div class="divider"></div>
         <div class="line">
           <UINumberInput
-            v-radar="{ name: 'X position input', desc: 'Input field for monitor X position' }"
+            v-radar="{ name: 'x-position-input', desc: 'Input field for monitor X position' }"
             class="input"
             :value="monitor.x"
             @update:value="handleXUpdate"
@@ -33,7 +33,7 @@
             <template #prefix>X:</template>
           </UINumberInput>
           <UINumberInput
-            v-radar="{ name: 'Y position input', desc: 'Input field for monitor Y position' }"
+            v-radar="{ name: 'y-position-input', desc: 'Input field for monitor Y position' }"
             class="input"
             :value="monitor.y"
             @update:value="handleYUpdate"
@@ -43,7 +43,7 @@
         </div>
         <div class="line">
           <UINumberInput
-            v-radar="{ name: 'Size input', desc: 'Input field for monitor size' }"
+            v-radar="{ name: 'size-input', desc: 'Input field for monitor size' }"
             class="input"
             :min="0"
             :value="sizePercent"
@@ -57,7 +57,7 @@
           <p class="with-label">
             {{ $t({ en: 'Show', zh: '显示' }) }}:
             <UIButtonGroup
-              v-radar="{ name: 'Visibility control', desc: 'Control to set monitor visibility' }"
+              v-radar="{ name: 'visibility-control', desc: 'Control to set monitor visibility' }"
               :value="monitor.visible ? 'visible' : 'hidden'"
               @update:value="(v) => handleVisibleUpdate(v === 'visible')"
             >

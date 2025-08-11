@@ -5,7 +5,7 @@
     </template>
     <UICornerIcon
       v-if="removable"
-      v-radar="{ name: 'Remove', desc: 'Click to remove the costume' }"
+      v-radar="{ name: 'remove', desc: 'Click to remove the costume' }"
       type="trash"
       :color="color"
       @click="handleRemove"
@@ -41,7 +41,7 @@ const editorCtx = useEditorCtx()
 const [imgSrc, imgLoading] = useFileUrl(() => props.costume.img)
 
 const radarNodeMeta = computed(() => {
-  const name = `Costume item "${props.costume.name}"`
+  const name = `costume-item-${encodeURIComponent(props.costume.name)}`
   const desc = props.selectable ? 'Click to select the costume and view more options' : ''
   return { name, desc }
 })

@@ -1,6 +1,6 @@
 <template>
   <UIDropdownModal
-    v-radar="{ name: 'Duration editor modal', desc: 'Modal for editing animation duration' }"
+    v-radar="{ name: 'duration-editor-modal', desc: 'Modal for editing animation duration' }"
     :title="$t(actionName)"
     style="width: 280px"
     @cancel="emit('close')"

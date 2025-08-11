@@ -1,12 +1,12 @@
 <template>
   <main
-    v-radar="{ name: `Detail for \u0022${name}\u0022`, desc: `Detail view of the selected item \u0022${name}\u0022` }"
+    v-radar="{ name: `detail-for-${encodeURIComponent(name)}`, desc: `Detail view of the selected item \u0022${name}\u0022` }"
     class="editor-item-detail"
   >
     <h4 class="name">
       <AssetName>{{ name }}</AssetName>
       <UIIcon
-        v-radar="{ name: 'Rename button', desc: 'Click to rename the selected item' }"
+        v-radar="{ name: 'rename-button', desc: 'Click to rename the selected item' }"
         class="edit-icon"
         :title="$t({ en: 'Rename', zh: '重命名' })"
         type="edit"

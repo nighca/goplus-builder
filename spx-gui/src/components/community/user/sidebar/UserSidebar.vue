@@ -9,10 +9,10 @@ defineProps<{
 </script>
 
 <template>
-  <CommunityCard v-radar="{ name: 'User sidebar', desc: 'Sidebar navigation for user pages' }" class="user-sidebar">
+  <CommunityCard v-radar="{ name: 'user-sidebar', desc: 'Sidebar navigation for user pages' }" class="user-sidebar">
     <!-- TODO: check text here -->
     <UserSidebarItem
-      v-radar="{ name: 'Overview link', desc: 'Click to navigate to user overview' }"
+      v-radar="{ name: 'overview-link', desc: 'Click to navigate to user overview' }"
       :to="getUserPageRoute(username, 'overview')"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -24,7 +24,7 @@ defineProps<{
       {{ $t({ en: 'Overview', zh: '概览' }) }}
     </UserSidebarItem>
     <UserSidebarItem
-      v-radar="{ name: 'Projects link', desc: 'Click to navigate to user project list' }"
+      v-radar="{ name: 'projects-link', desc: 'Click to navigate to user project list' }"
       :to="getUserPageRoute(username, 'projects')"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -42,7 +42,7 @@ defineProps<{
       {{ $t({ en: 'Projects', zh: '项目' }) }}
     </UserSidebarItem>
     <UserSidebarItem
-      v-radar="{ name: 'Likes link', desc: 'Click to navigate to user liked projects' }"
+      v-radar="{ name: 'likes-link', desc: 'Click to navigate to user liked projects' }"
       :to="getUserPageRoute(username, 'likes')"
     >
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,7 @@ defineProps<{
       {{ $t({ en: 'Likes', zh: '喜欢的项目' }) }}
     </UserSidebarItem>
     <UserSidebarItem
-      v-radar="{ name: 'Following link', desc: 'Click to navigate to user following list' }"
+      v-radar="{ name: 'following-link', desc: 'Click to navigate to user following list' }"
       :to="getUserPageRoute(username, 'following')"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -79,7 +79,7 @@ defineProps<{
       {{ $t({ en: 'Following', zh: '正在关注' }) }}
     </UserSidebarItem>
     <UserSidebarItem
-      v-radar="{ name: 'Followers link', desc: 'Click to navigate to user followers list' }"
+      v-radar="{ name: 'followers-link', desc: 'Click to navigate to user followers list' }"
       :to="getUserPageRoute(username, 'followers')"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">

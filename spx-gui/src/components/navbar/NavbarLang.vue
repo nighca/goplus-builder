@@ -3,7 +3,7 @@
   <UITooltip placement="bottom">
     <template #trigger>
       <div
-        v-radar="{ name: 'Language switcher', desc: 'Click to switch between English and Chinese' }"
+        v-radar="{ name: 'language-switcher', desc: 'Click to switch between English and Chinese' }"
         class="lang"
         @click="toggleLang"
         v-html="langContent"

@@ -6,7 +6,7 @@
     </template>
     <UICornerIcon
       v-if="removable"
-      v-radar="{ name: 'Remove', desc: 'Click to remove the widget' }"
+      v-radar="{ name: 'remove', desc: 'Click to remove the widget' }"
       type="trash"
       :color="color"
       @click="handleRemove"
@@ -39,7 +39,7 @@ const props = withDefaults(
 const editorCtx = useEditorCtx()
 
 const radarNodeMeta = computed(() => {
-  const name = `Widget item "${props.widget.name}"`
+  const name = `widget-item-${encodeURIComponent(props.widget.name)}`
   const desc = props.selectable ? 'Click to select the widget and view more options' : ''
   return { name, desc }
 })

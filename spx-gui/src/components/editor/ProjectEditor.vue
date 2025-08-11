@@ -1,6 +1,6 @@
 <template>
   <UICard
-    v-radar="{ name: `Editor for ${selected.type}`, desc: `Main editor panel for editing ${selected.type}` }"
+    v-radar="{ name: `editor-for-${selected.type}`, desc: `Main editor panel for editing ${selected.type}` }"
     class="main"
   >
     <!--

@@ -67,7 +67,7 @@ const handleRerun = useMessageHandle(() => projectRunnerRef.value?.rerun(), {
   -->
   <div
     ref="wrapperRef"
-    v-radar="{ name: 'Full screen project runner', desc: 'Full screen modal for running project', visible }"
+    v-radar="{ name: 'full-screen-project-runner', desc: 'Full screen modal for running project', visible }"
     class="full-screen-project-runner"
     :class="{ visible }"
     :style="modalTransformStyle"
@@ -80,7 +80,7 @@ const handleRerun = useMessageHandle(() => projectRunnerRef.value?.rerun(), {
         </div>
         <div class="header-right">
           <UIButton
-            v-radar="{ name: 'Rerun button', desc: 'Click to rerun the project in full screen' }"
+            v-radar="{ name: 'rerun-button', desc: 'Click to rerun the project in full screen' }"
             class="button"
             icon="rotate"
             :disabled="initialLoading"
@@ -91,7 +91,7 @@ const handleRerun = useMessageHandle(() => projectRunnerRef.value?.rerun(), {
           </UIButton>
           <!-- TODO: support "stop", which preserves the last frame -->
           <UIModalClose
-            v-radar="{ name: 'Close full screen', desc: 'Click to close full screen project runner' }"
+            v-radar="{ name: 'close-full-screen', desc: 'Click to close full screen project runner' }"
             class="close"
             @click="emit('close')"
           />

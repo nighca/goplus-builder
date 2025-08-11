@@ -60,9 +60,7 @@ const codeToAdd = computed(() => {
 })
 
 const target = computed(() => {
-  const codeEditorCtx = codeEditorCtxRef.value
-  if (codeEditorCtx == null) return null
-  const textDocument = codeEditorCtx.mustEditor().getTextDocument(getTextDocumentId(props.file))
+  const textDocument = codeEditorCtxRef.value?.getEditor()?.getTextDocument(getTextDocumentId(props.file))
   if (textDocument == null) return null
   const startLine = parseInt(props.line, 10)
   const removeLineCount = props.removeLineCount == null ? 0 : parseInt(props.removeLineCount, 10)

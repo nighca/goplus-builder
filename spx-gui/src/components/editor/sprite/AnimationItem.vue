@@ -18,7 +18,7 @@
     </template>
     <UICornerIcon
       v-if="removable"
-      v-radar="{ name: 'Remove', desc: 'Click to remove the animation' }"
+      v-radar="{ name: 'remove', desc: 'Click to remove the animation' }"
       type="trash"
       :color="color"
       @click="handleRemove"
@@ -61,7 +61,7 @@ const wrapperRef = ref<InstanceType<typeof UIEditorSpriteItem>>()
 const hovered = useHovered(() => wrapperRef.value?.$el ?? null)
 
 const radarNodeMeta = computed(() => {
-  const name = `Animation item "${props.animation.name}"`
+  const name = `animation-item-${encodeURIComponent(props.animation.name)}`
   const desc = props.selectable ? 'Click to select the animation and view more options' : ''
   return { name, desc }
 })

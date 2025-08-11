@@ -15,7 +15,7 @@ app.use(createRadar())
 To mark an element for radar, use the `v-radar` directive:
 
 ```html
-<a v-radar="{ name: 'Logo link', desc: 'Logo image as link to the homepage' }">
+<a v-radar="{ name: 'logo-link', desc: 'Logo image as link to the homepage' }">
   <!-- Logo image -->
 </a>
 ```

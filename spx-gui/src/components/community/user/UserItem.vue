@@ -19,7 +19,7 @@ const userRoute = computed(() => getUserPageRoute(props.user.username))
   <li class="user-item">
     <UserAvatar class="avatar" :user="user.username" />
     <RouterUILink
-      v-radar="{ name: 'User link', desc: 'Click to view user profile' }"
+      v-radar="{ name: 'user-link', desc: 'Click to view user profile' }"
       class="name"
       type="boring"
       :to="userRoute"

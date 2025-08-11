@@ -50,7 +50,7 @@ function handleKeyDown(e: KeyboardEvent) {
 <template>
   <div class="spx-key-input">
     <UITextInput
-      v-radar="{ name: 'Key input', desc: 'Input field for detecting key press' }"
+      v-radar="{ name: 'key-input', desc: 'Input field for detecting key press' }"
       class="input"
       :value="text"
       autofocus

@@ -34,7 +34,7 @@ const { fn: handleExitTutorial } = useMessageHandle(
 
     <template #dropdown-content>
       <UIMenu>
-        <UIMenuItem v-radar="{ name: 'Exit Tutorial', desc: 'Click to exit the tutorial' }" @click="handleExitTutorial">
+        <UIMenuItem v-radar="{ name: 'exit-tutorial', desc: 'Click to exit the tutorial' }" @click="handleExitTutorial">
           {{ $t({ en: 'Exit Tutorial', zh: '退出教程' }) }}
         </UIMenuItem>
       </UIMenu>

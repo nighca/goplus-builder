@@ -1,11 +1,11 @@
 <template>
   <EditorHeader>
     <UITabs
-      v-radar="{ name: 'Sound editor tabs', desc: 'Navigation tab for sound editing' }"
+      v-radar="{ name: 'sound-editor-tabs', desc: 'Navigation tab for sound editing' }"
       value="sound"
       color="sound"
     >
-      <UITab v-radar="{ name: 'Sound tab', desc: 'Click to switch to sound editing view' }" value="sound">{{
+      <UITab v-radar="{ name: 'sound-tab', desc: 'Click to switch to sound editing view' }" value="sound">{{
         $t({ en: 'Sound', zh: '声音' })
       }}</UITab>
     </UITabs>
@@ -15,7 +15,7 @@
       <div class="name">
         <AssetName>{{ sound.name }}</AssetName>
         <UIIcon
-          v-radar="{ name: 'Rename sound', desc: 'Click to rename the sound' }"
+          v-radar="{ name: 'rename-sound', desc: 'Click to rename the sound' }"
           class="edit-icon"
           :title="$t({ en: 'Rename', zh: '重命名' })"
           type="edit"
@@ -50,13 +50,13 @@
       <div class="spacer" />
       <div v-if="editing" class="editing-buttons">
         <UIButton
-          v-radar="{ name: 'Cancel button', desc: 'Click to cancel sound editing' }"
+          v-radar="{ name: 'cancel-button', desc: 'Click to cancel sound editing' }"
           type="boring"
           @click="handleResetEdit"
           >{{ $t({ en: 'Cancel', zh: '取消' }) }}</UIButton
         >
         <UIButton
-          v-radar="{ name: 'Save button', desc: 'Click to save sound edits' }"
+          v-radar="{ name: 'save-button', desc: 'Click to save sound edits' }"
           type="success"
           icon="check"
           :loading="handleSave.isLoading.value"

@@ -26,7 +26,7 @@
       </NGrid>
     </div>
     <UIButton
-      v-radar="{ name: 'Import button', desc: 'Click to import selected assets from Scratch' }"
+      v-radar="{ name: 'import-button', desc: 'Click to import selected assets from Scratch' }"
       size="large"
       class="import-button"
       :loading="importSelected.isLoading.value"

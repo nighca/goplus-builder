@@ -3,7 +3,7 @@
     {{ $t({ en: 'No animations', zh: '没有动画' }) }}
     <template #op>
       <UIButton
-        v-radar="{ name: 'Group costumes button', desc: 'Click to group costumes as animation' }"
+        v-radar="{ name: 'group-costumes-button', desc: 'Click to group costumes as animation' }"
         type="boring"
         size="large"
         @click="handleGroupCostumes"
@@ -17,7 +17,7 @@
   </UIEmpty>
   <EditorList
     v-else
-    v-radar="{ name: 'Animations management', desc: 'Managing animations of current sprite' }"
+    v-radar="{ name: 'animations-management', desc: 'Managing animations of current sprite' }"
     color="sprite"
     :add-text="$t({ en: 'Add animation', zh: '添加动画' })"
     :sortable="{ list: sprite.animations }"
@@ -35,7 +35,7 @@
     <template #add-options>
       <UIMenu>
         <UIMenuItem
-          v-radar="{ name: 'Group costumes option', desc: 'Click to group costumes as animation' }"
+          v-radar="{ name: 'group-costumes-option', desc: 'Click to group costumes as animation' }"
           @click="handleGroupCostumes"
           >{{ $t({ en: 'Group costumes as animation', zh: '将造型合并为动画' }) }}</UIMenuItem
         >

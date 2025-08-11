@@ -4,7 +4,7 @@
   <div class="common-panel" :class="{ expanded }" :style="cssVars">
     <section
       v-show="expanded"
-      v-radar="{ name: 'Detail', desc: 'Detailed view of the panel', visible: expanded }"
+      v-radar="{ name: 'detail', desc: 'Detailed view of the panel', visible: expanded }"
       class="details"
     >
       <PanelHeader :active="active">
@@ -17,7 +17,7 @@
     </section>
     <section
       v-show="!expanded"
-      v-radar="{ name: 'Summary', desc: 'Summary view of the panel, click to view details', visible: !expanded }"
+      v-radar="{ name: 'summary', desc: 'Summary view of the panel, click to view details', visible: !expanded }"
       class="summary"
       @click="emit('expand')"
     >

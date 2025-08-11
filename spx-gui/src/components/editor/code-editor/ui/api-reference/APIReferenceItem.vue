@@ -14,6 +14,7 @@ import HoverCardContent from '../hover/HoverCardContent.vue'
 import type { APIReferenceItem } from '.'
 
 const props = defineProps<{
+  index: number
   item: APIReferenceItem
   interactionDisabled: boolean
 }>()
@@ -95,8 +96,8 @@ function handleMouseUp(e: MouseEvent) {
     <template #trigger>
       <li
         v-radar="{
-          name: parsed.overview,
-          desc: ''
+          name: index + '',
+          desc: parsed.overview
         }"
         class="api-reference-item"
         draggable="true"

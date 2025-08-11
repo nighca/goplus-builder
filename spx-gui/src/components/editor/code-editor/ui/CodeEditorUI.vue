@@ -287,13 +287,13 @@ function zoomReset() {
     </aside>
     <div
       ref="resizeHandleEl"
-      v-radar="{ name: 'Resize handle', desc: 'Drag to resize the sidebar' }"
+      v-radar="{ name: 'resize-handle', desc: 'Drag to resize the sidebar' }"
       class="resize-handle"
       :class="{ active: isResizing }"
       :style="{ left: `${sidebarWidth}px` }"
     ></div>
     <MonacoEditorComp
-      v-radar="{ name: 'Code text editor', desc: 'Text editor for code' }"
+      v-radar="{ name: 'code-text-editor', desc: 'Text editor for code' }"
       class="monaco-editor-conflict-free"
       :monaco="codeEditorCtx.mustMonaco()"
       :options="monacoEditorOptions"

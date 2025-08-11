@@ -25,24 +25,24 @@ describe('Radar', () => {
         <div>
           <div 
             id="root1"
-            v-radar="{ name: 'Root 1', desc: 'First root node' }"
+            v-radar="{ name: 'root-1', desc: 'First root node' }"
           >
             <div 
               id="child1"
-              v-radar="{ name: 'Child 1', desc: 'First child of root 1' }"
+              v-radar="{ name: 'child-1', desc: 'First child of root 1' }"
             ></div>
             <div 
               id="child2"
-              v-radar="{ name: 'Child 2', desc: 'Second child of root 1' }"
+              v-radar="{ name: 'child-2', desc: 'Second child of root 1' }"
             ></div>
           </div>
           <div 
             id="root2"
-            v-radar="{ name: 'Root 2', desc: 'Second root node' }"
+            v-radar="{ name: 'root-2', desc: 'Second root node' }"
           >
             <div 
               id="child3"
-              v-radar="{ name: 'Child 3', desc: 'Child of root 2' }"
+              v-radar="{ name: 'child-3', desc: 'Child of root 2' }"
             ></div>
           </div>
         </div>
@@ -56,15 +56,15 @@ describe('Radar', () => {
     const rootNodes = radar.getRootNodes()
     expect(rootNodes).toHaveLength(2)
 
-    const root1Node = rootNodes.find((node) => node.name === 'Root 1')
+    const root1Node = rootNodes.find((node) => node.name === 'root-1')
     expect(root1Node).toBeDefined()
-    expect(root1Node!.name).toBe('Root 1')
+    expect(root1Node!.name).toBe('root-1')
     expect(root1Node!.desc).toBe('First root node')
     expect(root1Node!.getElement().id).toBe('root1')
     expect(root1Node!.getChildren()).toHaveLength(2)
 
-    const child1Node = root1Node!.getChildren().find((node) => node.name === 'Child 1')
-    const child2Node = root1Node!.getChildren().find((node) => node.name === 'Child 2')
+    const child1Node = root1Node!.getChildren().find((node) => node.name === 'child-1')
+    const child2Node = root1Node!.getChildren().find((node) => node.name === 'child-2')
     expect(child1Node).toBeDefined()
     expect(child2Node).toBeDefined()
     expect(child1Node!.getElement().id).toBe('child1')
@@ -72,15 +72,15 @@ describe('Radar', () => {
     expect(child1Node!.getChildren()).toHaveLength(0)
     expect(child2Node!.getChildren()).toHaveLength(0)
 
-    const root2Node = rootNodes.find((node) => node.name === 'Root 2')
+    const root2Node = rootNodes.find((node) => node.name === 'root-2')
     expect(root2Node).toBeDefined()
-    expect(root2Node!.name).toBe('Root 2')
+    expect(root2Node!.name).toBe('root-2')
     expect(root2Node!.desc).toBe('Second root node')
     expect(root2Node!.getElement().id).toBe('root2')
     expect(root2Node!.getChildren()).toHaveLength(1)
 
     const child3Node = root2Node!.getChildren()[0]
-    expect(child3Node.name).toBe('Child 3')
+    expect(child3Node.name).toBe('child-3')
     expect(child3Node.desc).toBe('Child of root 2')
     expect(child3Node.getElement().id).toBe('child3')
     expect(child3Node.getChildren()).toHaveLength(0)
@@ -91,7 +91,7 @@ describe('Radar', () => {
 
     const TestComponent = defineComponent({
       template: `
-        <div v-radar="{ name: 'Test Node', desc: 'A test node' }"></div>
+        <div v-radar="{ name: 'test-node', desc: 'A test node' }"></div>
       `
     })
 
@@ -104,7 +104,7 @@ describe('Radar', () => {
 
     const foundNode = radar.getNodeById(testNode.id)
     expect(foundNode).toBe(testNode)
-    expect(foundNode!.name).toBe('Test Node')
+    expect(foundNode!.name).toBe('test-node')
 
     const notFoundNode = radar.getNodeById('non-existent-id')
     expect(notFoundNode).toBeNull()
@@ -114,7 +114,7 @@ describe('Radar', () => {
     const { radar, container } = createTestEnvironment()
 
     const nodeData = ref({
-      name: 'Original Name',
+      name: 'original-name',
       desc: 'Original description'
     })
 
@@ -133,12 +133,12 @@ describe('Radar', () => {
 
     const rootNodes = radar.getRootNodes()
     expect(rootNodes).toHaveLength(1)
-    expect(rootNodes[0].name).toBe('Original Name')
+    expect(rootNodes[0].name).toBe('original-name')
     expect(rootNodes[0].desc).toBe('Original description')
     const originalId = rootNodes[0].id
 
     nodeData.value = {
-      name: 'Updated Name',
+      name: 'updated-name',
       desc: 'Updated description'
     }
 
@@ -146,7 +146,7 @@ describe('Radar', () => {
 
     const updatedRootNodes = radar.getRootNodes()
     expect(updatedRootNodes).toHaveLength(1)
-    expect(updatedRootNodes[0].name).toBe('Updated Name')
+    expect(updatedRootNodes[0].name).toBe('updated-name')
     expect(updatedRootNodes[0].desc).toBe('Updated description')
     expect(updatedRootNodes[0].id).toBe(originalId)
   })
@@ -161,7 +161,7 @@ describe('Radar', () => {
         return { showNode }
       },
       template: `
-        <div v-if="showNode" v-radar="{ name: 'Test Node', desc: 'A test node' }"></div>
+        <div v-if="showNode" v-radar="{ name: 'test-node', desc: 'A test node' }"></div>
       `
     })
 
@@ -189,8 +189,8 @@ describe('Radar', () => {
         return { showChild, showParent }
       },
       template: `
-        <div v-if="showParent" v-radar="{ name: 'Parent', desc: 'Parent node' }">
-          <div v-if="showChild" v-radar="{ name: 'Child', desc: 'Child node' }"></div>
+        <div v-if="showParent" v-radar="{ name: 'parent', desc: 'Parent node' }">
+          <div v-if="showChild" v-radar="{ name: 'child', desc: 'Child node' }"></div>
         </div>
       `
     })
@@ -225,7 +225,7 @@ describe('Radar', () => {
     const showLevel3a = ref(true)
     const showLevel3b = ref(true)
     const showLevel3c = ref(true)
-    const level2aName = ref('Level 2A')
+    const level2aName = ref('level-2a')
     const level3bDesc = ref('Third level node B')
 
     const TestComponent = defineComponent({
@@ -242,13 +242,13 @@ describe('Radar', () => {
         }
       },
       template: `
-        <div v-if="showLevel1" v-radar="{ name: 'Level 1', desc: 'Root level node' }">
+        <div v-if="showLevel1" v-radar="{ name: 'level-1', desc: 'Root level node' }">
           <div v-if="showLevel2a" v-radar="{ name: level2aName, desc: 'Second level node A' }">
-            <div v-if="showLevel3a" v-radar="{ name: 'Level 3A', desc: 'Third level node A' }"></div>
-            <div v-if="showLevel3b" v-radar="{ name: 'Level 3B', desc: level3bDesc }"></div>
+            <div v-if="showLevel3a" v-radar="{ name: 'level-3a', desc: 'Third level node A' }"></div>
+            <div v-if="showLevel3b" v-radar="{ name: 'level-3b', desc: level3bDesc }"></div>
           </div>
-          <div v-if="showLevel2b" v-radar="{ name: 'Level 2B', desc: 'Second level node B' }">
-            <div v-if="showLevel3c" v-radar="{ name: 'Level 3C', desc: 'Third level node C' }"></div>
+          <div v-if="showLevel2b" v-radar="{ name: 'level-2b', desc: 'Second level node B' }">
+            <div v-if="showLevel3c" v-radar="{ name: 'level-3c', desc: 'Third level node C' }"></div>
           </div>
         </div>
       `
@@ -259,21 +259,21 @@ describe('Radar', () => {
 
     expect(radar.getRootNodes()).toHaveLength(1)
     const rootNode = radar.getRootNodes()[0]
-    expect(rootNode.name).toBe('Level 1')
+    expect(rootNode.name).toBe('level-1')
     expect(rootNode.getChildren()).toHaveLength(2)
 
-    const level2aNode = rootNode.getChildren().find((node) => node.name === 'Level 2A')
-    const level2bNode = rootNode.getChildren().find((node) => node.name === 'Level 2B')
+    const level2aNode = rootNode.getChildren().find((node) => node.name === 'level-2a')
+    const level2bNode = rootNode.getChildren().find((node) => node.name === 'level-2b')
     expect(level2aNode).toBeDefined()
     expect(level2bNode).toBeDefined()
     expect(level2aNode!.getChildren()).toHaveLength(2)
     expect(level2bNode!.getChildren()).toHaveLength(1)
 
-    level2aName.value = 'Updated Level 2A'
+    level2aName.value = 'updated-level-2a'
     level3bDesc.value = 'Updated third level node B'
     await nextTick()
 
-    const updatedLevel2aNode = rootNode.getChildren().find((node) => node.name === 'Updated Level 2A')
+    const updatedLevel2aNode = rootNode.getChildren().find((node) => node.name === 'updated-level-2a')
     expect(updatedLevel2aNode).toBeDefined()
     expect(updatedLevel2aNode!.getChildren()[1].desc).toBe('Updated third level node B')
 
@@ -282,13 +282,13 @@ describe('Radar', () => {
 
     expect(rootNode.getChildren()).toHaveLength(2)
     expect(updatedLevel2aNode!.getChildren()).toHaveLength(1)
-    expect(updatedLevel2aNode!.getChildren()[0].name).toBe('Level 3B')
+    expect(updatedLevel2aNode!.getChildren()[0].name).toBe('level-3b')
 
     showLevel2b.value = false
     await nextTick()
 
     expect(rootNode.getChildren()).toHaveLength(1)
-    expect(rootNode.getChildren()[0].name).toBe('Updated Level 2A')
+    expect(rootNode.getChildren()[0].name).toBe('updated-level-2a')
 
     showLevel3b.value = false
     await nextTick()
@@ -312,9 +312,9 @@ describe('Radar', () => {
 
     const TestComponent = defineComponent({
       template: `
-        <div v-radar="{ name: 'Parent', desc: 'Parent node' }">
-          <div id="visible-child" v-radar="{ name: 'Visible Child', desc: 'Visible child node', visible: true }"></div>
-          <div id="invisible-child" v-radar="{ name: 'Invisible Child', desc: 'Invisible child node', visible: false }"></div>
+        <div v-radar="{ name: 'parent', desc: 'Parent node' }">
+          <div id="visible-child" v-radar="{ name: 'visible-child', desc: 'Visible child node', visible: true }"></div>
+          <div id="invisible-child" v-radar="{ name: 'invisible-child', desc: 'Invisible child node', visible: false }"></div>
         </div>
       `
     })
@@ -329,15 +329,15 @@ describe('Radar', () => {
     // By default, getChildren() filters out invisible nodes
     const visibleChildren = parentNode.getChildren()
     expect(visibleChildren).toHaveLength(1)
-    expect(visibleChildren[0].name).toBe('Visible Child')
+    expect(visibleChildren[0].name).toBe('visible-child')
     expect(visibleChildren[0].visible).toBe(true)
 
     // When includeInvisible is true, all children should be returned
     const allChildren = parentNode.getChildren(true)
     expect(allChildren).toHaveLength(2)
 
-    const visibleChild = allChildren.find((node) => node.name === 'Visible Child')
-    const invisibleChild = allChildren.find((node) => node.name === 'Invisible Child')
+    const visibleChild = allChildren.find((node) => node.name === 'visible-child')
+    const invisibleChild = allChildren.find((node) => node.name === 'invisible-child')
 
     expect(visibleChild).toBeDefined()
     expect(invisibleChild).toBeDefined()
@@ -359,7 +359,7 @@ describe('Radar', () => {
         return { nodeVisibility }
       },
       template: `
-        <div v-radar="{ name: 'Test Node', desc: 'A test node', visible: nodeVisibility }"></div>
+        <div v-radar="{ name: 'test-node', desc: 'A test node', visible: nodeVisibility }"></div>
       `
     })
 

@@ -1,6 +1,6 @@
 <template>
   <UISearchableModal
-    :radar="{ name: 'Asset library modal', desc: 'Modal for choosing assets from the library' }"
+    :radar="{ name: 'asset-library-modal', desc: 'Modal for choosing assets from the library' }"
     style="width: 1096px"
     :visible="props.visible"
     :title="$t({ en: `Choose a ${entityMessage.en}`, zh: `选择${entityMessage.zh}` })"
@@ -9,7 +9,7 @@
     <template #input>
       <UITextInput
         v-model:value="searchInput"
-        v-radar="{ name: 'Search input', desc: 'Input to search assets' }"
+        v-radar="{ name: 'search-input', desc: 'Input to search assets' }"
         class="search-input"
         clearable
         :placeholder="$t({ en: 'Search', zh: '搜索' })"
@@ -63,7 +63,7 @@
             }}
           </span>
           <UIButton
-            v-radar="{ name: 'Confirm button', desc: 'Click to confirm asset selection' }"
+            v-radar="{ name: 'confirm-button', desc: 'Click to confirm asset selection' }"
             size="large"
             :disabled="selected.length === 0"
             :loading="handleConfirm.isLoading.value"

@@ -246,7 +246,7 @@ function handleCategoryClick(id: string) {
 <template>
   <section
     v-radar="{
-      name: 'API References',
+      name: 'api-references',
       desc: 'All available API reference items. Drag-n-drop (preferred) or click one item to insert corresponding code snippet. Lies at the left side of the code editor.'
     }"
     class="api-reference-ui"
@@ -275,8 +275,9 @@ function handleCategoryClick(id: string) {
             <h5 class="title">{{ $t(sc.label) }}</h5>
             <ul class="items">
               <APIReferenceItemComp
-                v-for="item in sc.items"
+                v-for="item, i in sc.items"
                 :key="stringifyDefinitionId(item.definition)"
+                :index="i"
                 :item="item"
                 :interaction-disabled="scrolling"
               />

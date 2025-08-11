@@ -1,7 +1,7 @@
 <template>
   <li
     v-radar="{
-      name: `Project item \u0022${project.owner}/${project.name}\u0022`,
+      name: `project-item-${encodeURIComponent(project.owner)}-${encodeURIComponent(project.name)}`,
       desc: `Click to ${props.context === 'edit' ? 'edit' : 'view'} the project${operatable ? ', hover for more operations' : ''}`
     }"
     class="project-item"
@@ -13,7 +13,7 @@
           <template #trigger>
             <div
               v-radar="{
-                name: 'Project item operations',
+                name: 'project-item-operations',
                 desc: 'More operations (edit, remove) for project item, click to open the menu'
               }"
               class="options"
@@ -23,10 +23,10 @@
             </div>
           </template>
           <UIMenu>
-            <UIMenuItem v-radar="{ name: 'Edit option', desc: 'Click to edit the project' }" @click="handleEdit">
+            <UIMenuItem v-radar="{ name: 'edit-option', desc: 'Click to edit the project' }" @click="handleEdit">
               {{ $t({ en: 'Edit', zh: '编辑' }) }}
             </UIMenuItem>
-            <UIMenuItem v-radar="{ name: 'Remove option', desc: 'Click to remove the project' }" @click="handleRemove">
+            <UIMenuItem v-radar="{ name: 'remove-option', desc: 'Click to remove the project' }" @click="handleRemove">
               {{ $t({ en: 'Remove', zh: '删除' }) }}
             </UIMenuItem>
           </UIMenu>
@@ -46,7 +46,7 @@
             />
           </svg>
           <UserAvatar
-            v-radar="{ name: 'Project owner avatar', desc: 'Click to view profile of project owner' }"
+            v-radar="{ name: 'project-owner-avatar', desc: 'Click to view profile of project owner' }"
             class="owner-avatar"
             size="small"
             :user="project.owner"

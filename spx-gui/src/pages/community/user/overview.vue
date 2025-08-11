@@ -73,7 +73,7 @@ const likesRet = useQuery(
   <div class="user-overview">
     <CommunityCard class="card">
       <ProjectsSection
-        v-radar="{ name: 'User projects', desc: 'Section showing user\'s projects' }"
+        v-radar="{ name: 'user-projects', desc: 'Section showing user\'s projects' }"
         context="user"
         :num-in-row="numInRow"
         :query-ret="projectsRet"
@@ -109,7 +109,7 @@ const likesRet = useQuery(
     </CommunityCard>
     <CommunityCard class="card">
       <ProjectsSection
-        v-radar="{ name: 'User liked projects', desc: 'Section showing projects liked by this user' }"
+        v-radar="{ name: 'user-liked-projects', desc: 'Section showing projects liked by this user' }"
         context="user"
         :num-in-row="numInRow"
         :query-ret="likesRet"

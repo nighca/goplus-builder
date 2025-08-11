@@ -46,7 +46,7 @@ const handleSubmit = useMessageHandle(async () => {
 
 <template>
   <UIFormModal
-    :radar="{ name: 'Edit profile modal', desc: 'Modal for editing user profile' }"
+    :radar="{ name: 'edit-profile-modal', desc: 'Modal for editing user profile' }"
     :title="$t({ en: 'Edit profile', zh: '编辑个人信息' })"
     :style="{ width: '560px' }"
     :visible="props.visible"
@@ -57,7 +57,7 @@ const handleSubmit = useMessageHandle(async () => {
     <UIForm :form="form" has-success-feedback @submit="handleSubmit.fn">
       <UIFormItem :label="$t({ en: 'Name', zh: '名字' })">
         <UITextInput
-          v-radar="{ name: 'User name input', desc: 'Input field showing the user name' }"
+          v-radar="{ name: 'user-name-input', desc: 'Input field showing the user name' }"
           :value="user.displayName"
           disabled
         />
@@ -65,21 +65,21 @@ const handleSubmit = useMessageHandle(async () => {
       <UIFormItem :label="$t({ en: 'About me', zh: '关于我' })" path="description">
         <UITextInput
           v-model:value="form.value.description"
-          v-radar="{ name: 'About me input', desc: 'Input field for user description' }"
+          v-radar="{ name: 'about-me-input', desc: 'Input field for user description' }"
           type="textarea"
           :placeholder="$t({ en: 'Tell us something about you', zh: '介绍一下自己' })"
         />
       </UIFormItem>
       <footer class="footer">
         <UIButton
-          v-radar="{ name: 'Cancel button', desc: 'Click to cancel editing profile' }"
+          v-radar="{ name: 'cancel-button', desc: 'Click to cancel editing profile' }"
           type="boring"
           @click="handleCancel"
         >
           {{ $t({ en: 'Cancel', zh: '取消' }) }}
         </UIButton>
         <UIButton
-          v-radar="{ name: 'Confirm button', desc: 'Click to save profile changes' }"
+          v-radar="{ name: 'confirm-button', desc: 'Click to save profile changes' }"
           type="primary"
           html-type="submit"
           :loading="handleSubmit.isLoading.value"
