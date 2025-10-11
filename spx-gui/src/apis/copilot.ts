@@ -36,7 +36,7 @@ export type GenerateMessageOptions = {
   signal?: AbortSignal
 }
 
-const timeout = 15 * 1000
+const timeout = 100 * 1000
 
 export async function generateMessage(scope: CopilotScope, messages: Message[], options?: GenerateMessageOptions) {
   return (await client.post(

@@ -19,7 +19,7 @@ const (
 	MaxTokens = 10240
 
 	// Temperature defines the sampling Temperature for the AI response.
-	Temperature = 0.7
+	Temperature = 1.0
 )
 
 // Copilot provides code suggestions, explanations, and other programming
@@ -81,10 +81,12 @@ func (c *Copilot) buildChatCompletionNewParams(params *Params, model string) (op
 	}
 
 	return openai.ChatCompletionNewParams{
-		Messages:    messages,
-		Model:       model,
-		MaxTokens:   openai.Opt(int64(MaxTokens)),
-		Temperature: openai.Opt(Temperature),
+		Messages: messages,
+		Model:    model,
+		// MaxTokens:           openai.Opt(int64(MaxTokens)),
+		MaxCompletionTokens: openai.Opt(int64(MaxTokens)),
+		Temperature:         openai.Opt(Temperature),
+		ReasoningEffort:     openai.ReasoningEffortLow,
 	}, nil
 }
 
