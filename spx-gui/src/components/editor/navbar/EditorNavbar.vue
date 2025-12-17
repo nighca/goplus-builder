@@ -102,7 +102,7 @@
     </template>
     <template #right>
       <UIButtonGroup
-        v-radar="{ name: 'Editor mode menu', desc: 'Hover to see editor mode options (default, map)' }"
+        v-radar="{ name: 'Editor mode switch', desc: `Switch between different editor modes. Current mode: ${selectedEditMode}` }"
         class="editor-mode-wrapper"
         type="text"
         variant="secondary"
@@ -111,19 +111,25 @@
       >
         <UITooltip>
           <template #trigger>
-            <UIButtonGroupItem :value="EditMode.Default">
+            <UIButtonGroupItem
+              v-radar="{ name: 'Default mode', desc: 'Focus on editing code and configurations for individual sprites or stage' }"
+              :value="EditMode.Default"
+            >
               <div class="icon" v-html="defaultModeSvg"></div>
             </UIButtonGroupItem>
           </template>
-          {{ $t({ en: 'Default Mode', zh: '默认模式' }) }}
+          {{ $t({ en: 'Default mode', zh: '默认模式' }) }}
         </UITooltip>
         <UITooltip>
           <template #trigger>
-            <UIButtonGroupItem :value="EditMode.Map">
+            <UIButtonGroupItem
+              v-radar="{ name: 'Map edit mode', desc: 'Provide a global view of the entire map for overall layout and positioning. Some global configurations like map size and global physics can be adjusted here' }"
+              :value="EditMode.Map"
+            >
               <div class="icon" v-html="mapEditModeSvg"></div>
             </UIButtonGroupItem>
           </template>
-          {{ $t({ en: 'Map Edit Mode', zh: '地图编辑模式' }) }}
+          {{ $t({ en: 'Map edit mode', zh: '地图编辑模式' }) }}
         </UITooltip>
       </UIButtonGroup>
     </template>

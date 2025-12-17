@@ -72,7 +72,8 @@ import {
   fromLSPPosition,
   toLSPRange,
   type InputSlot,
-  rangeContains
+  rangeContains,
+  subCategories
 } from './common'
 import { TextDocument, createTextDocument } from './text-document'
 import { type Monaco } from './monaco'
@@ -270,7 +271,10 @@ const apiReferenceItems = [
 ]
 
 class APIReferenceProvider implements IAPIReferenceProvider {
-  constructor(private documentBase: DocumentBase) {}
+  constructor(
+    private documentBase: DocumentBase,
+    private project: Project
+  ) {}
 
   private parseName(name: string | undefined): [receiver: string | null, method: string] {
     const parts = (name ?? '').split('.')
@@ -299,6 +303,13 @@ class APIReferenceProvider implements IAPIReferenceProvider {
     return allItems.filter((item) => {
       if (item.definition.package !== packageSpx) return true
       const [receiver, method] = this.parseName(item.definition.name)
+      // If physics is not enabled for the project, skip physics-related APIs for Sprite
+      if (!this.project.stage.physics.enabled) {
+        if (item.categories.some(c => c[1] === subCategories.motion.physics)) return false
+        // if (receiver === 'Sprite') {
+        //   if (['physicsMode', 'setPhysicsMode'].includes(method)) return false
+        // }
+      }
       if (receiver === 'Game' && spriteMethods.has(method)) return false // Skip Game methods overridden by Sprite
       return true
     })
@@ -773,7 +784,7 @@ export class CodeEditor extends Disposable {
     super()
     this.documentBase = new DocumentBase()
     this.lspClient = new SpxLSPClient(project)
-    this.apiReferenceProvider = new APIReferenceProvider(this.documentBase)
+    this.apiReferenceProvider = new APIReferenceProvider(this.documentBase, this.project)
     this.completionProvider = new CompletionProvider(this.lspClient, this.documentBase)
     this.contextMenuProvider = new ContextMenuProvider(this.lspClient, this.documentBase)
     this.resourceReferencesProvider = new ResourceReferencesProvider(this.lspClient)
