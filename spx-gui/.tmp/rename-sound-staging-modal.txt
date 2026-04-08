@@ -1,0 +1,342 @@
+uid=204_0 RootWebArea "编辑 HelloWo - XBuilder" url="https://goplus-builder.qiniu.io/editor/nighca/hello-world/stage/sounds/warning"
+  uid=205_0 ignored
+    uid=205_1 generic
+      uid=205_2 generic
+        uid=205_3 ignored
+          uid=205_4 ignored
+            uid=205_5 ignored
+              uid=205_6 generic
+                uid=205_7 sectionheader
+                  uid=204_1 navigation "Navbar" description="Top navigation bar"
+                    uid=205_8 ignored
+                      uid=205_9 ignored
+                        uid=204_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+                          uid=205_10 image url="https://goplus-builder.qiniu.io/assets/logo-HMW0HD2U.svg"
+                        uid=205_11 generic "Project menu" description="Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import Scratch project file, import assets from Scratch, etc.)"
+                          uid=205_12 ignored
+                            uid=205_13 image
+                          uid=205_14 ignored
+                            uid=205_15 image
+                        uid=204_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+                          uid=205_16 ignored
+                            uid=205_17 image
+                        uid=205_18 ignored
+                          uid=204_4 button disableable disabled
+                            uid=205_19 ignored
+                              uid=205_20 image
+                          uid=204_5 button disableable disabled
+                            uid=205_21 ignored
+                              uid=205_22 image
+                      uid=205_23 ignored
+                        uid=205_24 ignored
+                          uid=204_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+                            uid=205_25 generic
+                              uid=205_26 StaticText "HelloWo"
+                                uid=205_27 InlineTextBox "HelloWo"
+                          uid=205_28 ignored
+                            uid=205_29 generic
+                              uid=205_30 image
+                      uid=205_31 ignored
+                        uid=205_32 generic "Editor mode menu" description="Hover to see editor mode options (default, map)"
+                          uid=205_33 generic "Default mode" description="Editor for defining the behavior and resources of independent entities (Sprites, Sounds, Stage). It features code editing, internal resource (Costumes, Animations, Backdrops, Widgets) management, and game running/debugging"
+                            uid=205_34 ignored
+                              uid=205_35 image
+                          uid=205_36 generic "Map edit mode" description="Map-centric editor for the game's spatial arrangement. It features sprite placement on the stage and global configuration (map size, physics, layer sorting, etc.)"
+                            uid=205_37 ignored
+                              uid=205_38 image
+                        uid=205_39 generic
+                          uid=205_40 image url="blob:https://goplus-builder.qiniu.io/a594dcdf-2454-41b9-8e9d-bc3f35c13534"
+                uid=204_7 main
+                  uid=205_41 generic "Editor for stage" description="Main editor panel for editing stage"
+                    uid=205_42 ignored
+                      uid=205_43 list "Stage editor tabs" description="Navigation tabs for switching between different stage editing views"
+                        uid=205_44 listitem "Code tab" description="Click to switch to code editing view" level="1"
+                          uid=204_8 StaticText "代码"
+                            uid=205_27 InlineTextBox "代码"
+                        uid=205_45 listitem "Backdrops tab" description="Click to switch to backdrops management view" level="1"
+                          uid=204_9 StaticText "背景"
+                            uid=205_27 InlineTextBox "背景"
+                        uid=205_46 listitem "Sounds tab" description="Click to switch to sounds management view" level="1"
+                          uid=204_10 StaticText "声音"
+                            uid=205_27 InlineTextBox "声音"
+                        uid=205_47 listitem "Widgets tab" description="Click to switch to widgets management view" level="1"
+                          uid=204_11 StaticText "控件"
+                            uid=205_27 InlineTextBox "控件"
+                      uid=205_48 ignored
+                    uid=205_49 ignored
+                    uid=205_50 generic "Sounds management" description="Managing sounds"
+                      uid=205_51 ignored
+                        uid=205_52 generic "List of sound" description="Drag to reorder"
+                          uid=205_53 generic "Sound item "warning"" description="Click to select the sound and view more options"
+                            uid=205_54 ignored
+                              uid=205_55 generic
+                                uid=205_56 generic
+                                  uid=205_57 ignored
+                                    uid=205_58 image
+                            uid=205_59 ignored
+                              uid=205_60 ignored
+                                uid=204_12 StaticText "warning"
+                                  uid=205_27 InlineTextBox "warning"
+                            uid=205_61 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                              uid=205_62 ignored
+                                uid=205_63 image
+                          uid=205_64 generic "Sound item "雨"" description="Click to select the sound and view more options"
+                            uid=205_65 ignored
+                              uid=205_66 generic
+                                uid=205_67 generic
+                                  uid=205_68 ignored
+                                    uid=205_69 image
+                            uid=205_70 ignored
+                              uid=205_71 ignored
+                                uid=204_13 StaticText "雨"
+                                  uid=205_27 InlineTextBox "雨"
+                        uid=204_14 button "Add sound" description="Button for adding new sound to the list"
+                          uid=205_72 ignored
+                            uid=205_73 image
+                      uid=205_74 ignored
+                        uid=205_75 ignored
+                          uid=205_76 ignored
+                            uid=205_77 ignored
+                              uid=204_15 StaticText "warning"
+                                uid=205_27 InlineTextBox "warning"
+                            uid=205_78 generic "Rename sound" description="Click to rename the sound"
+                              uid=205_79 image
+                          uid=205_80 generic
+                            uid=204_16 StaticText "1.7s"
+                              uid=205_27 InlineTextBox "1.7s"
+                        uid=205_81 generic
+                          uid=205_82 generic
+                            uid=205_83 generic
+                            uid=205_84 generic
+                            uid=205_85 generic
+                              uid=205_86 generic
+                              uid=205_87 generic
+                            uid=205_88 generic
+                            uid=205_89 generic
+                          uid=205_90 generic
+                        uid=205_91 ignored
+                          uid=205_92 ignored
+                            uid=205_93 generic
+                              uid=205_94 generic
+                                uid=205_95 ignored
+                                  uid=205_96 image
+                          uid=205_97 ignored
+                            uid=205_98 ignored
+                              uid=205_99 image
+                            uid=205_100 generic
+                              uid=205_101 generic
+                                uid=205_102 generic
+                                uid=205_103 generic
+                                  uid=204_17 generic
+                                    uid=205_104 ignored
+                            uid=205_105 ignored
+                              uid=205_106 image
+                          uid=205_107 ignored
+                  uid=205_108 ignored
+                    uid=205_109 generic "Editor preview" description="Preview panel for stage preview and project running"
+                      uid=205_110 ignored
+                        uid=205_111 ignored
+                          uid=205_112 generic
+                            uid=204_18 StaticText "预览"
+                              uid=205_27 InlineTextBox "预览"
+                          uid=204_19 button "Run button" description="Click to run the project in debug mode"
+                            uid=205_113 ignored
+                              uid=205_114 ignored
+                                uid=205_115 image
+                              uid=205_116 StaticText "运行"
+                                uid=205_27 InlineTextBox "运行"
+                          uid=204_20 button "Publish button" description="Click to publish the project"
+                            uid=205_117 ignored
+                              uid=205_118 image url="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='14'%20height='14'%20viewBox='0%200%2014%2014'%20fill='none'%3e%3cpath%20d='M10.5821%201.05929C11.2532%200.891893%2011.9475%201.084%2012.4356%201.57198C12.8937%202.03027%2013.0911%202.67005%2012.9766%203.3005L12.9493%203.42647L11.043%2011.0515V11.0525L11.0372%2011.0759C10.7662%2012.1573%209.87431%2012.9092%208.78328%2012.9987L8.77449%2012.9997L8.57136%2013.0075H8.54499C7.34796%2012.9988%206.35367%2012.2058%206.07917%2011.0407L5.48445%208.52022L2.96686%207.9294C1.8019%207.65487%201.00888%206.66047%201.00007%205.46358C0.991729%204.2666%201.77161%203.26178%202.93269%202.9714L10.5821%201.05929ZM11.0118%202.51046L10.9346%202.52511L3.29694%204.43429C2.71202%204.58079%202.50529%205.06311%202.50788%205.45284C2.51079%205.84262%202.72404%206.32221%203.31159%206.46065L5.87507%207.06319L8.22078%204.72042C8.51527%204.4262%208.99264%204.42618%209.28718%204.72042C9.58134%205.01494%209.58142%205.49233%209.28718%205.78683L6.94343%208.13058L7.54695%2010.696C7.68544%2011.2827%208.16432%2011.4956%208.55378%2011.4987L8.55574%2011.4997C8.96535%2011.5032%209.42548%2011.2984%209.57332%2010.7097L11.4854%203.06026C11.5235%202.90659%2011.4798%202.75071%2011.3682%202.63937L11.3624%202.63351C11.2771%202.55107%2011.1681%202.50852%2011.0567%202.50851C11.0428%202.50853%2011.0277%202.50878%2011.0118%202.51046ZM7.42878%2010.9665C7.43179%2010.9737%207.43446%2010.9809%207.43757%2010.988C7.4344%2010.981%207.43185%2010.9737%207.42878%2010.9665ZM2.8155%207.68038C2.8798%207.70126%202.94568%207.71926%203.01276%207.73507V7.73409C2.94577%207.7183%202.87978%207.701%202.8155%207.68038ZM9.14558%205.64522V5.6462C9.17256%205.61921%209.19662%205.58995%209.21687%205.55929V5.55831C9.19658%205.58908%209.17265%205.61814%209.14558%205.64522ZM3.24909%204.23995C3.20536%204.25089%203.16335%204.26403%203.12311%204.27804L3.24909%204.24093L10.8985%202.32784L3.24909%204.23995ZM12.755%203.37765L12.793%203.1794C12.7937%203.17456%2012.7934%203.1696%2012.794%203.16476C12.7852%203.23575%2012.7726%203.30689%2012.755%203.37765Z'%20fill='%230BC0CF'/%3e%3c/svg%3e"
+                              uid=205_119 StaticText "发布"
+                                uid=205_27 InlineTextBox "发布"
+                        uid=205_120 separator orientation="horizontal"
+                          uid=205_121 ignored
+                      uid=205_122 ignored
+                        uid=205_123 generic
+                          uid=205_124 generic "Stage viewer" description="View and manipulate the stage and objects (sprites, widgets, etc.) on the stage. Click on object to select it."
+                            uid=205_125 ignored
+                              uid=205_126 Canvas
+                              uid=205_127 Canvas
+                              uid=205_128 Canvas
+                            uid=205_129 generic
+                              uid=204_21 StaticText "0, 0"
+                                uid=205_27 InlineTextBox "0, 0"
+                    uid=205_130 ignored
+                      uid=205_131 generic "Sprites panel" description="Panel containing sprites for the project"
+                        uid=205_132 ignored
+                          uid=204_22 region "Sprites panel" description="Panel for managing project sprites"
+                            uid=205_133 ignored
+                              uid=205_134 ignored
+                                uid=204_23 StaticText "精灵"
+                                  uid=205_27 InlineTextBox "精灵"
+                              uid=205_135 generic "Add" description="Button to add a new item for current panel, click to view more options"
+                                uid=205_136 ignored
+                                  uid=205_137 image
+                            uid=205_138 generic
+                              uid=205_139 generic "Sprite item "NiuXiaoQi"" description="Click to select the sprite and view more options"
+                                uid=205_140 generic
+                                uid=205_141 ignored
+                                  uid=205_142 ignored
+                                    uid=204_24 StaticText "NiuXiaoQi"
+                                      uid=205_27 InlineTextBox "NiuXiaoQi"
+                              uid=205_143 generic "Sprite item "白云"" description="Click to select the sprite and view more options"
+                                uid=205_144 generic
+                                uid=205_145 ignored
+                                  uid=205_146 ignored
+                                    uid=204_25 StaticText "白云"
+                                      uid=205_27 InlineTextBox "白云"
+                              uid=205_147 generic "Sprite item "龙卷风"" description="Click to select the sprite and view more options"
+                                uid=205_148 generic
+                                uid=205_149 ignored
+                                  uid=205_150 ignored
+                                    uid=204_26 StaticText "龙卷风"
+                                      uid=205_27 InlineTextBox "龙卷风"
+                              uid=205_151 generic "Sprite item "雪花"" description="Click to select the sprite and view more options"
+                                uid=205_152 generic
+                                uid=205_153 ignored
+                                  uid=205_154 ignored
+                                    uid=204_27 StaticText "雪花"
+                                      uid=205_27 InlineTextBox "雪花"
+                              uid=205_155 generic "Sprite item "古代将军"" description="Click to select the sprite and view more options"
+                                uid=205_156 generic
+                                uid=205_157 ignored
+                                  uid=205_158 ignored
+                                    uid=204_28 StaticText "古代将军"
+                                      uid=205_27 InlineTextBox "古代将军"
+                              uid=205_159 generic "Sprite item "卡通汽车"" description="Click to select the sprite and view more options"
+                                uid=205_160 generic
+                                uid=205_161 ignored
+                                  uid=205_162 ignored
+                                    uid=204_29 StaticText "卡通汽车"
+                                      uid=205_27 InlineTextBox "卡通汽车"
+                              uid=205_163 generic "Sprite generation item '女孩正面'" description="Click to view generation phase details for sprite '女孩正面'"
+                                uid=205_164 ignored
+                                  uid=205_165 generic
+                                    uid=205_166 image
+                                uid=205_167 ignored
+                                  uid=205_168 ignored
+                                    uid=204_30 StaticText "女孩正面"
+                                      uid=205_27 InlineTextBox "女孩正面"
+                              uid=205_169 generic "Sprite generation item '男孩222'" description="Click to view generation phase details for sprite '男孩222'"
+                                uid=205_170 ignored
+                                  uid=205_171 generic
+                                    uid=205_172 image
+                                uid=205_173 ignored
+                                  uid=205_174 ignored
+                                    uid=204_31 StaticText "男孩222"
+                                      uid=205_27 InlineTextBox "男孩222"
+                      uid=205_175 generic "Stage panel" description="Panel for stage of the project, with quick entries to widgets, sounds and backdrops tabs"
+                        uid=205_176 generic
+                          uid=204_32 heading "舞台" level="4"
+                            uid=205_177 StaticText "舞台"
+                              uid=205_27 InlineTextBox "舞台"
+                          uid=204_33 main
+                            uid=205_178 ignored
+                              uid=205_179 generic "Stage overview" description="Overview of the stage, click to view stage details"
+                                uid=205_180 generic
+                            uid=205_181 separator orientation="horizontal"
+                              uid=205_182 ignored
+                            uid=205_183 generic
+                              uid=205_184 ignored
+                                uid=204_34 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+                                  uid=205_185 ignored
+                                    uid=205_186 image
+                                  uid=205_187 ignored
+                                    uid=205_188 StaticText "背景"
+                                      uid=205_27 InlineTextBox "背景"
+                                uid=204_35 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+                                  uid=205_189 ignored
+                                    uid=205_190 image
+                                  uid=205_191 ignored
+                                    uid=205_192 StaticText "声音"
+                                      uid=205_27 InlineTextBox "声音"
+                                uid=204_36 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+                                  uid=205_193 ignored
+                                    uid=205_194 image
+                                  uid=205_195 ignored
+                                    uid=205_196 StaticText "控件"
+                                      uid=205_27 InlineTextBox "控件"
+              uid=205_197 generic
+              uid=205_198 generic
+                uid=205_199 generic
+                  uid=205_200 generic
+                    uid=205_201 ignored
+                      uid=205_202 image
+                  uid=205_203 generic
+                    uid=205_204 generic
+                      uid=205_205 image
+                    uid=205_206 ignored
+                      uid=205_207 generic
+                        uid=204_37 StaticText "你好，小伙伴"
+                          uid=205_27 InlineTextBox "你好，小伙伴"
+                      uid=205_208 generic
+                        uid=204_38 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=205_27 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=205_209 ignored
+                        uid=204_39 button "XBuilder 可以做什么？"
+                          uid=205_210 StaticText "XBuilder 可以做什么？"
+                            uid=205_27 InlineTextBox "XBuilder 可以做什么？"
+                        uid=204_40 button "如何创建一个新项目？"
+                          uid=205_211 StaticText "如何创建一个新项目？"
+                            uid=205_27 InlineTextBox "如何创建一个新项目？"
+                        uid=204_41 button "介绍下这个页面有哪些功能。"
+                          uid=205_212 StaticText "介绍下这个页面有哪些功能。"
+                            uid=205_27 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=205_213 ignored
+                    uid=205_214 generic
+                      uid=205_215 ignored
+                        uid=205_216 generic
+                          uid=204_42 textbox "在这里输入你的问题" multiline
+                            uid=205_217 ignored
+                            uid=205_218 generic
+                        uid=204_43 button
+                          uid=205_219 image
+                uid=205_220 ignored
+                  uid=205_221 ignored
+                    uid=205_222 generic
+                      uid=205_223 image
+          uid=205_224 generic
+            uid=206_0 generic "Rename modal" description="Modal for renaming items"
+              uid=206_1 ignored
+                uid=206_2 ignored
+                  uid=206_3 generic
+                    uid=206_4 StaticText "重命名"
+                      uid=205_27 InlineTextBox "重命名"
+                  uid=206_5 generic "Close button" description="Click to close the modal"
+                    uid=206_6 ignored
+                      uid=206_7 image
+                uid=206_8 separator orientation="horizontal"
+                  uid=206_9 ignored
+                uid=206_10 ignored
+                  uid=206_11 generic
+                    uid=206_12 ignored
+                      uid=206_13 ignored
+                        uid=206_14 generic
+                          uid=206_15 generic "Name input" description="Input field for new name"
+                            uid=206_16 generic
+                              uid=206_17 generic
+                                uid=206_18 textbox value="warning"
+                                  uid=206_19 ignored
+                                  uid=206_20 generic
+                                    uid=206_21 StaticText "warning"
+                                      uid=205_27 InlineTextBox "warning"
+                            uid=206_22 generic
+                            uid=206_23 generic
+                      uid=206_24 paragraph
+                        uid=206_25 StaticText "声音名称不可为空，长度不超过 100"
+                          uid=205_27 InlineTextBox "声音名称不可为空，长度不超过 100"
+                    uid=206_26 sectionfooter
+                      uid=206_27 button "Cancel button" description="Click to cancel renaming"
+                        uid=206_28 ignored
+                          uid=206_29 StaticText "取消"
+                            uid=205_27 InlineTextBox "取消"
+                      uid=206_30 button "Confirm button" description="Click to confirm renaming"
+                        uid=206_31 ignored
+                          uid=206_32 StaticText "确认"
+                            uid=205_27 InlineTextBox "确认"
+      uid=205_225 generic
+        uid=204_44 alert atomic live="assertive" relevant="additions text"
+        uid=204_45 alert atomic live="assertive" relevant="additions text"
+        uid=204_46 generic atomic live="polite" relevant="additions text"
+        uid=204_47 generic atomic live="polite" relevant="additions text"

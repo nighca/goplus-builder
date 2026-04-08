@@ -1,0 +1,2217 @@
+uid=446_0 RootWebArea "编辑 test-publish - XBuilder" url="http://localhost:5173/editor/nighca/test-publish/sprites/NiuXiaoQi/code"
+  uid=448_0 ignored
+    uid=448_1 generic
+      uid=448_2 generic
+        uid=448_3 ignored
+          uid=448_4 ignored
+            uid=448_5 ignored
+              uid=448_6 generic
+                uid=448_7 sectionheader
+                  uid=446_1 navigation "Navbar" description="Top navigation bar"
+                    uid=448_8 ignored
+                      uid=448_9 ignored
+                        uid=446_2 link "Logo link" description="Logo image as link to the homepage" url="http://localhost:5173/"
+                          uid=448_10 image url="http://localhost:5173/src/components/navbar/logo.svg"
+                        uid=448_11 generic "Project menu" description="Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import Scratch project file, import assets from Scratch, etc.)"
+                          uid=448_12 ignored
+                            uid=448_13 image
+                          uid=448_14 ignored
+                            uid=448_15 image
+                        uid=446_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="http://localhost:5173/tutorials"
+                          uid=448_16 ignored
+                            uid=448_17 image
+                        uid=448_18 ignored
+                          uid=446_4 button disableable disabled
+                            uid=448_19 ignored
+                              uid=448_20 image
+                          uid=446_5 button disableable disabled
+                            uid=448_21 ignored
+                              uid=448_22 image
+                      uid=448_23 ignored
+                        uid=448_24 ignored
+                          uid=446_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+                            uid=448_25 generic
+                              uid=448_26 StaticText "test-publish"
+                                uid=446_30 InlineTextBox "test-publish"
+                          uid=448_27 ignored
+                            uid=448_28 generic
+                              uid=448_29 image
+                      uid=448_30 ignored
+                        uid=448_31 generic "Editor mode menu" description="Hover to see editor mode options (default, map)"
+                          uid=448_32 generic "Default mode" description="Editor for defining the behavior and resources of independent entities (Sprites, Sounds, Stage). It features code editing, internal resource (Costumes, Animations, Backdrops, Widgets) management, and game running/debugging"
+                            uid=448_33 ignored
+                              uid=448_34 image
+                          uid=448_35 generic "Map edit mode" description="Map-centric editor for the game's spatial arrangement. It features sprite placement on the stage and global configuration (map size, physics, layer sorting, etc.)"
+                            uid=448_36 ignored
+                              uid=448_37 image
+                        uid=448_38 generic
+                          uid=448_39 image url="blob:http://localhost:5173/3856f0ad-443d-4acb-9a90-5b471ee6d354"
+                uid=446_7 main
+                  uid=448_40 generic "Editor for sprite" description="Main editor panel for editing sprite"
+                    uid=448_41 ignored
+                      uid=448_42 list "Sprite editor tabs" description="Navigation tabs for switching between different sprite editing views"
+                        uid=448_43 listitem "Code tab" description="Click to switch to code editing view" level="1"
+                          uid=448_44 StaticText "代码"
+                            uid=446_30 InlineTextBox "代码"
+                        uid=448_45 listitem "Costumes tab" description="Click to switch to costumes management view" level="1"
+                          uid=448_46 StaticText "造型"
+                            uid=446_30 InlineTextBox "造型"
+                        uid=448_47 listitem "Animations tab" description="Click to switch to animations management view" level="1"
+                          uid=448_48 StaticText "动画"
+                            uid=446_30 InlineTextBox "动画"
+                      uid=448_49 ignored
+                        uid=448_50 button "Format button" description="Click to format the code"
+                          uid=448_51 ignored
+                            uid=448_52 StaticText "格式化"
+                              uid=446_30 InlineTextBox "格式化"
+                    uid=448_53 generic "Code editor" description="Code editor for editing code of current sprite"
+                      uid=448_54 generic
+                        uid=448_55 region "API References" description="All available API reference items at left side of the code editor. Drag-n-drop or click one item to insert corresponding code snippet."
+                          uid=448_56 list
+                            uid=448_57 listitem level="1"
+                              uid=448_58 generic
+                                uid=448_59 image
+                              uid=448_60 paragraph
+                                uid=448_61 StaticText "事件"
+                                  uid=446_30 InlineTextBox "事件"
+                            uid=448_62 listitem level="1"
+                              uid=448_63 generic
+                                uid=448_64 image
+                              uid=448_65 paragraph
+                                uid=448_66 StaticText "外观"
+                                  uid=446_30 InlineTextBox "外观"
+                            uid=448_67 listitem level="1"
+                              uid=448_68 generic
+                                uid=448_69 image
+                              uid=448_70 paragraph
+                                uid=448_71 StaticText "运动"
+                                  uid=446_30 InlineTextBox "运动"
+                            uid=448_72 listitem level="1"
+                              uid=448_73 generic
+                                uid=448_74 image
+                              uid=448_75 paragraph
+                                uid=448_76 StaticText "控制"
+                                  uid=446_30 InlineTextBox "控制"
+                            uid=448_77 listitem level="1"
+                              uid=448_78 generic
+                                uid=448_79 image
+                              uid=448_80 paragraph
+                                uid=448_81 StaticText "感知"
+                                  uid=446_30 InlineTextBox "感知"
+                            uid=448_82 listitem level="1"
+                              uid=448_83 generic
+                                uid=448_84 image
+                              uid=448_85 paragraph
+                                uid=448_86 StaticText "声音"
+                                  uid=446_30 InlineTextBox "声音"
+                            uid=448_87 listitem level="1"
+                              uid=448_88 generic
+                                uid=448_89 image
+                              uid=448_90 paragraph
+                                uid=448_91 StaticText "游戏"
+                                  uid=446_30 InlineTextBox "游戏"
+                          uid=448_92 list
+                            uid=448_93 listitem level="1"
+                              uid=448_94 generic
+                                uid=448_95 heading "游戏事件" level="5"
+                                  uid=448_96 StaticText "游戏事件"
+                                    uid=446_30 InlineTextBox "游戏事件"
+                                uid=448_97 list
+                                  uid=448_98 listitem "onStart => {}" level="2"
+                                    uid=448_99 ignored
+                                      uid=448_100 code
+                                        uid=448_101 StaticText "onStart"
+                                          uid=446_30 InlineTextBox "onStart"
+                                        uid=448_102 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                              uid=448_103 generic
+                                uid=448_104 heading "感知事件" level="5"
+                                  uid=448_105 StaticText "感知事件"
+                                    uid=446_30 InlineTextBox "感知事件"
+                                uid=448_106 list
+                                  uid=448_107 listitem "onClick => {}" level="2"
+                                    uid=448_108 ignored
+                                      uid=448_109 code
+                                        uid=448_110 StaticText "onClick"
+                                          uid=446_30 InlineTextBox "onClick"
+                                        uid=448_111 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                                  uid=448_112 listitem "onKey KeyA, => {}" level="2"
+                                    uid=448_113 ignored
+                                      uid=448_114 code
+                                        uid=448_115 StaticText "onKey"
+                                          uid=446_30 InlineTextBox "onKey"
+                                        uid=448_116 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_117 ignored
+                                          uid=448_118 StaticText "key"
+                                            uid=446_30 InlineTextBox "key"
+                                          uid=448_119 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_120 StaticText "KeyA"
+                                          uid=446_30 InlineTextBox "KeyA"
+                                        uid=448_121 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                                  uid=448_122 listitem "onSwipe Left, => {}" level="2"
+                                    uid=448_123 ignored
+                                      uid=448_124 code
+                                        uid=448_125 StaticText "onSwipe"
+                                          uid=446_30 InlineTextBox "onSwipe"
+                                        uid=448_126 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_127 ignored
+                                          uid=448_128 StaticText "direction"
+                                            uid=446_30 InlineTextBox "direction"
+                                          uid=448_129 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_130 StaticText "Left"
+                                          uid=446_30 InlineTextBox "Left"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_131 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                                  uid=448_132 listitem "onTouchStart "S1", sprite => {}" level="2"
+                                    uid=448_133 ignored
+                                      uid=448_134 code
+                                        uid=448_135 StaticText "onTouchStart"
+                                          uid=446_30 InlineTextBox "onTouchStart"
+                                        uid=448_136 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_137 ignored
+                                          uid=448_138 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_139 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_140 StaticText ""S1""
+                                          uid=446_30 InlineTextBox ""S1""
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_141 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_142 StaticText "sprite"
+                                          uid=446_30 InlineTextBox "sprite"
+                                        uid=448_143 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                                  uid=448_144 listitem "onTouchStart ["S1"], sprite => {}" level="2"
+                                    uid=448_145 ignored
+                                      uid=448_146 code
+                                        uid=448_147 StaticText "onTouchStart"
+                                          uid=446_30 InlineTextBox "onTouchStart"
+                                        uid=448_148 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_149 ignored
+                                          uid=448_150 StaticText "names"
+                                            uid=446_30 InlineTextBox "names"
+                                          uid=448_151 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_152 StaticText "["
+                                          uid=446_30 InlineTextBox "["
+                                        uid=448_153 StaticText ""S1""
+                                          uid=446_30 InlineTextBox ""S1""
+                                          uid=446_30 InlineTextBox ""S"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_154 StaticText "], "
+                                          uid=446_30 InlineTextBox "], "
+                                        uid=448_155 StaticText "sprite"
+                                          uid=446_30 InlineTextBox "sprite"
+                                        uid=448_156 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                              uid=448_157 generic
+                                uid=448_158 heading "消息事件" level="5"
+                                  uid=448_159 StaticText "消息事件"
+                                    uid=446_30 InlineTextBox "消息事件"
+                                uid=448_160 list
+                                  uid=448_161 listitem "broadcast "ping"" level="2"
+                                    uid=448_162 ignored
+                                      uid=448_163 code
+                                        uid=448_164 StaticText "broadcast"
+                                          uid=446_30 InlineTextBox "broadcast"
+                                        uid=448_165 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_166 ignored
+                                          uid=448_167 StaticText "msg"
+                                            uid=446_30 InlineTextBox "msg"
+                                          uid=448_168 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_169 StaticText ""ping""
+                                          uid=446_30 InlineTextBox ""ping""
+                                  uid=448_170 listitem "broadcastAndWait "ping"" level="2"
+                                    uid=448_171 ignored
+                                      uid=448_172 code
+                                        uid=448_173 StaticText "broadcastAndWait"
+                                          uid=446_30 InlineTextBox "broadcastAndWait"
+                                        uid=448_174 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_175 ignored
+                                          uid=448_176 StaticText "msg"
+                                            uid=446_30 InlineTextBox "msg"
+                                          uid=448_177 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_178 StaticText ""ping""
+                                          uid=446_30 InlineTextBox ""ping""
+                                          uid=446_30 InlineTextBox """
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_179 listitem "onMsg "ping", => {}" level="2"
+                                    uid=448_180 ignored
+                                      uid=448_181 code
+                                        uid=448_182 StaticText "onMsg"
+                                          uid=446_30 InlineTextBox "onMsg"
+                                        uid=448_183 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_184 ignored
+                                          uid=448_185 StaticText "msg"
+                                            uid=446_30 InlineTextBox "msg"
+                                          uid=448_186 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_187 StaticText ""ping""
+                                          uid=446_30 InlineTextBox ""ping""
+                                        uid=448_188 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                              uid=448_189 generic
+                                uid=448_190 heading "精灵事件" level="5"
+                                  uid=448_191 StaticText "精灵事件"
+                                    uid=446_30 InlineTextBox "精灵事件"
+                                uid=448_192 list
+                                  uid=448_193 listitem "onCloned data => {}" level="2"
+                                    uid=448_194 ignored
+                                      uid=448_195 code
+                                        uid=448_196 StaticText "onCloned"
+                                          uid=446_30 InlineTextBox "onCloned"
+                                        uid=448_197 StaticText " data"
+                                          uid=446_30 InlineTextBox " data"
+                                        uid=448_198 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                              uid=448_199 generic
+                                uid=448_200 heading "舞台事件" level="5"
+                                  uid=448_201 StaticText "舞台事件"
+                                    uid=446_30 InlineTextBox "舞台事件"
+                                uid=448_202 list
+                                  uid=448_203 listitem "onBackdrop "backdrop", => {}" level="2"
+                                    uid=448_204 ignored
+                                      uid=448_205 code
+                                        uid=448_206 StaticText "onBackdrop"
+                                          uid=446_30 InlineTextBox "onBackdrop"
+                                        uid=448_207 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_208 ignored
+                                          uid=448_209 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_210 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_211 StaticText ""backdrop""
+                                          uid=446_30 InlineTextBox ""backdrop""
+                                          uid=446_30 InlineTextBox ""backd"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_212 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                            uid=448_213 listitem level="1"
+                              uid=448_214 generic
+                                uid=448_215 heading "显示/隐藏" level="5"
+                                  uid=448_216 StaticText "显示/隐藏"
+                                    uid=446_30 InlineTextBox "显示/隐藏"
+                                uid=448_217 list
+                                  uid=448_218 listitem "visible" level="2"
+                                    uid=448_219 ignored
+                                      uid=448_220 code
+                                        uid=448_221 StaticText "visible"
+                                          uid=446_30 InlineTextBox "visible"
+                                  uid=448_222 listitem "show" level="2"
+                                    uid=448_223 ignored
+                                      uid=448_224 code
+                                        uid=448_225 StaticText "show"
+                                          uid=446_30 InlineTextBox "show"
+                                  uid=448_226 listitem "hide" level="2"
+                                    uid=448_227 ignored
+                                      uid=448_228 code
+                                        uid=448_229 StaticText "hide"
+                                          uid=446_30 InlineTextBox "hide"
+                                  uid=448_230 listitem "setLayer Front" level="2"
+                                    uid=448_231 ignored
+                                      uid=448_232 code
+                                        uid=448_233 StaticText "setLayer"
+                                          uid=446_30 InlineTextBox "setLayer"
+                                        uid=448_234 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_235 ignored
+                                          uid=448_236 StaticText "layer"
+                                            uid=446_30 InlineTextBox "layer"
+                                          uid=448_237 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_238 StaticText "Front"
+                                          uid=446_30 InlineTextBox "Front"
+                                  uid=448_239 listitem "setLayer Forward, 1" level="2"
+                                    uid=448_240 ignored
+                                      uid=448_241 code
+                                        uid=448_242 StaticText "setLayer"
+                                          uid=446_30 InlineTextBox "setLayer"
+                                        uid=448_243 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_244 ignored
+                                          uid=448_245 StaticText "direction"
+                                            uid=446_30 InlineTextBox "direction"
+                                          uid=448_246 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_247 StaticText "Forward"
+                                          uid=446_30 InlineTextBox "Forward"
+                                          uid=446_30 InlineTextBox "For"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_248 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_249 ignored
+                                          uid=448_250 StaticText "layers"
+                                            uid=446_30 InlineTextBox "layers"
+                                          uid=448_251 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_252 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_253 listitem "Front" level="2"
+                                    uid=448_254 ignored
+                                      uid=448_255 code
+                                        uid=448_256 StaticText "Front"
+                                          uid=446_30 InlineTextBox "Front"
+                                  uid=448_257 listitem "Back" level="2"
+                                    uid=448_258 ignored
+                                      uid=448_259 code
+                                        uid=448_260 StaticText "Back"
+                                          uid=446_30 InlineTextBox "Back"
+                                  uid=448_261 listitem "Forward" level="2"
+                                    uid=448_262 ignored
+                                      uid=448_263 code
+                                        uid=448_264 StaticText "Forward"
+                                          uid=446_30 InlineTextBox "Forward"
+                                  uid=448_265 listitem "Backward" level="2"
+                                    uid=448_266 ignored
+                                      uid=448_267 code
+                                        uid=448_268 StaticText "Backward"
+                                          uid=446_30 InlineTextBox "Backward"
+                              uid=448_269 generic
+                                uid=448_270 heading "行为" level="5"
+                                  uid=448_271 StaticText "行为"
+                                    uid=446_30 InlineTextBox "行为"
+                                uid=448_272 list
+                                  uid=448_273 listitem "say "Hi"" level="2"
+                                    uid=448_274 ignored
+                                      uid=448_275 code
+                                        uid=448_276 StaticText "say"
+                                          uid=446_30 InlineTextBox "say"
+                                        uid=448_277 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_278 ignored
+                                          uid=448_279 StaticText "word"
+                                            uid=446_30 InlineTextBox "word"
+                                          uid=448_280 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_281 StaticText ""Hi""
+                                          uid=446_30 InlineTextBox ""Hi""
+                                  uid=448_282 listitem "say "Hi", 1" level="2"
+                                    uid=448_283 ignored
+                                      uid=448_284 code
+                                        uid=448_285 StaticText "say"
+                                          uid=446_30 InlineTextBox "say"
+                                        uid=448_286 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_287 ignored
+                                          uid=448_288 StaticText "word"
+                                            uid=446_30 InlineTextBox "word"
+                                          uid=448_289 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_290 StaticText ""Hi""
+                                          uid=446_30 InlineTextBox ""Hi""
+                                        uid=448_291 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_292 ignored
+                                          uid=448_293 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_294 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_295 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_296 listitem "think "Emmm..."" level="2"
+                                    uid=448_297 ignored
+                                      uid=448_298 code
+                                        uid=448_299 StaticText "think"
+                                          uid=446_30 InlineTextBox "think"
+                                        uid=448_300 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_301 ignored
+                                          uid=448_302 StaticText "word"
+                                            uid=446_30 InlineTextBox "word"
+                                          uid=448_303 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_304 StaticText ""Emmm...""
+                                          uid=446_30 InlineTextBox ""Emmm...""
+                                  uid=448_305 listitem "think "Emmm...", 1" level="2"
+                                    uid=448_306 ignored
+                                      uid=448_307 code
+                                        uid=448_308 StaticText "think"
+                                          uid=446_30 InlineTextBox "think"
+                                        uid=448_309 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_310 ignored
+                                          uid=448_311 StaticText "word"
+                                            uid=446_30 InlineTextBox "word"
+                                          uid=448_312 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_313 StaticText ""Emmm...""
+                                          uid=446_30 InlineTextBox ""Emmm...""
+                                        uid=448_314 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_315 ignored
+                                          uid=448_316 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                          uid=448_317 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_318 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                              uid=448_319 generic
+                                uid=448_320 heading "造型" level="5"
+                                  uid=448_321 StaticText "造型"
+                                    uid=446_30 InlineTextBox "造型"
+                                uid=448_322 list
+                                  uid=448_323 listitem "costumeName" level="2"
+                                    uid=448_324 ignored
+                                      uid=448_325 code
+                                        uid=448_326 StaticText "costumeName"
+                                          uid=446_30 InlineTextBox "costumeName"
+                                  uid=448_327 listitem "setCostume "default"" level="2"
+                                    uid=448_328 ignored
+                                      uid=448_329 code
+                                        uid=448_330 StaticText "setCostume"
+                                          uid=446_30 InlineTextBox "setCostume"
+                                        uid=448_331 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_332 ignored
+                                          uid=448_333 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_334 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_335 StaticText ""default""
+                                          uid=446_30 InlineTextBox ""default""
+                                          uid=446_30 InlineTextBox ""defau"
+                                          uid=446_30 InlineTextBox "…"
+                              uid=448_336 generic
+                                uid=448_337 heading "动画" level="5"
+                                  uid=448_338 StaticText "动画"
+                                    uid=446_30 InlineTextBox "动画"
+                                uid=448_339 list
+                                  uid=448_340 listitem "animate "default"" level="2"
+                                    uid=448_341 ignored
+                                      uid=448_342 code
+                                        uid=448_343 StaticText "animate"
+                                          uid=446_30 InlineTextBox "animate"
+                                        uid=448_344 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_345 ignored
+                                          uid=448_346 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_347 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_348 StaticText ""default""
+                                          uid=446_30 InlineTextBox ""default""
+                                  uid=448_349 listitem "animate "default", true" level="2"
+                                    uid=448_350 ignored
+                                      uid=448_351 code
+                                        uid=448_352 StaticText "animate"
+                                          uid=446_30 InlineTextBox "animate"
+                                        uid=448_353 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_354 ignored
+                                          uid=448_355 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_356 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_357 StaticText ""default""
+                                          uid=446_30 InlineTextBox ""default""
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_358 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_359 ignored
+                                          uid=448_360 StaticText "loop"
+                                            uid=446_30 InlineTextBox "loop"
+                                          uid=448_361 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_362 StaticText "true"
+                                          uid=446_30 InlineTextBox "true"
+                                  uid=448_363 listitem "animateAndWait "default"" level="2"
+                                    uid=448_364 ignored
+                                      uid=448_365 code
+                                        uid=448_366 StaticText "animateAndWait"
+                                          uid=446_30 InlineTextBox "animateAndWait"
+                                        uid=448_367 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_368 ignored
+                                          uid=448_369 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_370 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_371 StaticText ""default""
+                                          uid=446_30 InlineTextBox ""default""
+                                          uid=446_30 InlineTextBox ""d"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_372 listitem "stopAnimation "default"" level="2"
+                                    uid=448_373 ignored
+                                      uid=448_374 code
+                                        uid=448_375 StaticText "stopAnimation"
+                                          uid=446_30 InlineTextBox "stopAnimation"
+                                        uid=448_376 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_377 ignored
+                                          uid=448_378 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_379 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_380 StaticText ""default""
+                                          uid=446_30 InlineTextBox ""default""
+                                          uid=446_30 InlineTextBox ""de"
+                                          uid=446_30 InlineTextBox "…"
+                              uid=448_381 generic
+                                uid=448_382 heading "背景" level="5"
+                                  uid=448_383 StaticText "背景"
+                                    uid=446_30 InlineTextBox "背景"
+                                uid=448_384 list
+                                  uid=448_385 listitem "backdropName" level="2"
+                                    uid=448_386 ignored
+                                      uid=448_387 code
+                                        uid=448_388 StaticText "backdropName"
+                                          uid=446_30 InlineTextBox "backdropName"
+                                  uid=448_389 listitem "backdropIndex" level="2"
+                                    uid=448_390 ignored
+                                      uid=448_391 code
+                                        uid=448_392 StaticText "backdropIndex"
+                                          uid=446_30 InlineTextBox "backdropIndex"
+                                  uid=448_393 listitem "setBackdrop "backdrop"" level="2"
+                                    uid=448_394 ignored
+                                      uid=448_395 code
+                                        uid=448_396 StaticText "setBackdrop"
+                                          uid=446_30 InlineTextBox "setBackdrop"
+                                        uid=448_397 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_398 ignored
+                                          uid=448_399 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_400 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_401 StaticText ""backdrop""
+                                          uid=446_30 InlineTextBox ""backdrop""
+                                          uid=446_30 InlineTextBox ""back"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_402 listitem "setBackdrop Next" level="2"
+                                    uid=448_403 ignored
+                                      uid=448_404 code
+                                        uid=448_405 StaticText "setBackdrop"
+                                          uid=446_30 InlineTextBox "setBackdrop"
+                                        uid=448_406 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_407 ignored
+                                          uid=448_408 StaticText "action"
+                                            uid=446_30 InlineTextBox "action"
+                                          uid=448_409 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_410 StaticText "Next"
+                                          uid=446_30 InlineTextBox "Next"
+                                  uid=448_411 listitem "setBackdropAndWait "backdrop"" level="2"
+                                    uid=448_412 ignored
+                                      uid=448_413 code
+                                        uid=448_414 StaticText "setBackdropAndWait"
+                                          uid=446_30 InlineTextBox "setBackdropAndWait"
+                                        uid=448_415 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_416 ignored
+                                          uid=448_417 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                            uid=446_30 InlineTextBox "nam"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_418 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_419 StaticText ""backdrop""
+                                          uid=446_30 InlineTextBox ""backdrop""
+                              uid=448_420 generic
+                                uid=448_421 heading "特效" level="5"
+                                  uid=448_422 StaticText "特效"
+                                    uid=446_30 InlineTextBox "特效"
+                                uid=448_423 list
+                                  uid=448_424 listitem "changeGraphicEffect ColorEffect, 10" level="2"
+                                    uid=448_425 ignored
+                                      uid=448_426 code
+                                        uid=448_427 StaticText "changeGraphicEffect"
+                                          uid=446_30 InlineTextBox "changeGraphicEffect"
+                                        uid=448_428 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_429 ignored
+                                          uid=448_430 StaticText "kind"
+                                            uid=446_30 InlineTextBox "kind"
+                                            uid=446_30 InlineTextBox "ki"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_431 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_432 StaticText "ColorEffect"
+                                          uid=446_30 InlineTextBox "ColorEffect"
+                                        uid=448_433 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_434 ignored
+                                          uid=448_435 StaticText "value"
+                                            uid=446_30 InlineTextBox "value"
+                                          uid=448_436 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_437 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                  uid=448_438 listitem "setGraphicEffect ColorEffect, 100" level="2"
+                                    uid=448_439 ignored
+                                      uid=448_440 code
+                                        uid=448_441 StaticText "setGraphicEffect"
+                                          uid=446_30 InlineTextBox "setGraphicEffect"
+                                        uid=448_442 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_443 ignored
+                                          uid=448_444 StaticText "kind"
+                                            uid=446_30 InlineTextBox "kind"
+                                          uid=448_445 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                              uid=446_30 InlineTextBox "…"
+                                        uid=448_446 StaticText "ColorEffect"
+                                          uid=446_30 InlineTextBox "ColorEffect"
+                                        uid=448_447 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_448 ignored
+                                          uid=448_449 StaticText "value"
+                                            uid=446_30 InlineTextBox "value"
+                                          uid=448_450 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_451 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                  uid=448_452 listitem "clearGraphicEffects" level="2"
+                                    uid=448_453 ignored
+                                      uid=448_454 code
+                                        uid=448_455 StaticText "clearGraphicEffects"
+                                          uid=446_30 InlineTextBox "clearGraphicEffects"
+                            uid=448_456 listitem level="1"
+                              uid=448_457 generic
+                                uid=448_458 heading "位置" level="5"
+                                  uid=448_459 StaticText "位置"
+                                    uid=446_30 InlineTextBox "位置"
+                                uid=448_460 list
+                                  uid=448_461 listitem "xpos" level="2"
+                                    uid=448_462 ignored
+                                      uid=448_463 code
+                                        uid=448_464 StaticText "xpos"
+                                          uid=446_30 InlineTextBox "xpos"
+                                  uid=448_465 listitem "ypos" level="2"
+                                    uid=448_466 ignored
+                                      uid=448_467 code
+                                        uid=448_468 StaticText "ypos"
+                                          uid=446_30 InlineTextBox "ypos"
+                                  uid=448_469 listitem "step 100" level="2"
+                                    uid=448_470 ignored
+                                      uid=448_471 code
+                                        uid=448_472 StaticText "step"
+                                          uid=446_30 InlineTextBox "step"
+                                        uid=448_473 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_474 ignored
+                                          uid=448_475 StaticText "distance"
+                                            uid=446_30 InlineTextBox "distance"
+                                          uid=448_476 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_477 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                  uid=448_478 listitem "step 100, 1" level="2"
+                                    uid=448_479 ignored
+                                      uid=448_480 code
+                                        uid=448_481 StaticText "step"
+                                          uid=446_30 InlineTextBox "step"
+                                        uid=448_482 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_483 ignored
+                                          uid=448_484 StaticText "distance"
+                                            uid=446_30 InlineTextBox "distance"
+                                          uid=448_485 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_486 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_487 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_488 ignored
+                                          uid=448_489 StaticText "speed"
+                                            uid=446_30 InlineTextBox "speed"
+                                            uid=446_30 InlineTextBox "spe"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_490 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_491 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_492 listitem "stepTo S1" level="2"
+                                    uid=448_493 ignored
+                                      uid=448_494 code
+                                        uid=448_495 StaticText "stepTo"
+                                          uid=446_30 InlineTextBox "stepTo"
+                                        uid=448_496 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_497 ignored
+                                          uid=448_498 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_499 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_500 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                  uid=448_501 listitem "stepTo 100, 100" level="2"
+                                    uid=448_502 ignored
+                                      uid=448_503 code
+                                        uid=448_504 StaticText "stepTo"
+                                          uid=446_30 InlineTextBox "stepTo"
+                                        uid=448_505 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_506 ignored
+                                          uid=448_507 StaticText "x"
+                                            uid=446_30 InlineTextBox "x"
+                                          uid=448_508 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_509 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_510 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_511 ignored
+                                          uid=448_512 StaticText "y"
+                                            uid=446_30 InlineTextBox "y"
+                                          uid=448_513 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_514 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                  uid=448_515 listitem "stepTo S1, 1" level="2"
+                                    uid=448_516 ignored
+                                      uid=448_517 code
+                                        uid=448_518 StaticText "stepTo"
+                                          uid=446_30 InlineTextBox "stepTo"
+                                        uid=448_519 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_520 ignored
+                                          uid=448_521 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_522 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_523 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                        uid=448_524 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_525 ignored
+                                          uid=448_526 StaticText "speed"
+                                            uid=446_30 InlineTextBox "speed"
+                                            uid=446_30 InlineTextBox "spee"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_527 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_528 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_529 listitem "stepTo 100, 100, 1" level="2"
+                                    uid=448_530 ignored
+                                      uid=448_531 code
+                                        uid=448_532 StaticText "stepTo"
+                                          uid=446_30 InlineTextBox "stepTo"
+                                        uid=448_533 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_534 ignored
+                                          uid=448_535 StaticText "x"
+                                            uid=446_30 InlineTextBox "x"
+                                          uid=448_536 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_537 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_538 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_539 ignored
+                                          uid=448_540 StaticText "y"
+                                            uid=446_30 InlineTextBox "y"
+                                          uid=448_541 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_542 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_543 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_544 ignored
+                                          uid=448_545 StaticText "speed"
+                                            uid=446_30 InlineTextBox "speed"
+                                            uid=446_30 InlineTextBox "s"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_546 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_547 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_548 listitem "glide 100, 100, 1" level="2"
+                                    uid=448_549 ignored
+                                      uid=448_550 code
+                                        uid=448_551 StaticText "glide"
+                                          uid=446_30 InlineTextBox "glide"
+                                        uid=448_552 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_553 ignored
+                                          uid=448_554 StaticText "x"
+                                            uid=446_30 InlineTextBox "x"
+                                          uid=448_555 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_556 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_557 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_558 ignored
+                                          uid=448_559 StaticText "y"
+                                            uid=446_30 InlineTextBox "y"
+                                          uid=448_560 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_561 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                                        uid=448_562 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_563 ignored
+                                          uid=448_564 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                            uid=446_30 InlineTextBox "se"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_565 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_566 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_567 listitem "glide S1, 1" level="2"
+                                    uid=448_568 ignored
+                                      uid=448_569 code
+                                        uid=448_570 StaticText "glide"
+                                          uid=446_30 InlineTextBox "glide"
+                                        uid=448_571 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_572 ignored
+                                          uid=448_573 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_574 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_575 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                        uid=448_576 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_577 ignored
+                                          uid=448_578 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                            uid=446_30 InlineTextBox "secon"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_579 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_580 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_581 listitem "glide Mouse, 1" level="2"
+                                    uid=448_582 ignored
+                                      uid=448_583 code
+                                        uid=448_584 StaticText "glide"
+                                          uid=446_30 InlineTextBox "glide"
+                                        uid=448_585 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_586 ignored
+                                          uid=448_587 StaticText "object"
+                                            uid=446_30 InlineTextBox "object"
+                                          uid=448_588 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_589 StaticText "Mouse"
+                                          uid=446_30 InlineTextBox "Mouse"
+                                        uid=448_590 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_591 ignored
+                                          uid=448_592 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                            uid=446_30 InlineTextBox "se"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_593 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_594 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_595 listitem "changeXpos 10" level="2"
+                                    uid=448_596 ignored
+                                      uid=448_597 code
+                                        uid=448_598 StaticText "changeXpos"
+                                          uid=446_30 InlineTextBox "changeXpos"
+                                        uid=448_599 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_600 ignored
+                                          uid=448_601 StaticText "dX"
+                                            uid=446_30 InlineTextBox "dX"
+                                          uid=448_602 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_603 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                  uid=448_604 listitem "setXpos 0" level="2"
+                                    uid=448_605 ignored
+                                      uid=448_606 code
+                                        uid=448_607 StaticText "setXpos"
+                                          uid=446_30 InlineTextBox "setXpos"
+                                        uid=448_608 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_609 ignored
+                                          uid=448_610 StaticText "x"
+                                            uid=446_30 InlineTextBox "x"
+                                          uid=448_611 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_612 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                  uid=448_613 listitem "changeYpos 10" level="2"
+                                    uid=448_614 ignored
+                                      uid=448_615 code
+                                        uid=448_616 StaticText "changeYpos"
+                                          uid=446_30 InlineTextBox "changeYpos"
+                                        uid=448_617 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_618 ignored
+                                          uid=448_619 StaticText "dY"
+                                            uid=446_30 InlineTextBox "dY"
+                                          uid=448_620 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_621 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                  uid=448_622 listitem "setYpos 0" level="2"
+                                    uid=448_623 ignored
+                                      uid=448_624 code
+                                        uid=448_625 StaticText "setYpos"
+                                          uid=446_30 InlineTextBox "setYpos"
+                                        uid=448_626 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_627 ignored
+                                          uid=448_628 StaticText "y"
+                                            uid=446_30 InlineTextBox "y"
+                                          uid=448_629 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_630 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                              uid=448_631 generic
+                                uid=448_632 heading "方向" level="5"
+                                  uid=448_633 StaticText "方向"
+                                    uid=446_30 InlineTextBox "方向"
+                                uid=448_634 list
+                                  uid=448_635 listitem "heading" level="2"
+                                    uid=448_636 ignored
+                                      uid=448_637 code
+                                        uid=448_638 StaticText "heading"
+                                          uid=446_30 InlineTextBox "heading"
+                                  uid=448_639 listitem "turn Right" level="2"
+                                    uid=448_640 ignored
+                                      uid=448_641 code
+                                        uid=448_642 StaticText "turn"
+                                          uid=446_30 InlineTextBox "turn"
+                                        uid=448_643 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_644 ignored
+                                          uid=448_645 StaticText "direction"
+                                            uid=446_30 InlineTextBox "direction"
+                                          uid=448_646 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_647 StaticText "Right"
+                                          uid=446_30 InlineTextBox "Right"
+                                  uid=448_648 listitem "turn Right, 1" level="2"
+                                    uid=448_649 ignored
+                                      uid=448_650 code
+                                        uid=448_651 StaticText "turn"
+                                          uid=446_30 InlineTextBox "turn"
+                                        uid=448_652 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_653 ignored
+                                          uid=448_654 StaticText "direction"
+                                            uid=446_30 InlineTextBox "direction"
+                                          uid=448_655 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_656 StaticText "Right"
+                                          uid=446_30 InlineTextBox "Right"
+                                        uid=448_657 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_658 ignored
+                                          uid=448_659 StaticText "speed"
+                                            uid=446_30 InlineTextBox "speed"
+                                          uid=448_660 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_661 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_662 listitem "turnTo S1" level="2"
+                                    uid=448_663 ignored
+                                      uid=448_664 code
+                                        uid=448_665 StaticText "turnTo"
+                                          uid=446_30 InlineTextBox "turnTo"
+                                        uid=448_666 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_667 ignored
+                                          uid=448_668 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_669 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_670 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                  uid=448_671 listitem "turnTo S1, 1" level="2"
+                                    uid=448_672 ignored
+                                      uid=448_673 code
+                                        uid=448_674 StaticText "turnTo"
+                                          uid=446_30 InlineTextBox "turnTo"
+                                        uid=448_675 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_676 ignored
+                                          uid=448_677 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_678 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_679 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                        uid=448_680 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_681 ignored
+                                          uid=448_682 StaticText "speed"
+                                            uid=446_30 InlineTextBox "speed"
+                                            uid=446_30 InlineTextBox "spee"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_683 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_684 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_685 listitem "changeHeading 90" level="2"
+                                    uid=448_686 ignored
+                                      uid=448_687 code
+                                        uid=448_688 StaticText "changeHeading"
+                                          uid=446_30 InlineTextBox "changeHeading"
+                                        uid=448_689 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_690 ignored
+                                          uid=448_691 StaticText "degree"
+                                            uid=446_30 InlineTextBox "degree"
+                                          uid=448_692 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_693 StaticText "90"
+                                          uid=446_30 InlineTextBox "90"
+                                  uid=448_694 listitem "setHeading Right" level="2"
+                                    uid=448_695 ignored
+                                      uid=448_696 code
+                                        uid=448_697 StaticText "setHeading"
+                                          uid=446_30 InlineTextBox "setHeading"
+                                        uid=448_698 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_699 ignored
+                                          uid=448_700 StaticText "direction"
+                                            uid=446_30 InlineTextBox "direction"
+                                          uid=448_701 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_702 StaticText "Right"
+                                          uid=446_30 InlineTextBox "Right"
+                                          uid=446_30 InlineTextBox "R"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_703 listitem "Up" level="2"
+                                    uid=448_704 ignored
+                                      uid=448_705 code
+                                        uid=448_706 StaticText "Up"
+                                          uid=446_30 InlineTextBox "Up"
+                                  uid=448_707 listitem "Down" level="2"
+                                    uid=448_708 ignored
+                                      uid=448_709 code
+                                        uid=448_710 StaticText "Down"
+                                          uid=446_30 InlineTextBox "Down"
+                                  uid=448_711 listitem "Left" level="2"
+                                    uid=448_712 ignored
+                                      uid=448_713 code
+                                        uid=448_714 StaticText "Left"
+                                          uid=446_30 InlineTextBox "Left"
+                                  uid=448_715 listitem "Right" level="2"
+                                    uid=448_716 ignored
+                                      uid=448_717 code
+                                        uid=448_718 StaticText "Right"
+                                          uid=446_30 InlineTextBox "Right"
+                              uid=448_719 generic
+                                uid=448_720 heading "大小" level="5"
+                                  uid=448_721 StaticText "大小"
+                                    uid=446_30 InlineTextBox "大小"
+                                uid=448_722 list
+                                  uid=448_723 listitem "size" level="2"
+                                    uid=448_724 ignored
+                                      uid=448_725 code
+                                        uid=448_726 StaticText "size"
+                                          uid=446_30 InlineTextBox "size"
+                                  uid=448_727 listitem "changeSize 1" level="2"
+                                    uid=448_728 ignored
+                                      uid=448_729 code
+                                        uid=448_730 StaticText "changeSize"
+                                          uid=446_30 InlineTextBox "changeSize"
+                                        uid=448_731 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_732 ignored
+                                          uid=448_733 StaticText "dSize"
+                                            uid=446_30 InlineTextBox "dSize"
+                                          uid=448_734 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_735 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_736 listitem "setSize 2" level="2"
+                                    uid=448_737 ignored
+                                      uid=448_738 code
+                                        uid=448_739 StaticText "setSize"
+                                          uid=446_30 InlineTextBox "setSize"
+                                        uid=448_740 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_741 ignored
+                                          uid=448_742 StaticText "size"
+                                            uid=446_30 InlineTextBox "size"
+                                          uid=448_743 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_744 StaticText "2"
+                                          uid=446_30 InlineTextBox "2"
+                              uid=448_745 generic
+                                uid=448_746 heading "旋转" level="5"
+                                  uid=448_747 StaticText "旋转"
+                                    uid=446_30 InlineTextBox "旋转"
+                                uid=448_748 list
+                                  uid=448_749 listitem "setRotationStyle LeftRight" level="2"
+                                    uid=448_750 ignored
+                                      uid=448_751 code
+                                        uid=448_752 StaticText "setRotationStyle"
+                                          uid=446_30 InlineTextBox "setRotationStyle"
+                                        uid=448_753 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_754 ignored
+                                          uid=448_755 StaticText "style"
+                                            uid=446_30 InlineTextBox "style"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_756 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_757 StaticText "LeftRight"
+                                          uid=446_30 InlineTextBox "LeftRight"
+                                  uid=448_758 listitem "None" level="2"
+                                    uid=448_759 ignored
+                                      uid=448_760 code
+                                        uid=448_761 StaticText "None"
+                                          uid=446_30 InlineTextBox "None"
+                                  uid=448_762 listitem "Normal" level="2"
+                                    uid=448_763 ignored
+                                      uid=448_764 code
+                                        uid=448_765 StaticText "Normal"
+                                          uid=446_30 InlineTextBox "Normal"
+                                  uid=448_766 listitem "LeftRight" level="2"
+                                    uid=448_767 ignored
+                                      uid=448_768 code
+                                        uid=448_769 StaticText "LeftRight"
+                                          uid=446_30 InlineTextBox "LeftRight"
+                              uid=448_770 generic
+                                uid=448_771 heading "物理" level="5"
+                                  uid=448_772 StaticText "物理"
+                                    uid=446_30 InlineTextBox "物理"
+                                uid=448_773 list
+                                  uid=448_774 listitem "physicsMode" level="2"
+                                    uid=448_775 ignored
+                                      uid=448_776 code
+                                        uid=448_777 StaticText "physicsMode"
+                                          uid=446_30 InlineTextBox "physicsMode"
+                                  uid=448_778 listitem "velocity" level="2"
+                                    uid=448_779 ignored
+                                      uid=448_780 code
+                                        uid=448_781 StaticText "velocity"
+                                          uid=446_30 InlineTextBox "velocity"
+                                  uid=448_782 listitem "gravity" level="2"
+                                    uid=448_783 ignored
+                                      uid=448_784 code
+                                        uid=448_785 StaticText "gravity"
+                                          uid=446_30 InlineTextBox "gravity"
+                                  uid=448_786 listitem "isOnFloor" level="2"
+                                    uid=448_787 ignored
+                                      uid=448_788 code
+                                        uid=448_789 StaticText "isOnFloor"
+                                          uid=446_30 InlineTextBox "isOnFloor"
+                                  uid=448_790 listitem "setPhysicsMode NoPhysics" level="2"
+                                    uid=448_791 ignored
+                                      uid=448_792 code
+                                        uid=448_793 StaticText "setPhysicsMode"
+                                          uid=446_30 InlineTextBox "setPhysicsMode"
+                                        uid=448_794 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_795 ignored
+                                          uid=448_796 StaticText "mode"
+                                            uid=446_30 InlineTextBox "mode"
+                                          uid=448_797 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_798 StaticText "NoPhysics"
+                                          uid=446_30 InlineTextBox "NoPhysics"
+                                          uid=446_30 InlineTextBox "No"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_799 listitem "setVelocity 0, 0" level="2"
+                                    uid=448_800 ignored
+                                      uid=448_801 code
+                                        uid=448_802 StaticText "setVelocity"
+                                          uid=446_30 InlineTextBox "setVelocity"
+                                        uid=448_803 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_804 ignored
+                                          uid=448_805 StaticText "vx"
+                                            uid=446_30 InlineTextBox "vx"
+                                          uid=448_806 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_807 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                        uid=448_808 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_809 ignored
+                                          uid=448_810 StaticText "vy"
+                                            uid=446_30 InlineTextBox "vy"
+                                          uid=448_811 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_812 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                  uid=448_813 listitem "setGravity 0" level="2"
+                                    uid=448_814 ignored
+                                      uid=448_815 code
+                                        uid=448_816 StaticText "setGravity"
+                                          uid=446_30 InlineTextBox "setGravity"
+                                        uid=448_817 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_818 ignored
+                                          uid=448_819 StaticText "g"
+                                            uid=446_30 InlineTextBox "g"
+                                          uid=448_820 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_821 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                  uid=448_822 listitem "addImpulse 0, 0" level="2"
+                                    uid=448_823 ignored
+                                      uid=448_824 code
+                                        uid=448_825 StaticText "addImpulse"
+                                          uid=446_30 InlineTextBox "addImpulse"
+                                        uid=448_826 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_827 ignored
+                                          uid=448_828 StaticText "ix"
+                                            uid=446_30 InlineTextBox "ix"
+                                          uid=448_829 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_830 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                        uid=448_831 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_832 ignored
+                                          uid=448_833 StaticText "iy"
+                                            uid=446_30 InlineTextBox "iy"
+                                          uid=448_834 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_835 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                              uid=448_836 generic
+                                uid=448_837 heading "其他" level="5"
+                                  uid=448_838 StaticText "其他"
+                                    uid=446_30 InlineTextBox "其他"
+                                uid=448_839 list
+                                  uid=448_840 listitem "bounceOffEdge" level="2"
+                                    uid=448_841 ignored
+                                      uid=448_842 code
+                                        uid=448_843 StaticText "bounceOffEdge"
+                                          uid=446_30 InlineTextBox "bounceOffEdge"
+                            uid=448_844 listitem level="1"
+                              uid=448_845 generic
+                                uid=448_846 heading "时间" level="5"
+                                  uid=448_847 StaticText "时间"
+                                    uid=446_30 InlineTextBox "时间"
+                                uid=448_848 list
+                                  uid=448_849 listitem "wait 1" level="2"
+                                    uid=448_850 ignored
+                                      uid=448_851 code
+                                        uid=448_852 StaticText "wait"
+                                          uid=446_30 InlineTextBox "wait"
+                                        uid=448_853 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_854 ignored
+                                          uid=448_855 StaticText "seconds"
+                                            uid=446_30 InlineTextBox "seconds"
+                                          uid=448_856 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_857 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_858 listitem "waitUntil true" level="2"
+                                    uid=448_859 ignored
+                                      uid=448_860 code
+                                        uid=448_861 StaticText "waitUntil"
+                                          uid=446_30 InlineTextBox "waitUntil"
+                                        uid=448_862 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_863 ignored
+                                          uid=448_864 StaticText "condition"
+                                            uid=446_30 InlineTextBox "condition"
+                                          uid=448_865 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_866 StaticText "true"
+                                          uid=446_30 InlineTextBox "true"
+                                          uid=446_30 InlineTextBox "tr"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_867 listitem "timer" level="2"
+                                    uid=448_868 ignored
+                                      uid=448_869 code
+                                        uid=448_870 StaticText "timer"
+                                          uid=446_30 InlineTextBox "timer"
+                                  uid=448_871 listitem "resetTimer" level="2"
+                                    uid=448_872 ignored
+                                      uid=448_873 code
+                                        uid=448_874 StaticText "resetTimer"
+                                          uid=446_30 InlineTextBox "resetTimer"
+                              uid=448_875 generic
+                                uid=448_876 heading "流程控制" level="5"
+                                  uid=448_877 StaticText "流程控制"
+                                    uid=446_30 InlineTextBox "流程控制"
+                                uid=448_878 list
+                                  uid=448_879 listitem "forever => {}" level="2"
+                                    uid=448_880 ignored
+                                      uid=448_881 code
+                                        uid=448_882 StaticText "forever"
+                                          uid=446_30 InlineTextBox "forever"
+                                        uid=448_883 StaticText " => {}"
+                                          uid=446_30 InlineTextBox " => {}"
+                                  uid=448_884 listitem "repeat 10, => {}" level="2"
+                                    uid=448_885 ignored
+                                      uid=448_886 code
+                                        uid=448_887 StaticText "repeat"
+                                          uid=446_30 InlineTextBox "repeat"
+                                        uid=448_888 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_889 ignored
+                                          uid=448_890 StaticText "times"
+                                            uid=446_30 InlineTextBox "times"
+                                          uid=448_891 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_892 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                        uid=448_893 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                                  uid=448_894 listitem "repeatUntil false, => {}" level="2"
+                                    uid=448_895 ignored
+                                      uid=448_896 code
+                                        uid=448_897 StaticText "repeatUntil"
+                                          uid=446_30 InlineTextBox "repeatUntil"
+                                        uid=448_898 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_899 ignored
+                                          uid=448_900 StaticText "condition"
+                                            uid=446_30 InlineTextBox "condition"
+                                          uid=448_901 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                              uid=446_30 InlineTextBox "…"
+                                        uid=448_902 StaticText "false"
+                                          uid=446_30 InlineTextBox "false"
+                                        uid=448_903 StaticText ", => {}"
+                                          uid=446_30 InlineTextBox ", => {}"
+                                  uid=448_904 listitem "for v in [] {}" level="2"
+                                    uid=448_905 ignored
+                                      uid=448_906 code
+                                        uid=448_907 StaticText "for"
+                                          uid=446_30 InlineTextBox "for"
+                                        uid=448_908 StaticText " v"
+                                          uid=446_30 InlineTextBox " v"
+                                        uid=448_909 StaticText " in"
+                                          uid=446_30 InlineTextBox " in"
+                                        uid=448_910 StaticText " []"
+                                          uid=446_30 InlineTextBox " []"
+                                        uid=448_911 StaticText " {}"
+                                          uid=446_30 InlineTextBox " {}"
+                                  uid=448_912 listitem "if true {}" level="2"
+                                    uid=448_913 ignored
+                                      uid=448_914 code
+                                        uid=448_915 StaticText "if"
+                                          uid=446_30 InlineTextBox "if"
+                                        uid=448_916 StaticText " true"
+                                          uid=446_30 InlineTextBox " true"
+                                        uid=448_917 StaticText " {}"
+                                          uid=446_30 InlineTextBox " {}"
+                                  uid=448_918 listitem "if true {} else {}" level="2"
+                                    uid=448_919 ignored
+                                      uid=448_920 code
+                                        uid=448_921 StaticText "if"
+                                          uid=446_30 InlineTextBox "if"
+                                        uid=448_922 StaticText " true"
+                                          uid=446_30 InlineTextBox " true"
+                                        uid=448_923 StaticText " {} "
+                                          uid=446_30 InlineTextBox " {} "
+                                        uid=448_924 StaticText "else"
+                                          uid=446_30 InlineTextBox "else"
+                                        uid=448_925 StaticText " {}"
+                                          uid=446_30 InlineTextBox " {}"
+                            uid=448_926 listitem level="1"
+                              uid=448_927 generic
+                                uid=448_928 heading "距离" level="5"
+                                  uid=448_929 StaticText "距离"
+                                    uid=446_30 InlineTextBox "距离"
+                                uid=448_930 list
+                                  uid=448_931 listitem "touching(S1)" level="2"
+                                    uid=448_932 ignored
+                                      uid=448_933 code
+                                        uid=448_934 StaticText "touching"
+                                          uid=446_30 InlineTextBox "touching"
+                                        uid=448_935 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_936 ignored
+                                          uid=448_937 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_938 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_939 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                        uid=448_940 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_941 listitem "touching(Edge)" level="2"
+                                    uid=448_942 ignored
+                                      uid=448_943 code
+                                        uid=448_944 StaticText "touching"
+                                          uid=446_30 InlineTextBox "touching"
+                                        uid=448_945 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_946 ignored
+                                          uid=448_947 StaticText "object"
+                                            uid=446_30 InlineTextBox "object"
+                                          uid=448_948 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_949 StaticText "Edge"
+                                          uid=446_30 InlineTextBox "Edge"
+                                        uid=448_950 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_951 listitem "distanceTo(S1)" level="2"
+                                    uid=448_952 ignored
+                                      uid=448_953 code
+                                        uid=448_954 StaticText "distanceTo"
+                                          uid=446_30 InlineTextBox "distanceTo"
+                                        uid=448_955 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_956 ignored
+                                          uid=448_957 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_958 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_959 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                                        uid=448_960 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_961 listitem "distanceTo(Mouse)" level="2"
+                                    uid=448_962 ignored
+                                      uid=448_963 code
+                                        uid=448_964 StaticText "distanceTo"
+                                          uid=446_30 InlineTextBox "distanceTo"
+                                        uid=448_965 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_966 ignored
+                                          uid=448_967 StaticText "object"
+                                            uid=446_30 InlineTextBox "object"
+                                          uid=448_968 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_969 StaticText "Mouse"
+                                          uid=446_30 InlineTextBox "Mouse"
+                                          uid=446_30 InlineTextBox "Mous"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_970 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_971 listitem "Edge" level="2"
+                                    uid=448_972 ignored
+                                      uid=448_973 code
+                                        uid=448_974 StaticText "Edge"
+                                          uid=446_30 InlineTextBox "Edge"
+                                  uid=448_975 listitem "EdgeBottom" level="2"
+                                    uid=448_976 ignored
+                                      uid=448_977 code
+                                        uid=448_978 StaticText "EdgeBottom"
+                                          uid=446_30 InlineTextBox "EdgeBottom"
+                                  uid=448_979 listitem "EdgeLeft" level="2"
+                                    uid=448_980 ignored
+                                      uid=448_981 code
+                                        uid=448_982 StaticText "EdgeLeft"
+                                          uid=446_30 InlineTextBox "EdgeLeft"
+                                  uid=448_983 listitem "EdgeRight" level="2"
+                                    uid=448_984 ignored
+                                      uid=448_985 code
+                                        uid=448_986 StaticText "EdgeRight"
+                                          uid=446_30 InlineTextBox "EdgeRight"
+                                  uid=448_987 listitem "EdgeTop" level="2"
+                                    uid=448_988 ignored
+                                      uid=448_989 code
+                                        uid=448_990 StaticText "EdgeTop"
+                                          uid=446_30 InlineTextBox "EdgeTop"
+                              uid=448_991 generic
+                                uid=448_992 heading "鼠标" level="5"
+                                  uid=448_993 StaticText "鼠标"
+                                    uid=446_30 InlineTextBox "鼠标"
+                                uid=448_994 list
+                                  uid=448_995 listitem "mouseX" level="2"
+                                    uid=448_996 ignored
+                                      uid=448_997 code
+                                        uid=448_998 StaticText "mouseX"
+                                          uid=446_30 InlineTextBox "mouseX"
+                                  uid=448_999 listitem "mouseY" level="2"
+                                    uid=448_1000 ignored
+                                      uid=448_1001 code
+                                        uid=448_1002 StaticText "mouseY"
+                                          uid=446_30 InlineTextBox "mouseY"
+                                  uid=448_1003 listitem "Mouse" level="2"
+                                    uid=448_1004 ignored
+                                      uid=448_1005 code
+                                        uid=448_1006 StaticText "Mouse"
+                                          uid=446_30 InlineTextBox "Mouse"
+                              uid=448_1007 generic
+                                uid=448_1008 heading "键盘" level="5"
+                                  uid=448_1009 StaticText "键盘"
+                                    uid=446_30 InlineTextBox "键盘"
+                                uid=448_1010 list
+                                  uid=448_1011 listitem "keyPressed(KeyA)" level="2"
+                                    uid=448_1012 ignored
+                                      uid=448_1013 code
+                                        uid=448_1014 StaticText "keyPressed"
+                                          uid=446_30 InlineTextBox "keyPressed"
+                                        uid=448_1015 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_1016 ignored
+                                          uid=448_1017 StaticText "key"
+                                            uid=446_30 InlineTextBox "key"
+                                          uid=448_1018 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1019 StaticText "KeyA"
+                                          uid=446_30 InlineTextBox "KeyA"
+                                        uid=448_1020 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                              uid=448_1021 generic
+                                uid=448_1022 heading "提问" level="5"
+                                  uid=448_1023 StaticText "提问"
+                                    uid=446_30 InlineTextBox "提问"
+                                uid=448_1024 list
+                                  uid=448_1025 listitem "ask "What is your name?"" level="2"
+                                    uid=448_1026 ignored
+                                      uid=448_1027 code
+                                        uid=448_1028 StaticText "ask"
+                                          uid=446_30 InlineTextBox "ask"
+                                        uid=448_1029 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1030 ignored
+                                          uid=448_1031 StaticText "question"
+                                            uid=446_30 InlineTextBox "question"
+                                          uid=448_1032 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1033 StaticText ""What is your name?""
+                                          uid=446_30 InlineTextBox ""What is your name?""
+                                          uid=446_30 InlineTextBox ""What is "
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_1034 listitem "answer" level="2"
+                                    uid=448_1035 ignored
+                                      uid=448_1036 code
+                                        uid=448_1037 StaticText "answer"
+                                          uid=446_30 InlineTextBox "answer"
+                            uid=448_1038 listitem level="1"
+                              uid=448_1039 generic
+                                uid=448_1040 heading "播放/停止" level="5"
+                                  uid=448_1041 StaticText "播放/停止"
+                                    uid=446_30 InlineTextBox "播放/停止"
+                                uid=448_1042 list
+                                  uid=448_1043 listitem "stopAllSounds" level="2"
+                                    uid=448_1044 ignored
+                                      uid=448_1045 code
+                                        uid=448_1046 StaticText "stopAllSounds"
+                                          uid=446_30 InlineTextBox "stopAllSounds"
+                                  uid=448_1047 listitem "play "s1"" level="2"
+                                    uid=448_1048 ignored
+                                      uid=448_1049 code
+                                        uid=448_1050 StaticText "play"
+                                          uid=446_30 InlineTextBox "play"
+                                        uid=448_1051 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1052 ignored
+                                          uid=448_1053 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1054 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1055 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                                  uid=448_1056 listitem "play "s1", true" level="2"
+                                    uid=448_1057 ignored
+                                      uid=448_1058 code
+                                        uid=448_1059 StaticText "play"
+                                          uid=446_30 InlineTextBox "play"
+                                        uid=448_1060 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1061 ignored
+                                          uid=448_1062 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1063 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1064 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                                        uid=448_1065 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_1066 ignored
+                                          uid=448_1067 StaticText "loop"
+                                            uid=446_30 InlineTextBox "loop"
+                                          uid=448_1068 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                              uid=446_30 InlineTextBox "…"
+                                        uid=448_1069 StaticText "true"
+                                          uid=446_30 InlineTextBox "true"
+                                  uid=448_1070 listitem "playAndWait "s1"" level="2"
+                                    uid=448_1071 ignored
+                                      uid=448_1072 code
+                                        uid=448_1073 StaticText "playAndWait"
+                                          uid=446_30 InlineTextBox "playAndWait"
+                                        uid=448_1074 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1075 ignored
+                                          uid=448_1076 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1077 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1078 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                                  uid=448_1079 listitem "pausePlaying "s1"" level="2"
+                                    uid=448_1080 ignored
+                                      uid=448_1081 code
+                                        uid=448_1082 StaticText "pausePlaying"
+                                          uid=446_30 InlineTextBox "pausePlaying"
+                                        uid=448_1083 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1084 ignored
+                                          uid=448_1085 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1086 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1087 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                                  uid=448_1088 listitem "resumePlaying "s1"" level="2"
+                                    uid=448_1089 ignored
+                                      uid=448_1090 code
+                                        uid=448_1091 StaticText "resumePlaying"
+                                          uid=446_30 InlineTextBox "resumePlaying"
+                                        uid=448_1092 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1093 ignored
+                                          uid=448_1094 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1095 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1096 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                                          uid=446_30 InlineTextBox ""s"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_1097 listitem "stopPlaying "s1"" level="2"
+                                    uid=448_1098 ignored
+                                      uid=448_1099 code
+                                        uid=448_1100 StaticText "stopPlaying"
+                                          uid=446_30 InlineTextBox "stopPlaying"
+                                        uid=448_1101 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1102 ignored
+                                          uid=448_1103 StaticText "sound"
+                                            uid=446_30 InlineTextBox "sound"
+                                          uid=448_1104 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1105 StaticText ""s1""
+                                          uid=446_30 InlineTextBox ""s1""
+                              uid=448_1106 generic
+                                uid=448_1107 heading "音量" level="5"
+                                  uid=448_1108 StaticText "音量"
+                                    uid=446_30 InlineTextBox "音量"
+                                uid=448_1109 list
+                                  uid=448_1110 listitem "volume" level="2"
+                                    uid=448_1111 ignored
+                                      uid=448_1112 code
+                                        uid=448_1113 StaticText "volume"
+                                          uid=446_30 InlineTextBox "volume"
+                                  uid=448_1114 listitem "changeVolume 10" level="2"
+                                    uid=448_1115 ignored
+                                      uid=448_1116 code
+                                        uid=448_1117 StaticText "changeVolume"
+                                          uid=446_30 InlineTextBox "changeVolume"
+                                        uid=448_1118 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1119 ignored
+                                          uid=448_1120 StaticText "dVolume"
+                                            uid=446_30 InlineTextBox "dVolume"
+                                          uid=448_1121 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1122 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                  uid=448_1123 listitem "setVolume 100" level="2"
+                                    uid=448_1124 ignored
+                                      uid=448_1125 code
+                                        uid=448_1126 StaticText "setVolume"
+                                          uid=446_30 InlineTextBox "setVolume"
+                                        uid=448_1127 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1128 ignored
+                                          uid=448_1129 StaticText "volume"
+                                            uid=446_30 InlineTextBox "volume"
+                                          uid=448_1130 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1131 StaticText "100"
+                                          uid=446_30 InlineTextBox "100"
+                            uid=448_1132 listitem level="1"
+                              uid=448_1133 generic
+                                uid=448_1134 heading "精灵" level="5"
+                                  uid=448_1135 StaticText "精灵"
+                                    uid=446_30 InlineTextBox "精灵"
+                                uid=448_1136 list
+                                  uid=448_1137 listitem "clone" level="2"
+                                    uid=448_1138 ignored
+                                      uid=448_1139 code
+                                        uid=448_1140 StaticText "clone"
+                                          uid=446_30 InlineTextBox "clone"
+                                  uid=448_1141 listitem "die" level="2"
+                                    uid=448_1142 ignored
+                                      uid=448_1143 code
+                                        uid=448_1144 StaticText "die"
+                                          uid=446_30 InlineTextBox "die"
+                              uid=448_1145 generic
+                                uid=448_1146 heading "摄像机" level="5"
+                                  uid=448_1147 StaticText "摄像机"
+                                    uid=446_30 InlineTextBox "摄像机"
+                                uid=448_1148 list
+                                  uid=448_1149 listitem "Camera.zoom" level="2"
+                                    uid=448_1150 ignored
+                                      uid=448_1151 code
+                                        uid=448_1152 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1153 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1154 StaticText "zoom"
+                                          uid=446_30 InlineTextBox "zoom"
+                                  uid=448_1155 listitem "Camera.setZoom 1" level="2"
+                                    uid=448_1156 ignored
+                                      uid=448_1157 code
+                                        uid=448_1158 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1159 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1160 StaticText "setZoom"
+                                          uid=446_30 InlineTextBox "setZoom"
+                                        uid=448_1161 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1162 ignored
+                                          uid=448_1163 StaticText "value"
+                                            uid=446_30 InlineTextBox "value"
+                                          uid=448_1164 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1165 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                  uid=448_1166 listitem "Camera.xpos" level="2"
+                                    uid=448_1167 ignored
+                                      uid=448_1168 code
+                                        uid=448_1169 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1170 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1171 StaticText "xpos"
+                                          uid=446_30 InlineTextBox "xpos"
+                                  uid=448_1172 listitem "Camera.ypos" level="2"
+                                    uid=448_1173 ignored
+                                      uid=448_1174 code
+                                        uid=448_1175 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1176 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1177 StaticText "ypos"
+                                          uid=446_30 InlineTextBox "ypos"
+                                  uid=448_1178 listitem "Camera.setXYpos 0, 0" level="2"
+                                    uid=448_1179 ignored
+                                      uid=448_1180 code
+                                        uid=448_1181 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1182 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1183 StaticText "setXYpos"
+                                          uid=446_30 InlineTextBox "setXYpos"
+                                        uid=448_1184 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1185 ignored
+                                          uid=448_1186 StaticText "x"
+                                            uid=446_30 InlineTextBox "x"
+                                          uid=448_1187 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1188 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                        uid=448_1189 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_1190 ignored
+                                          uid=448_1191 StaticText "y"
+                                            uid=446_30 InlineTextBox "y"
+                                            uid=446_30 InlineTextBox "…"
+                                          uid=448_1192 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1193 StaticText "0"
+                                          uid=446_30 InlineTextBox "0"
+                                  uid=448_1194 listitem "Camera.follow S1" level="2"
+                                    uid=448_1195 ignored
+                                      uid=448_1196 code
+                                        uid=448_1197 StaticText "Camera"
+                                          uid=446_30 InlineTextBox "Camera"
+                                        uid=448_1198 StaticText "."
+                                          uid=446_30 InlineTextBox "."
+                                        uid=448_1199 StaticText "follow"
+                                          uid=446_30 InlineTextBox "follow"
+                                        uid=448_1200 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1201 ignored
+                                          uid=448_1202 StaticText "sprite"
+                                            uid=446_30 InlineTextBox "sprite"
+                                          uid=448_1203 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1204 StaticText "S1"
+                                          uid=446_30 InlineTextBox "S1"
+                              uid=448_1205 generic
+                                uid=448_1206 heading "其他" level="5"
+                                  uid=448_1207 StaticText "其他"
+                                    uid=446_30 InlineTextBox "其他"
+                                uid=448_1208 list
+                                  uid=448_1209 listitem "println "Hello, World!"" level="2"
+                                    uid=448_1210 ignored
+                                      uid=448_1211 code
+                                        uid=448_1212 StaticText "println"
+                                          uid=446_30 InlineTextBox "println"
+                                        uid=448_1213 StaticText " "
+                                          uid=446_30 InlineTextBox " "
+                                        uid=448_1214 ignored
+                                          uid=448_1215 StaticText "msg"
+                                            uid=446_30 InlineTextBox "msg"
+                                          uid=448_1216 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1217 StaticText ""Hello, World!""
+                                          uid=446_30 InlineTextBox ""Hello, World!""
+                                          uid=446_30 InlineTextBox ""Hello, Wo"
+                                          uid=446_30 InlineTextBox "…"
+                                  uid=448_1218 listitem "rand(1, 10)" level="2"
+                                    uid=448_1219 ignored
+                                      uid=448_1220 code
+                                        uid=448_1221 StaticText "rand"
+                                          uid=446_30 InlineTextBox "rand"
+                                        uid=448_1222 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_1223 ignored
+                                          uid=448_1224 StaticText "from"
+                                            uid=446_30 InlineTextBox "from"
+                                          uid=448_1225 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1226 StaticText "1"
+                                          uid=446_30 InlineTextBox "1"
+                                        uid=448_1227 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_1228 ignored
+                                          uid=448_1229 StaticText "to"
+                                            uid=446_30 InlineTextBox "to"
+                                          uid=448_1230 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1231 StaticText "10"
+                                          uid=446_30 InlineTextBox "10"
+                                        uid=448_1232 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_1233 listitem "rand(1.5, 9.9)" level="2"
+                                    uid=448_1234 ignored
+                                      uid=448_1235 code
+                                        uid=448_1236 StaticText "rand"
+                                          uid=446_30 InlineTextBox "rand"
+                                        uid=448_1237 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_1238 ignored
+                                          uid=448_1239 StaticText "from"
+                                            uid=446_30 InlineTextBox "from"
+                                          uid=448_1240 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1241 StaticText "1.5"
+                                          uid=446_30 InlineTextBox "1.5"
+                                        uid=448_1242 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_1243 ignored
+                                          uid=448_1244 StaticText "to"
+                                            uid=446_30 InlineTextBox "to"
+                                          uid=448_1245 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1246 StaticText "9.9"
+                                          uid=446_30 InlineTextBox "9.9"
+                                        uid=448_1247 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                                  uid=448_1248 listitem "exit" level="2"
+                                    uid=448_1249 ignored
+                                      uid=448_1250 code
+                                        uid=448_1251 StaticText "exit"
+                                          uid=446_30 InlineTextBox "exit"
+                                  uid=448_1252 listitem "getWidget(Monitor, "w1")" level="2"
+                                    uid=448_1253 ignored
+                                      uid=448_1254 code
+                                        uid=448_1255 StaticText "getWidget"
+                                          uid=446_30 InlineTextBox "getWidget"
+                                        uid=448_1256 StaticText "("
+                                          uid=446_30 InlineTextBox "("
+                                        uid=448_1257 ignored
+                                          uid=448_1258 StaticText "type"
+                                            uid=446_30 InlineTextBox "type"
+                                          uid=448_1259 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1260 StaticText "Monitor"
+                                          uid=446_30 InlineTextBox "Monitor"
+                                          uid=446_30 InlineTextBox "…"
+                                        uid=448_1261 StaticText ", "
+                                          uid=446_30 InlineTextBox ", "
+                                        uid=448_1262 ignored
+                                          uid=448_1263 StaticText "name"
+                                            uid=446_30 InlineTextBox "name"
+                                          uid=448_1264 ignored
+                                            uid=446_30 StaticText ":"
+                                              uid=446_30 InlineTextBox ":"
+                                        uid=448_1265 StaticText ""w1""
+                                          uid=446_30 InlineTextBox ""w1""
+                                        uid=448_1266 StaticText ")"
+                                          uid=446_30 InlineTextBox ")"
+                      uid=448_1267 generic "Resize handle" description="Drag to resize the sidebar"
+                      uid=448_1268 generic "Code text editor" description="Text editor for code"
+                        uid=448_1269 code
+                          uid=448_1270 generic
+                            uid=448_1271 generic
+                              uid=448_1272 generic
+                            uid=448_1273 textbox "Editor content" autocomplete="both" multiline roledescription="editor"
+                              uid=448_1274 generic
+                            uid=448_1275 generic
+                            uid=448_1276 generic
+                          uid=448_1277 ignored
+                          uid=448_1278 ignored
+                      uid=448_1279 ignored
+                      uid=448_1280 ignored
+                      uid=448_1281 ignored
+                      uid=448_1282 generic
+                        uid=448_1283 ignored
+                          uid=448_1284 generic "Code document tab" description="Click to open code of file:///NiuXiaoQi.spx"
+                            uid=448_1285 generic
+                        uid=448_1286 ignored
+                          uid=448_1287 button "Zoom in" description="Zoom in the code editor"
+                            uid=448_1288 image
+                          uid=448_1289 button "Zoom out" description="Zoom out the code editor"
+                            uid=448_1290 image
+                          uid=448_1291 button "Reset zoom" description="Reset code editor zoom to default"
+                            uid=448_1292 image
+                  uid=448_1293 ignored
+                    uid=448_1294 generic "Editor preview" description="Preview panel for stage preview and project running"
+                      uid=448_1295 ignored
+                        uid=448_1296 ignored
+                          uid=448_1297 generic
+                            uid=448_1298 StaticText "预览"
+                              uid=446_30 InlineTextBox "预览"
+                          uid=448_1299 button "Run button" description="Click to run the project in debug mode"
+                            uid=448_1300 ignored
+                              uid=448_1301 ignored
+                                uid=448_1302 image
+                              uid=448_1303 StaticText "运行"
+                                uid=446_30 InlineTextBox "运行"
+                          uid=448_1304 button "Publish button" description="Click to publish the project"
+                            uid=448_1305 ignored
+                              uid=448_1306 image url="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='14'%20height='14'%20viewBox='0%200%2014%2014'%20fill='none'%3e%3cpath%20d='M10.5821%201.05929C11.2532%200.891893%2011.9475%201.084%2012.4356%201.57198C12.8937%202.03027%2013.0911%202.67005%2012.9766%203.3005L12.9493%203.42647L11.043%2011.0515V11.0525L11.0372%2011.0759C10.7662%2012.1573%209.87431%2012.9092%208.78328%2012.9987L8.77449%2012.9997L8.57136%2013.0075H8.54499C7.34796%2012.9988%206.35367%2012.2058%206.07917%2011.0407L5.48445%208.52022L2.96686%207.9294C1.8019%207.65487%201.00888%206.66047%201.00007%205.46358C0.991729%204.2666%201.77161%203.26178%202.93269%202.9714L10.5821%201.05929ZM11.0118%202.51046L10.9346%202.52511L3.29694%204.43429C2.71202%204.58079%202.50529%205.06311%202.50788%205.45284C2.51079%205.84262%202.72404%206.32221%203.31159%206.46065L5.87507%207.06319L8.22078%204.72042C8.51527%204.4262%208.99264%204.42618%209.28718%204.72042C9.58134%205.01494%209.58142%205.49233%209.28718%205.78683L6.94343%208.13058L7.54695%2010.696C7.68544%2011.2827%208.16432%2011.4956%208.55378%2011.4987L8.55574%2011.4997C8.96535%2011.5032%209.42548%2011.2984%209.57332%2010.7097L11.4854%203.06026C11.5235%202.90659%2011.4798%202.75071%2011.3682%202.63937L11.3624%202.63351C11.2771%202.55107%2011.1681%202.50852%2011.0567%202.50851C11.0428%202.50853%2011.0277%202.50878%2011.0118%202.51046ZM7.42878%2010.9665C7.43179%2010.9737%207.43446%2010.9809%207.43757%2010.988C7.4344%2010.981%207.43185%2010.9737%207.42878%2010.9665ZM2.8155%207.68038C2.8798%207.70126%202.94568%207.71926%203.01276%207.73507V7.73409C2.94577%207.7183%202.87978%207.701%202.8155%207.68038ZM9.14558%205.64522V5.6462C9.17256%205.61921%209.19662%205.58995%209.21687%205.55929V5.55831C9.19658%205.58908%209.17265%205.61814%209.14558%205.64522ZM3.24909%204.23995C3.20536%204.25089%203.16335%204.26403%203.12311%204.27804L3.24909%204.24093L10.8985%202.32784L3.24909%204.23995ZM12.755%203.37765L12.793%203.1794C12.7937%203.17456%2012.7934%203.1696%2012.794%203.16476C12.7852%203.23575%2012.7726%203.30689%2012.755%203.37765Z'%20fill='%230BC0CF'/%3e%3c/svg%3e"
+                              uid=448_1307 StaticText "发布"
+                                uid=446_30 InlineTextBox "发布"
+                        uid=448_1308 separator orientation="horizontal"
+                          uid=448_1309 ignored
+                      uid=448_1310 ignored
+                        uid=448_1311 generic
+                          uid=448_1312 generic "Stage viewer" description="View and manipulate the stage and objects (sprites, widgets, etc.) on the stage. Click on object to select it."
+                            uid=448_1313 generic focusable focused
+                              uid=448_1314 Canvas
+                              uid=448_1315 Canvas
+                              uid=448_1316 Canvas
+                            uid=448_1317 generic
+                              uid=448_1318 ignored
+                                uid=448_1319 generic "Sprite Quick Config Panel" description="Quick config for sprite position, rotation, size and layer order"
+                                  uid=448_1320 ignored
+                                    uid=448_1321 generic
+                                      uid=448_1322 ignored
+                                        uid=448_1323 image
+                                    uid=448_1324 generic
+                                      uid=448_1325 ignored
+                                        uid=448_1326 image
+                                    uid=448_1327 generic
+                                      uid=448_1328 ignored
+                                        uid=448_1329 image
+                                    uid=448_1330 generic
+                                      uid=448_1331 ignored
+                                        uid=448_1332 image
+                            uid=448_1333 generic
+                              uid=448_1334 StaticText "0, 0"
+                                uid=446_30 InlineTextBox "0, 0"
+                    uid=448_1335 ignored
+                      uid=448_1336 generic "Sprites panel" description="Panel containing sprites for the project"
+                        uid=448_1337 ignored
+                          uid=448_1338 region "Sprites panel" description="Panel for managing project sprites"
+                            uid=448_1339 ignored
+                              uid=448_1340 ignored
+                                uid=448_1341 StaticText "精灵"
+                                  uid=446_30 InlineTextBox "精灵"
+                              uid=448_1342 generic "Add" description="Button to add a new item for current panel, click to view more options"
+                                uid=448_1343 ignored
+                                  uid=448_1344 image
+                            uid=448_1345 ignored
+                              uid=448_1346 generic "Sprite item "NiuXiaoQi"" description="Click to select the sprite and view more options"
+                                uid=448_1347 generic
+                                uid=448_1348 ignored
+                                  uid=448_1349 ignored
+                                    uid=448_1350 StaticText "NiuXiaoQi"
+                                      uid=446_30 InlineTextBox "NiuXiaoQi"
+                                uid=448_1351 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                                  uid=448_1352 ignored
+                                    uid=448_1353 image
+                      uid=448_1354 generic "Stage panel" description="Panel for stage of the project, with quick entries to widgets, sounds and backdrops tabs"
+                        uid=448_1355 generic
+                          uid=448_1356 heading "舞台" level="4"
+                            uid=448_1357 StaticText "舞台"
+                              uid=446_30 InlineTextBox "舞台"
+                          uid=448_1358 main
+                            uid=448_1359 ignored
+                              uid=448_1360 generic "Stage overview" description="Overview of the stage, click to view stage details"
+                                uid=448_1361 generic
+                            uid=448_1362 separator orientation="horizontal"
+                              uid=448_1363 ignored
+                            uid=448_1364 generic
+                              uid=448_1365 ignored
+                                uid=448_1366 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+                                  uid=448_1367 ignored
+                                    uid=448_1368 image
+                                  uid=448_1369 ignored
+                                    uid=448_1370 StaticText "背景"
+                                      uid=446_30 InlineTextBox "背景"
+                                uid=448_1371 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+                                  uid=448_1372 ignored
+                                    uid=448_1373 image
+                                  uid=448_1374 ignored
+                                    uid=448_1375 StaticText "声音"
+                                      uid=446_30 InlineTextBox "声音"
+                                uid=448_1376 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+                                  uid=448_1377 ignored
+                                    uid=448_1378 image
+                                  uid=448_1379 ignored
+                                    uid=448_1380 StaticText "控件"
+                                      uid=446_30 InlineTextBox "控件"
+              uid=448_1381 generic
+              uid=448_1382 generic
+                uid=448_1383 generic
+                  uid=448_1384 generic
+                    uid=448_1385 ignored
+                      uid=448_1386 image
+                  uid=448_1387 generic
+                    uid=448_1388 generic
+                      uid=448_1389 image
+                    uid=448_1390 ignored
+                      uid=448_1391 generic
+                        uid=446_287 StaticText "你好，小伙伴"
+                          uid=446_30 InlineTextBox "你好，小伙伴"
+                      uid=448_1392 generic
+                        uid=446_288 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=446_30 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=448_1393 ignored
+                        uid=446_289 button "XBuilder 可以做什么？"
+                          uid=448_1394 StaticText "XBuilder 可以做什么？"
+                            uid=446_30 InlineTextBox "XBuilder 可以做什么？"
+                        uid=446_290 button "如何创建一个新项目？"
+                          uid=448_1395 StaticText "如何创建一个新项目？"
+                            uid=446_30 InlineTextBox "如何创建一个新项目？"
+                        uid=446_291 button "介绍下这个页面有哪些功能。"
+                          uid=448_1396 StaticText "介绍下这个页面有哪些功能。"
+                            uid=446_30 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=448_1397 ignored
+                    uid=448_1398 generic
+                      uid=448_1399 ignored
+                        uid=448_1400 generic
+                          uid=446_292 textbox "在这里输入你的问题" multiline
+                            uid=448_1401 ignored
+                            uid=448_1402 generic
+                        uid=446_293 button
+                          uid=448_1403 image
+                uid=448_1404 ignored
+                  uid=448_1405 ignored
+                    uid=448_1406 generic
+                      uid=448_1407 image
+          uid=448_1408 ignored
+          uid=448_1409 generic
+            uid=448_1410 generic
+      uid=448_1411 generic
+        uid=446_294 alert atomic live="assertive" relevant="additions text"
+        uid=446_295 alert atomic live="assertive" relevant="additions text"
+        uid=446_296 generic atomic live="polite" relevant="additions text"
+        uid=446_297 generic atomic live="polite" relevant="additions text"

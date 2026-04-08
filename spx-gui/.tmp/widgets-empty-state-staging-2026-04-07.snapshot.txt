@@ -1,0 +1,37 @@
+uid=415_0 RootWebArea "编辑 issue-reg - XBuilder" url="https://goplus-builder.qiniu.io/editor/nighca/issue-reg/stage/widgets"
+  uid=415_1 navigation "Navbar" description="Top navigation bar"
+    uid=415_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+    uid=415_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+    uid=415_4 button disableable disabled
+    uid=415_5 button disableable disabled
+    uid=415_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+  uid=415_7 main
+    uid=415_8 StaticText "代码"
+    uid=415_9 StaticText "背景"
+    uid=415_10 StaticText "声音"
+    uid=415_11 StaticText "控件"
+    uid=415_12 StaticText "没有控件"
+    uid=415_13 button "Add monitor button" description="Click to add a monitor widget"
+    uid=415_14 StaticText "预览"
+    uid=415_15 button "Run button" description="Click to run the project in debug mode"
+    uid=415_16 button "Publish button" description="Click to publish the project"
+    uid=415_17 StaticText "0, 0"
+    uid=415_18 region "Sprites panel" description="Panel for managing project sprites"
+      uid=415_19 StaticText "精灵"
+      uid=415_20 StaticText "点击 + 号添加精灵"
+    uid=415_21 heading "舞台" level="4"
+    uid=415_22 main
+      uid=415_23 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+      uid=415_24 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+      uid=415_25 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+  uid=415_26 StaticText "你好，小伙伴"
+  uid=415_27 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=415_28 button "XBuilder 可以做什么？"
+  uid=415_29 button "如何创建一个新项目？"
+  uid=415_30 button "介绍下这个页面有哪些功能。"
+  uid=415_31 textbox "在这里输入你的问题" multiline
+  uid=415_32 button
+  uid=415_33 alert atomic live="assertive" relevant="additions text"
+  uid=415_34 alert atomic live="assertive" relevant="additions text"
+  uid=415_35 generic atomic live="polite" relevant="additions text"
+  uid=415_36 generic atomic live="polite" relevant="additions text"

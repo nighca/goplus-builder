@@ -1,0 +1,368 @@
+uid=231_0 RootWebArea "编辑 HelloWo - XBuilder" url="http://localhost:5173/editor/nighca/hello-world/sprites/NiuXiaoQi/animations/default"
+  uid=247_0 ignored
+    uid=247_1 generic
+      uid=247_2 generic
+        uid=247_3 ignored
+          uid=247_4 ignored
+            uid=247_5 ignored
+              uid=247_6 generic
+                uid=247_7 sectionheader
+                  uid=231_1 navigation "Navbar" description="Top navigation bar"
+                    uid=247_8 ignored
+                      uid=247_9 ignored
+                        uid=231_2 link "Logo link" description="Logo image as link to the homepage" url="http://localhost:5173/"
+                          uid=247_10 image url="http://localhost:5173/src/components/navbar/logo.svg"
+                        uid=247_11 generic "Project menu" description="Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import Scratch project file, import assets from Scratch, etc.)"
+                          uid=247_12 ignored
+                            uid=247_13 image
+                          uid=247_14 ignored
+                            uid=247_15 image
+                        uid=231_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="http://localhost:5173/tutorials"
+                          uid=247_16 ignored
+                            uid=247_17 image
+                        uid=247_18 ignored
+                          uid=231_4 button disableable disabled
+                            uid=247_19 ignored
+                              uid=247_20 image
+                          uid=231_5 button disableable disabled
+                            uid=247_21 ignored
+                              uid=247_22 image
+                      uid=247_23 ignored
+                        uid=247_24 ignored
+                          uid=231_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+                            uid=247_25 generic
+                              uid=247_26 StaticText "HelloWo"
+                                uid=247_27 InlineTextBox "HelloWo"
+                          uid=247_28 ignored
+                            uid=247_29 generic
+                              uid=247_30 image
+                      uid=247_31 ignored
+                        uid=247_32 generic "Editor mode menu" description="Hover to see editor mode options (default, map)"
+                          uid=247_33 generic "Default mode" description="Editor for defining the behavior and resources of independent entities (Sprites, Sounds, Stage). It features code editing, internal resource (Costumes, Animations, Backdrops, Widgets) management, and game running/debugging"
+                            uid=247_34 ignored
+                              uid=247_35 image
+                          uid=247_36 generic "Map edit mode" description="Map-centric editor for the game's spatial arrangement. It features sprite placement on the stage and global configuration (map size, physics, layer sorting, etc.)"
+                            uid=247_37 ignored
+                              uid=247_38 image
+                        uid=247_39 generic
+                          uid=247_40 image url="blob:http://localhost:5173/c2d4d660-a26b-46cb-8198-2d238503cbdf"
+                uid=231_7 main
+                  uid=247_41 generic "Editor for sprite" description="Main editor panel for editing sprite"
+                    uid=247_42 ignored
+                      uid=247_43 list "Sprite editor tabs" description="Navigation tabs for switching between different sprite editing views"
+                        uid=247_44 listitem "Code tab" description="Click to switch to code editing view" level="1"
+                          uid=231_8 StaticText "代码"
+                            uid=247_27 InlineTextBox "代码"
+                        uid=247_45 listitem "Costumes tab" description="Click to switch to costumes management view" level="1"
+                          uid=231_9 StaticText "造型"
+                            uid=247_27 InlineTextBox "造型"
+                        uid=247_46 listitem "Animations tab" description="Click to switch to animations management view" level="1"
+                          uid=231_10 StaticText "动画"
+                            uid=247_27 InlineTextBox "动画"
+                      uid=247_47 ignored
+                    uid=247_48 ignored
+                    uid=247_49 generic "Animations management" description="Managing animations of current sprite"
+                      uid=247_50 ignored
+                        uid=247_51 generic "List of animation" description="Drag to reorder"
+                          uid=247_52 generic "Animation item "default"" description="Click to select the animation and view more options"
+                            uid=247_53 generic
+                            uid=247_54 ignored
+                              uid=247_55 ignored
+                                uid=231_11 StaticText "default"
+                                  uid=247_27 InlineTextBox "default"
+                            uid=247_56 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                              uid=247_57 ignored
+                                uid=247_58 image
+                          uid=247_59 generic "Animation item "walk"" description="Click to select the animation and view more options"
+                            uid=247_60 generic
+                            uid=247_61 ignored
+                              uid=247_62 ignored
+                                uid=231_12 StaticText "walk"
+                                  uid=247_27 InlineTextBox "walk"
+                          uid=247_63 generic "Animation item "die"" description="Click to select the animation and view more options"
+                            uid=247_64 generic
+                            uid=247_65 ignored
+                              uid=247_66 ignored
+                                uid=231_13 StaticText "die"
+                                  uid=247_27 InlineTextBox "die"
+                        uid=231_14 button "Add animation" description="Button for adding new animation to the list"
+                          uid=247_67 ignored
+                            uid=247_68 image
+                      uid=231_15 main "Detail for "default"" description="Detail view of the selected item "default""
+                        uid=231_16 heading "default Rename button" level="4"
+                          uid=247_69 ignored
+                            uid=247_70 StaticText "default"
+                              uid=247_27 InlineTextBox "default"
+                          uid=247_71 generic "Rename button" description="Click to rename the selected item"
+                            uid=247_72 image
+                        uid=247_73 generic "Animation player" description="Provides preview for animation"
+                          uid=247_74 generic
+                          uid=247_75 generic
+                            uid=247_76 Canvas
+                        uid=247_77 generic
+                          uid=247_78 list
+                            uid=247_79 listitem "Edit duration" description="Click to edit animation duraion" level="1"
+                              uid=247_80 ignored
+                                uid=247_81 image
+                              uid=231_17 StaticText "时长"
+                                uid=247_27 InlineTextBox "时长"
+                              uid=247_82 ignored
+                                uid=231_18 StaticText "1.00s"
+                                  uid=247_27 InlineTextBox "1.00s"
+                            uid=247_83 listitem "Edit bound state" description="Click to edit animation bound state" level="1"
+                              uid=247_84 ignored
+                                uid=247_85 image
+                              uid=231_19 StaticText "绑定"
+                                uid=247_27 InlineTextBox "绑定"
+                              uid=247_86 ignored
+                                uid=231_20 StaticText "1"
+                                  uid=247_27 InlineTextBox "1"
+                            uid=247_87 listitem "Edit sound" description="Click to edit animation sound" level="1"
+                              uid=247_88 ignored
+                                uid=247_89 image
+                              uid=231_21 StaticText "声音"
+                                uid=247_27 InlineTextBox "声音"
+                              uid=247_90 ignored
+                  uid=247_91 ignored
+                    uid=247_92 generic "Editor preview" description="Preview panel for stage preview and project running"
+                      uid=247_93 ignored
+                        uid=247_94 ignored
+                          uid=247_95 generic
+                            uid=231_22 StaticText "预览"
+                              uid=247_27 InlineTextBox "预览"
+                          uid=231_23 button "Run button" description="Click to run the project in debug mode"
+                            uid=247_96 ignored
+                              uid=247_97 ignored
+                                uid=247_98 image
+                              uid=247_99 StaticText "运行"
+                                uid=247_27 InlineTextBox "运行"
+                          uid=231_24 button "Publish button" description="Click to publish the project"
+                            uid=247_100 ignored
+                              uid=247_101 image url="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='14'%20height='14'%20viewBox='0%200%2014%2014'%20fill='none'%3e%3cpath%20d='M10.5821%201.05929C11.2532%200.891893%2011.9475%201.084%2012.4356%201.57198C12.8937%202.03027%2013.0911%202.67005%2012.9766%203.3005L12.9493%203.42647L11.043%2011.0515V11.0525L11.0372%2011.0759C10.7662%2012.1573%209.87431%2012.9092%208.78328%2012.9987L8.77449%2012.9997L8.57136%2013.0075H8.54499C7.34796%2012.9988%206.35367%2012.2058%206.07917%2011.0407L5.48445%208.52022L2.96686%207.9294C1.8019%207.65487%201.00888%206.66047%201.00007%205.46358C0.991729%204.2666%201.77161%203.26178%202.93269%202.9714L10.5821%201.05929ZM11.0118%202.51046L10.9346%202.52511L3.29694%204.43429C2.71202%204.58079%202.50529%205.06311%202.50788%205.45284C2.51079%205.84262%202.72404%206.32221%203.31159%206.46065L5.87507%207.06319L8.22078%204.72042C8.51527%204.4262%208.99264%204.42618%209.28718%204.72042C9.58134%205.01494%209.58142%205.49233%209.28718%205.78683L6.94343%208.13058L7.54695%2010.696C7.68544%2011.2827%208.16432%2011.4956%208.55378%2011.4987L8.55574%2011.4997C8.96535%2011.5032%209.42548%2011.2984%209.57332%2010.7097L11.4854%203.06026C11.5235%202.90659%2011.4798%202.75071%2011.3682%202.63937L11.3624%202.63351C11.2771%202.55107%2011.1681%202.50852%2011.0567%202.50851C11.0428%202.50853%2011.0277%202.50878%2011.0118%202.51046ZM7.42878%2010.9665C7.43179%2010.9737%207.43446%2010.9809%207.43757%2010.988C7.4344%2010.981%207.43185%2010.9737%207.42878%2010.9665ZM2.8155%207.68038C2.8798%207.70126%202.94568%207.71926%203.01276%207.73507V7.73409C2.94577%207.7183%202.87978%207.701%202.8155%207.68038ZM9.14558%205.64522V5.6462C9.17256%205.61921%209.19662%205.58995%209.21687%205.55929V5.55831C9.19658%205.58908%209.17265%205.61814%209.14558%205.64522ZM3.24909%204.23995C3.20536%204.25089%203.16335%204.26403%203.12311%204.27804L3.24909%204.24093L10.8985%202.32784L3.24909%204.23995ZM12.755%203.37765L12.793%203.1794C12.7937%203.17456%2012.7934%203.1696%2012.794%203.16476C12.7852%203.23575%2012.7726%203.30689%2012.755%203.37765Z'%20fill='%230BC0CF'/%3e%3c/svg%3e"
+                              uid=247_102 StaticText "发布"
+                                uid=247_27 InlineTextBox "发布"
+                        uid=247_103 separator orientation="horizontal"
+                          uid=247_104 ignored
+                      uid=247_105 ignored
+                        uid=247_106 generic
+                          uid=247_107 generic "Stage viewer" description="View and manipulate the stage and objects (sprites, widgets, etc.) on the stage. Click on object to select it."
+                            uid=231_25 generic
+                              uid=247_108 Canvas
+                              uid=247_109 Canvas
+                              uid=247_110 Canvas
+                            uid=247_111 generic
+                              uid=247_112 ignored
+                                uid=247_113 generic "Sprite Quick Config Panel" description="Quick config for sprite position, rotation, size and layer order"
+                                  uid=247_114 ignored
+                                    uid=247_115 generic
+                                      uid=247_116 ignored
+                                        uid=247_117 image
+                                    uid=247_118 generic
+                                      uid=247_119 ignored
+                                        uid=247_120 image
+                                    uid=247_121 generic
+                                      uid=247_122 ignored
+                                        uid=247_123 image
+                                    uid=247_124 generic
+                                      uid=247_125 ignored
+                                        uid=247_126 image
+                            uid=247_127 generic
+                              uid=231_26 StaticText "0, 0"
+                                uid=247_27 InlineTextBox "0, 0"
+                    uid=247_128 ignored
+                      uid=247_129 generic "Sprites panel" description="Panel containing sprites for the project"
+                        uid=247_130 ignored
+                          uid=231_27 region "Sprites panel" description="Panel for managing project sprites"
+                            uid=247_131 ignored
+                              uid=247_132 ignored
+                                uid=231_28 StaticText "精灵"
+                                  uid=247_27 InlineTextBox "精灵"
+                              uid=247_133 generic "Add" description="Button to add a new item for current panel, click to view more options"
+                                uid=247_134 ignored
+                                  uid=247_135 image
+                            uid=247_136 generic
+                              uid=247_137 generic "Sprite item "NiuXiaoQi"" description="Click to select the sprite and view more options"
+                                uid=247_138 generic
+                                uid=247_139 ignored
+                                  uid=247_140 ignored
+                                    uid=231_29 StaticText "NiuXiaoQi"
+                                      uid=247_27 InlineTextBox "NiuXiaoQi"
+                                uid=247_141 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                                  uid=247_142 ignored
+                                    uid=247_143 image
+                              uid=247_144 generic "Sprite item "白云"" description="Click to select the sprite and view more options"
+                                uid=247_145 generic
+                                uid=247_146 ignored
+                                  uid=247_147 ignored
+                                    uid=231_30 StaticText "白云"
+                                      uid=247_27 InlineTextBox "白云"
+                              uid=247_148 generic "Sprite item "龙卷风"" description="Click to select the sprite and view more options"
+                                uid=247_149 generic
+                                uid=247_150 ignored
+                                  uid=247_151 ignored
+                                    uid=231_31 StaticText "龙卷风"
+                                      uid=247_27 InlineTextBox "龙卷风"
+                              uid=247_152 generic "Sprite item "雪花"" description="Click to select the sprite and view more options"
+                                uid=247_153 generic
+                                uid=247_154 ignored
+                                  uid=247_155 ignored
+                                    uid=231_32 StaticText "雪花"
+                                      uid=247_27 InlineTextBox "雪花"
+                              uid=247_156 generic "Sprite item "古代将军"" description="Click to select the sprite and view more options"
+                                uid=247_157 generic
+                                uid=247_158 ignored
+                                  uid=247_159 ignored
+                                    uid=231_33 StaticText "古代将军"
+                                      uid=247_27 InlineTextBox "古代将军"
+                              uid=247_160 generic "Sprite item "卡通汽车"" description="Click to select the sprite and view more options"
+                                uid=247_161 generic
+                                uid=247_162 ignored
+                                  uid=247_163 ignored
+                                    uid=231_34 StaticText "卡通汽车"
+                                      uid=247_27 InlineTextBox "卡通汽车"
+                              uid=247_164 generic "Sprite generation item '女孩正面'" description="Click to view generation phase details for sprite '女孩正面'"
+                                uid=247_165 ignored
+                                  uid=247_166 generic
+                                    uid=247_167 image
+                                uid=247_168 ignored
+                                  uid=247_169 ignored
+                                    uid=231_35 StaticText "女孩正面"
+                                      uid=247_27 InlineTextBox "女孩正面"
+                              uid=247_170 generic "Sprite generation item '男孩222'" description="Click to view generation phase details for sprite '男孩222'"
+                                uid=247_171 ignored
+                                  uid=247_172 generic
+                                    uid=247_173 image
+                                uid=247_174 ignored
+                                  uid=247_175 ignored
+                                    uid=231_36 StaticText "男孩222"
+                                      uid=247_27 InlineTextBox "男孩222"
+                      uid=247_176 generic "Stage panel" description="Panel for stage of the project, with quick entries to widgets, sounds and backdrops tabs"
+                        uid=247_177 generic
+                          uid=231_37 heading "舞台" level="4"
+                            uid=247_178 StaticText "舞台"
+                              uid=247_27 InlineTextBox "舞台"
+                          uid=231_38 main
+                            uid=247_179 ignored
+                              uid=247_180 generic "Stage overview" description="Overview of the stage, click to view stage details"
+                                uid=247_181 generic
+                            uid=247_182 separator orientation="horizontal"
+                              uid=247_183 ignored
+                            uid=247_184 generic
+                              uid=247_185 ignored
+                                uid=231_39 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+                                  uid=247_186 ignored
+                                    uid=247_187 image
+                                  uid=247_188 ignored
+                                    uid=247_189 StaticText "背景"
+                                      uid=247_27 InlineTextBox "背景"
+                                uid=231_40 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+                                  uid=247_190 ignored
+                                    uid=247_191 image
+                                  uid=247_192 ignored
+                                    uid=247_193 StaticText "声音"
+                                      uid=247_27 InlineTextBox "声音"
+                                uid=231_41 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+                                  uid=247_194 ignored
+                                    uid=247_195 image
+                                  uid=247_196 ignored
+                                    uid=247_197 StaticText "控件"
+                                      uid=247_27 InlineTextBox "控件"
+              uid=247_198 generic
+              uid=247_199 generic
+                uid=247_200 generic
+                  uid=247_201 generic
+                    uid=247_202 ignored
+                      uid=247_203 image
+                  uid=247_204 generic
+                    uid=247_205 generic
+                      uid=247_206 image
+                    uid=247_207 ignored
+                      uid=247_208 generic
+                        uid=231_42 StaticText "你好，小伙伴"
+                          uid=247_27 InlineTextBox "你好，小伙伴"
+                      uid=247_209 generic
+                        uid=231_43 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=247_27 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=247_210 ignored
+                        uid=231_44 button "XBuilder 可以做什么？"
+                          uid=247_211 StaticText "XBuilder 可以做什么？"
+                            uid=247_27 InlineTextBox "XBuilder 可以做什么？"
+                        uid=231_45 button "如何创建一个新项目？"
+                          uid=247_212 StaticText "如何创建一个新项目？"
+                            uid=247_27 InlineTextBox "如何创建一个新项目？"
+                        uid=231_46 button "介绍下这个页面有哪些功能。"
+                          uid=247_213 StaticText "介绍下这个页面有哪些功能。"
+                            uid=247_27 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=247_214 ignored
+                    uid=247_215 generic
+                      uid=247_216 ignored
+                        uid=247_217 generic
+                          uid=231_47 textbox "在这里输入你的问题" multiline
+                            uid=247_218 ignored
+                            uid=247_219 generic
+                        uid=231_48 button
+                          uid=247_220 image
+                uid=247_221 ignored
+                  uid=247_222 ignored
+                    uid=247_223 generic
+                      uid=247_224 image
+          uid=247_225 generic
+            uid=247_226 generic "Group costumes modal" description="Modal for grouping costumes as animation"
+              uid=247_227 ignored
+                uid=247_228 ignored
+                  uid=247_229 generic
+                    uid=245_0 StaticText "将造型合并为动画"
+                      uid=247_27 InlineTextBox "将造型合并为动画"
+                  uid=247_230 generic "Close button" description="Click to close the modal"
+                    uid=247_231 ignored
+                      uid=247_232 image
+                uid=247_233 separator orientation="horizontal"
+                  uid=247_234 ignored
+                uid=247_235 ignored
+                  uid=247_236 ignored
+                    uid=247_237 list
+                      uid=247_238 generic
+                        uid=247_239 generic
+                        uid=247_240 ignored
+                          uid=247_241 ignored
+                            uid=245_2 StaticText "default"
+                              uid=247_27 InlineTextBox "default"
+                      uid=247_242 generic
+                        uid=247_243 generic
+                        uid=247_244 ignored
+                          uid=247_245 ignored
+                            uid=245_4 StaticText "bridge2"
+                              uid=247_27 InlineTextBox "bridge2"
+                    uid=247_246 ignored
+                    uid=247_247 ignored
+                      uid=247_248 ignored
+                        uid=247_249 image
+                        uid=245_5 StaticText "请选择造型"
+                          uid=247_27 InlineTextBox "请选择造型"
+                        uid=247_250 image
+                  uid=247_251 ignored
+                    uid=247_252 ignored
+                    uid=245_6 checkbox "从角色的造型列表删除所选造型" checked
+                      uid=247_253 generic
+                        uid=247_254 StaticText " "
+                          uid=247_27 InlineTextBox " "
+                        uid=247_255 generic
+                          uid=247_256 generic
+                            uid=247_257 image
+                          uid=247_258 generic
+                      uid=247_259 generic
+                        uid=247_260 StaticText "从角色的造型列表删除所选造型"
+                          uid=247_27 InlineTextBox "从角色的造型列表删除所选造型"
+                    uid=245_7 button "Add animation button" description="Click to create animation from selected costumes" disableable disabled
+                      uid=247_261 ignored
+                        uid=247_262 StaticText "添加动画"
+                          uid=247_27 InlineTextBox "添加动画"
+          uid=247_263 generic
+            uid=247_264 generic
+          uid=247_265 generic
+            uid=247_266 generic
+      uid=247_267 generic
+        uid=231_49 alert atomic live="assertive" relevant="additions text"
+        uid=231_50 alert atomic live="assertive" relevant="additions text"
+        uid=231_51 generic atomic live="polite" relevant="additions text"
+        uid=231_52 generic atomic live="polite" relevant="additions text"

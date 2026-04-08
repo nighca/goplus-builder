@@ -1,0 +1,39 @@
+uid=481_0 RootWebArea "test-publish - Hanxing Yang - XBuilder" url="http://localhost:5173/project/nighca/test-publish"
+  uid=481_1 navigation "Navbar" description="Top navigation bar"
+    uid=481_2 link "Logo link" description="Logo image as link to the homepage" url="http://localhost:5173/"
+    uid=481_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="http://localhost:5173/tutorials"
+    uid=481_4 textbox "搜索项目"
+    uid=481_5 StaticText "搜索项目"
+  uid=481_6 Iframe
+    uid=481_7 RootWebArea "runtime-3372111281" url="http://localhost:5173/spx_2.0.0-pre.48/runner.html"
+      uid=481_8 Canvas
+  uid=481_9 button "Run button" description="Click to run the project"
+  uid=481_10 button "Share button" description="Click to share the project"
+  uid=481_11 heading "test-publish" level="2"
+  uid=481_12 link "User link" description="Click to view user profile" url="http://localhost:5173/user/nighca"
+    uid=481_13 StaticText "Hanxing Yang"
+  uid=481_14 StaticText "0"
+  uid=481_15 StaticText "0"
+  uid=481_16 StaticText "0"
+  uid=481_17 button "Edit button" description="Click to edit the project"
+  uid=481_18 button "Publish button" description="Click to publish the project"
+  uid=481_19 button "More options button" description="Click to see more project options"
+  uid=481_20 heading "描述" level="5"
+  uid=481_21 main
+    uid=481_22 StaticText "暂无描述"
+  uid=481_23 heading "操作说明" level="5"
+  uid=481_24 main
+    uid=481_25 StaticText "暂无操作说明"
+  uid=481_26 heading "发布历史" level="5"
+  uid=481_27 main
+    uid=481_28 StaticText "暂无发布历史"
+  uid=481_29 region "Popular remixes section" description="Section showing popular remixes of this project"
+    uid=481_30 heading "热门改编" level="2"
+    uid=481_31 StaticText "没有项目"
+  uid=481_32 StaticText "你好，小伙伴"
+  uid=481_33 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=481_34 button "XBuilder 可以做什么？"
+  uid=481_35 button "如何创建一个新项目？"
+  uid=481_36 button "介绍下这个页面有哪些功能。"
+  uid=481_37 textbox "在这里输入你的问题" multiline
+  uid=481_38 button

@@ -1,0 +1,385 @@
+uid=385_0 RootWebArea "编辑 小牛快跑 - XBuilder" url="http://localhost:5173/editor/nighca/niu-run/map/sprites/%E7%89%9B%E5%B0%8F%E4%B8%83/code"
+  uid=398_0 ignored
+    uid=398_1 generic
+      uid=398_2 generic
+        uid=398_3 ignored
+          uid=398_4 ignored
+            uid=398_5 ignored
+              uid=398_6 generic
+                uid=398_7 sectionheader
+                  uid=385_1 navigation "Navbar" description="Top navigation bar"
+                    uid=398_8 ignored
+                      uid=398_9 ignored
+                        uid=385_2 link "Logo link" description="Logo image as link to the homepage" url="http://localhost:5173/"
+                          uid=398_10 image url="http://localhost:5173/src/components/navbar/logo.svg"
+                        uid=398_11 generic "Project menu" description="Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import Scratch project file, import assets from Scratch, etc.)"
+                          uid=398_12 ignored
+                            uid=398_13 image
+                          uid=398_14 ignored
+                            uid=398_15 image
+                        uid=385_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="http://localhost:5173/tutorials"
+                          uid=398_16 ignored
+                            uid=398_17 image
+                        uid=398_18 ignored
+                          uid=385_4 button
+                            uid=398_19 ignored
+                              uid=398_20 image
+                          uid=385_5 button disableable disabled
+                            uid=398_21 ignored
+                              uid=398_22 image
+                      uid=398_23 ignored
+                        uid=398_24 ignored
+                          uid=385_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+                            uid=398_25 generic
+                              uid=398_26 StaticText "小牛快跑"
+                                uid=398_27 InlineTextBox "小牛快跑"
+                          uid=398_28 ignored
+                            uid=398_29 generic
+                              uid=398_30 image
+                      uid=398_31 ignored
+                        uid=398_32 generic "Editor mode menu" description="Hover to see editor mode options (default, map)"
+                          uid=398_33 generic "Default mode" description="Editor for defining the behavior and resources of independent entities (Sprites, Sounds, Stage). It features code editing, internal resource (Costumes, Animations, Backdrops, Widgets) management, and game running/debugging"
+                            uid=398_34 ignored
+                              uid=398_35 image
+                          uid=398_36 generic "Map edit mode" description="Map-centric editor for the game's spatial arrangement. It features sprite placement on the stage and global configuration (map size, physics, layer sorting, etc.)"
+                            uid=398_37 ignored
+                              uid=398_38 image
+                        uid=398_39 generic
+                          uid=398_40 image url="blob:http://localhost:5173/0e52bbd9-943a-41d4-a2fb-7faadb519aef"
+                uid=385_7 main
+                  uid=398_41 ignored
+                  uid=398_42 ignored
+                    uid=398_43 ignored
+                      uid=398_44 generic "Map viewer" description="View and manipulate the map and sprites on the map. Click on sprite to select it."
+                        uid=385_8 generic
+                          uid=398_45 Canvas
+                          uid=398_46 Canvas
+                        uid=398_47 generic
+                          uid=398_48 ignored
+                            uid=398_49 generic "Sprite Quick Config Panel" description="Quick config for sprite position, rotation, size and layer order"
+                              uid=398_50 ignored
+                                uid=398_51 generic
+                                  uid=398_52 ignored
+                                    uid=398_53 image
+                                uid=398_54 generic
+                                  uid=398_55 ignored
+                                    uid=398_56 image
+                                uid=398_57 generic
+                                  uid=398_58 ignored
+                                    uid=398_59 image
+                                uid=398_60 generic
+                                  uid=398_61 ignored
+                                    uid=398_62 image
+                        uid=398_63 generic
+                          uid=385_9 StaticText "0, 0"
+                            uid=398_27 InlineTextBox "0, 0"
+                    uid=398_64 ignored
+                      uid=398_65 ignored
+                        uid=398_66 ignored
+                          uid=398_67 ignored
+                            uid=398_68 ignored
+                              uid=385_10 StaticText "全局配置"
+                                uid=398_27 InlineTextBox "全局配置"
+                              uid=398_69 generic
+                                uid=398_70 image
+                          uid=398_71 separator orientation="horizontal"
+                            uid=398_72 ignored
+                        uid=398_73 ignored
+                          uid=398_74 ignored
+                            uid=398_75 generic
+                              uid=385_11 StaticText "地图尺寸"
+                                uid=398_27 InlineTextBox "地图尺寸"
+                            uid=398_76 ignored
+                              uid=398_77 generic "width input" description="Input to set map width"
+                                uid=398_78 generic
+                                  uid=398_79 generic
+                                    uid=398_80 ignored
+                                      uid=385_12 StaticText "宽"
+                                        uid=398_27 InlineTextBox "宽"
+                                    uid=398_81 generic
+                                      uid=385_13 textbox value="480"
+                                        uid=398_82 ignored
+                                        uid=398_83 generic
+                                          uid=398_84 StaticText "480"
+                                            uid=398_27 InlineTextBox "480"
+                                  uid=398_85 generic
+                                  uid=398_86 generic
+                              uid=398_87 generic "height input" description="Input to set map height"
+                                uid=398_88 generic
+                                  uid=398_89 generic
+                                    uid=398_90 ignored
+                                      uid=385_14 StaticText "高"
+                                        uid=398_27 InlineTextBox "高"
+                                    uid=398_91 generic
+                                      uid=385_15 textbox value="360"
+                                        uid=398_92 ignored
+                                        uid=398_93 generic
+                                          uid=398_94 StaticText "360"
+                                            uid=398_27 InlineTextBox "360"
+                                  uid=398_95 generic
+                                  uid=398_96 generic
+                          uid=398_97 ignored
+                            uid=398_98 generic
+                              uid=385_16 StaticText "物理特性"
+                                uid=398_27 InlineTextBox "物理特性"
+                            uid=385_17 switch "physics input" checked description="Input to set map physics"
+                          uid=398_99 ignored
+                            uid=398_100 generic
+                              uid=386_0 StaticText "层级排序"
+                                uid=398_27 InlineTextBox "层级排序"
+                            uid=398_101 generic
+                              uid=398_102 LabelText
+                                uid=386_1 radio "  默认" checked
+                                uid=398_103 generic
+                                  uid=386_2 StaticText " "
+                                    uid=398_27 InlineTextBox " "
+                                  uid=398_104 generic
+                                uid=398_105 generic
+                                  uid=386_3 StaticText "默认"
+                                    uid=398_27 InlineTextBox "默认"
+                              uid=398_106 LabelText
+                                uid=386_4 radio "  垂直"
+                                uid=398_107 generic
+                                  uid=386_5 StaticText " "
+                                    uid=398_27 InlineTextBox " "
+                                  uid=398_108 generic
+                                uid=398_109 generic
+                                  uid=386_6 StaticText "垂直"
+                                    uid=398_27 InlineTextBox "垂直"
+                      uid=398_110 generic "Map Editor's Sprite List" description="List of all sprites in the Map Editor"
+                        uid=398_111 ignored
+                          uid=398_112 ignored
+                            uid=385_18 StaticText "精灵"
+                              uid=398_27 InlineTextBox "精灵"
+                          uid=398_113 generic "Add" description="Button to add a new item for current panel, click to view more options"
+                            uid=398_114 ignored
+                              uid=398_115 image
+                        uid=398_116 ignored
+                          uid=398_117 generic "Sprite item "牛小七"" description="Click to select the sprite and view more options"
+                            uid=398_118 generic
+                            uid=398_119 ignored
+                              uid=398_120 ignored
+                                uid=385_19 StaticText "牛小七"
+                                  uid=398_27 InlineTextBox "牛小七"
+                            uid=398_121 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                              uid=398_122 ignored
+                                uid=398_123 image
+                          uid=398_124 generic "Sprite item "牛小花"" description="Click to select the sprite and view more options"
+                            uid=398_125 generic
+                            uid=398_126 ignored
+                              uid=398_127 ignored
+                                uid=385_20 StaticText "牛小花"
+                                  uid=398_27 InlineTextBox "牛小花"
+                          uid=398_128 generic "Sprite item "花朵"" description="Click to select the sprite and view more options"
+                            uid=398_129 generic
+                            uid=398_130 ignored
+                              uid=398_131 ignored
+                                uid=385_21 StaticText "花朵"
+                                  uid=398_27 InlineTextBox "花朵"
+                              uid=398_132 generic description="不可见"
+                                uid=398_133 image
+                        uid=398_134 generic "Basic configuration for selected sprite" description="Panel for configuring sprite basic settings"
+                          uid=398_135 ignored
+                            uid=398_136 ignored
+                              uid=385_22 StaticText "牛小七"
+                                uid=398_27 InlineTextBox "牛小七"
+                            uid=398_137 generic "Rename button" description="Button to rename the sprite"
+                              uid=398_138 image
+                            uid=398_139 ignored
+                            uid=398_140 generic "Collapse button" description="Button to collapse the sprite basic configuration panel"
+                              uid=398_141 image
+                          uid=398_142 ignored
+                            uid=398_143 ignored
+                              uid=398_144 generic "X position input" description="Input to set sprite X position"
+                                uid=398_145 generic
+                                  uid=398_146 generic
+                                    uid=398_147 ignored
+                                      uid=385_23 StaticText "X"
+                                        uid=398_27 InlineTextBox "X"
+                                    uid=398_148 generic
+                                      uid=385_24 textbox value="111"
+                                        uid=398_149 ignored
+                                        uid=398_150 generic
+                                          uid=398_151 StaticText "111"
+                                            uid=398_27 InlineTextBox "111"
+                                  uid=398_152 generic
+                                  uid=398_153 generic
+                              uid=398_154 generic "Y position input" description="Input to set sprite Y position"
+                                uid=398_155 generic
+                                  uid=398_156 generic
+                                    uid=398_157 ignored
+                                      uid=385_25 StaticText "Y"
+                                        uid=398_27 InlineTextBox "Y"
+                                    uid=398_158 generic
+                                      uid=385_26 textbox value="17"
+                                        uid=398_159 ignored
+                                        uid=398_160 generic
+                                          uid=398_161 StaticText "17"
+                                            uid=398_27 InlineTextBox "17"
+                                  uid=398_162 generic
+                                  uid=398_163 generic
+                              uid=398_164 generic "Size input" description="Input to set sprite size percentage"
+                                uid=398_165 generic
+                                  uid=398_166 generic
+                                    uid=398_167 ignored
+                                      uid=385_27 StaticText "大小"
+                                        uid=398_27 InlineTextBox "大小"
+                                    uid=398_168 generic
+                                      uid=385_28 textbox value="40"
+                                        uid=398_169 ignored
+                                        uid=398_170 generic
+                                          uid=398_171 StaticText "40"
+                                            uid=398_27 InlineTextBox "40"
+                                    uid=398_172 ignored
+                                      uid=385_29 StaticText "%"
+                                        uid=398_27 InlineTextBox "%"
+                                  uid=398_173 generic
+                                  uid=398_174 generic
+                            uid=398_175 ignored
+                              uid=398_176 generic
+                                uid=385_30 StaticText "旋转"
+                                  uid=398_27 InlineTextBox "旋转"
+                              uid=398_177 ignored
+                                uid=398_178 generic "Rotation style control" description="Control to set sprite rotation style"
+                                  uid=398_179 generic
+                                    uid=398_180 ignored
+                                      uid=398_181 image
+                                  uid=398_182 generic
+                                    uid=398_183 ignored
+                                      uid=398_184 image
+                                  uid=398_185 generic
+                                    uid=398_186 ignored
+                                      uid=398_187 image
+                                uid=398_188 generic "Direction control" description="Control to set sprite left or right direction"
+                                  uid=398_189 generic
+                                    uid=385_31 StaticText "左"
+                                      uid=398_27 InlineTextBox "左"
+                                  uid=398_190 generic
+                                    uid=385_32 StaticText "右"
+                                      uid=398_27 InlineTextBox "右"
+                            uid=398_191 ignored
+                              uid=398_192 generic
+                                uid=385_33 StaticText "显示"
+                                  uid=398_27 InlineTextBox "显示"
+                              uid=398_193 generic "Visibility control" description="Control to toggle sprite visibility"
+                                uid=398_194 generic
+                                  uid=398_195 ignored
+                                    uid=398_196 image
+                                uid=398_197 generic
+                                  uid=398_198 ignored
+                                    uid=398_199 image
+                            uid=398_200 ignored
+                              uid=398_201 generic
+                                uid=386_7 StaticText "物理特性"
+                                  uid=398_27 InlineTextBox "物理特性"
+                              uid=398_202 group
+                                uid=386_8 checkbox "碰撞" checked description="Check to set sprite physics collision"
+                                  uid=398_203 generic
+                                    uid=398_204 StaticText " "
+                                      uid=398_27 InlineTextBox " "
+                                    uid=398_205 generic
+                                      uid=398_206 generic
+                                        uid=398_207 image
+                                      uid=398_208 generic
+                                  uid=398_209 generic
+                                    uid=398_210 generic
+                                      uid=398_211 StaticText "碰撞"
+                                        uid=398_27 InlineTextBox "碰撞"
+                                uid=386_9 checkbox "重力" description="Check to set sprite physics gravity"
+                                  uid=398_212 generic
+                                    uid=398_213 StaticText " "
+                                      uid=398_27 InlineTextBox " "
+                                    uid=398_214 generic
+                                      uid=398_215 generic
+                                        uid=398_216 image
+                                      uid=398_217 generic
+                                  uid=398_218 generic
+                                    uid=398_219 generic
+                                      uid=398_220 StaticText "重力"
+                                        uid=398_27 InlineTextBox "重力"
+                                uid=386_10 checkbox "固定位置" description="Check to set sprite physics immovable"
+                                  uid=398_221 generic
+                                    uid=398_222 StaticText " "
+                                      uid=398_27 InlineTextBox " "
+                                    uid=398_223 generic
+                                      uid=398_224 generic
+                                        uid=398_225 image
+                                      uid=398_226 generic
+                                  uid=398_227 generic
+                                    uid=398_228 generic
+                                      uid=398_229 StaticText "固定位置"
+                                        uid=398_27 InlineTextBox "固定位置"
+                            uid=398_230 ignored
+                              uid=398_231 generic
+                                uid=387_0 StaticText "碰撞设置"
+                                  uid=398_27 InlineTextBox "碰撞设置"
+                              uid=387_1 button focusable focused
+                                uid=398_232 ignored
+                                  uid=398_233 ignored
+                                    uid=398_234 image
+              uid=398_235 generic
+              uid=398_236 generic
+                uid=398_237 generic
+                  uid=398_238 generic
+                    uid=398_239 ignored
+                      uid=398_240 image
+                  uid=398_241 generic
+                    uid=398_242 generic
+                      uid=398_243 image
+                    uid=398_244 ignored
+                      uid=398_245 generic
+                        uid=385_34 StaticText "你好，小伙伴"
+                          uid=398_27 InlineTextBox "你好，小伙伴"
+                      uid=398_246 generic
+                        uid=385_35 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=398_27 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=398_247 ignored
+                        uid=385_36 button "XBuilder 可以做什么？"
+                          uid=398_248 StaticText "XBuilder 可以做什么？"
+                            uid=398_27 InlineTextBox "XBuilder 可以做什么？"
+                        uid=385_37 button "如何创建一个新项目？"
+                          uid=398_249 StaticText "如何创建一个新项目？"
+                            uid=398_27 InlineTextBox "如何创建一个新项目？"
+                        uid=385_38 button "介绍下这个页面有哪些功能。"
+                          uid=398_250 StaticText "介绍下这个页面有哪些功能。"
+                            uid=398_27 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=398_251 ignored
+                    uid=398_252 generic
+                      uid=398_253 ignored
+                        uid=398_254 generic
+                          uid=385_39 textbox "在这里输入你的问题" multiline
+                            uid=398_255 ignored
+                            uid=398_256 generic
+                        uid=385_40 button
+                          uid=398_257 image
+                uid=398_258 ignored
+                  uid=398_259 ignored
+                    uid=398_260 generic
+                      uid=398_261 image
+          uid=398_262 generic
+            uid=398_263 generic "Sprite Collision Modal" description="Sprite collision editor modal, which includes collision, pivot editing, etc."
+              uid=398_264 ignored
+                uid=398_265 ignored
+                  uid=398_266 generic
+                    uid=391_0 StaticText "精灵碰撞编辑器"
+                      uid=398_27 InlineTextBox "精灵碰撞编辑器"
+                  uid=398_267 generic "Close button" description="Click to close the modal"
+                    uid=398_268 ignored
+                      uid=398_269 image
+                uid=398_270 separator orientation="horizontal"
+                  uid=398_271 ignored
+                uid=398_272 ignored
+                  uid=398_273 ignored
+                    uid=398_274 generic
+                      uid=398_275 generic
+                      uid=398_276 ignored
+                        uid=398_277 Canvas
+                    uid=391_1 button "Save button" description="Click to save sprite collision" disableable disabled
+                      uid=398_278 ignored
+                        uid=398_279 StaticText "保存"
+                          uid=398_27 InlineTextBox "保存"
+      uid=398_280 generic
+        uid=385_41 alert atomic live="assertive" relevant="additions text"
+        uid=385_42 alert atomic live="assertive" relevant="additions text"
+        uid=385_43 generic atomic live="polite" relevant="additions text"
+        uid=385_44 generic atomic live="polite" relevant="additions text"

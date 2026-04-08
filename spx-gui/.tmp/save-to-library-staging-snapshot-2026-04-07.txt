@@ -1,0 +1,30 @@
+uid=365_0 RootWebArea "编辑 issue-reg - XBuilder" url="https://goplus-builder.qiniu.io/editor/nighca/issue-reg/sprites"
+  uid=365_1 navigation "Navbar" description="Top navigation bar"
+    uid=365_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+    uid=365_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+    uid=365_4 button disableable disabled
+    uid=365_5 button disableable disabled
+    uid=365_6 button "Project display name trigger" description="Click to start inline editing for project display name"
+  uid=365_7 main
+    uid=365_8 StaticText "添加一个精灵"
+    uid=365_9 button "Add sprite from local file" description="Click to add sprite from local file"
+    uid=365_10 button "Add sprite from asset library" description="Click to add sprite from asset library"
+    uid=365_11 StaticText "预览"
+    uid=365_12 button "Run button" description="Click to run the project in debug mode"
+    uid=365_13 button "Publish button" description="Click to publish the project"
+    uid=374_0 StaticText "29, -147"
+    uid=365_15 region "Sprites panel" description="Panel for managing project sprites"
+      uid=365_16 StaticText "精灵"
+      uid=365_17 StaticText "点击 + 号添加精灵"
+    uid=365_18 heading "舞台" level="4"
+    uid=365_19 main
+      uid=365_20 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+      uid=365_21 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+      uid=365_22 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+  uid=365_23 StaticText "你好，小伙伴"
+  uid=365_24 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=365_25 button "XBuilder 可以做什么？"
+  uid=365_26 button "如何创建一个新项目？"
+  uid=365_27 button "介绍下这个页面有哪些功能。"
+  uid=365_28 textbox "在这里输入你的问题" multiline
+  uid=365_29 button

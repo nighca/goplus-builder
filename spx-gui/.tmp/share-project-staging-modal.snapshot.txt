@@ -1,0 +1,43 @@
+uid=482_0 RootWebArea "test-publish - Hanxing Yang - XBuilder" url="https://goplus-builder.qiniu.io/project/nighca/test-publish"
+  uid=482_1 navigation "Navbar" description="Top navigation bar"
+    uid=482_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+    uid=482_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+    uid=482_4 textbox "搜索项目"
+    uid=482_5 StaticText "搜索项目"
+  uid=482_6 Iframe
+    uid=482_7 RootWebArea "runtime-3372111281" url="https://goplus-builder.qiniu.io/spx_2.0.0-pre.48/runner.html"
+      uid=482_8 Canvas
+  uid=482_9 button "Run button" description="Click to run the project"
+  uid=482_10 button "Share button" description="Click to share the project" focusable focused
+  uid=482_11 heading "test-publish" level="2"
+  uid=482_12 link "User link" description="Click to view user profile" url="https://goplus-builder.qiniu.io/user/nighca"
+    uid=482_13 StaticText "Hanxing Yang"
+  uid=482_14 StaticText "1"
+  uid=482_15 StaticText "0"
+  uid=482_16 StaticText "0"
+  uid=482_17 button "Edit button" description="Click to edit the project"
+  uid=482_18 button "Publish button" description="Click to publish the project"
+  uid=482_19 button "More options button" description="Click to see more project options"
+  uid=482_20 heading "描述" level="5"
+  uid=482_21 main
+    uid=482_22 StaticText "暂无描述"
+  uid=482_23 heading "操作说明" level="5"
+  uid=482_24 main
+    uid=482_25 StaticText "暂无操作说明"
+  uid=482_26 heading "发布历史" level="5"
+  uid=482_27 main
+    uid=482_28 StaticText "暂无发布历史"
+  uid=482_29 region "Popular remixes section" description="Section showing popular remixes of this project"
+    uid=482_30 heading "热门改编" level="2"
+    uid=482_31 StaticText "没有项目"
+  uid=482_32 StaticText "你好，小伙伴"
+  uid=482_33 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=482_34 button "XBuilder 可以做什么？"
+  uid=482_35 button "如何创建一个新项目？"
+  uid=482_36 button "介绍下这个页面有哪些功能。"
+  uid=482_37 textbox "在这里输入你的问题" multiline
+  uid=482_38 button
+  uid=485_0 StaticText "项目分享链接"
+  uid=485_1 StaticText "项目的分享链接已生成。请复制下方链接，与他人分享该项目。"
+  uid=485_2 textbox readonly value="https://goplus-builder.qiniu.io/project/nighca/test-publish"
+  uid=485_3 button "Copy button" description="Click to copy sharing link to clipboard"

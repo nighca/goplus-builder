@@ -1,0 +1,15 @@
+uid=28_0 RootWebArea "XBuilder" url="https://goplus-builder.qiniu.io/not-found-regression-check"
+  uid=28_1 navigation "Navbar" description="Top navigation bar"
+    uid=28_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+    uid=28_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+    uid=28_4 textbox "搜索项目"
+    uid=28_5 StaticText "搜索项目"
+  uid=28_6 StaticText "页面未找到"
+  uid=28_7 button "404 go home button" description="Button to go back to home page"
+  uid=28_8 StaticText "你好，小伙伴"
+  uid=28_9 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=28_10 button "XBuilder 可以做什么？"
+  uid=28_11 button "如何创建一个新项目？"
+  uid=28_12 button "介绍下这个页面有哪些功能。"
+  uid=28_13 textbox "在这里输入你的问题" multiline
+  uid=28_14 button

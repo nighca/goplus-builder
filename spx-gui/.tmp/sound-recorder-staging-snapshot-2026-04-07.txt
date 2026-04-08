@@ -1,0 +1,262 @@
+uid=407_0 RootWebArea "编辑 小牛快跑 - XBuilder" url="https://goplus-builder.qiniu.io/editor/nighca/niu-run/stage/sounds/%E8%8D%89%E5%9C%B0%E8%A1%8C%E8%B5%B0"
+  uid=407_1 ignored
+    uid=407_2 generic
+      uid=407_3 generic
+        uid=407_4 ignored
+          uid=407_5 ignored
+            uid=407_6 ignored
+              uid=407_7 generic
+                uid=407_8 sectionheader
+                  uid=407_9 navigation "Navbar" description="Top navigation bar"
+                    uid=407_10 ignored
+                      uid=407_11 ignored
+                        uid=407_12 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+                          uid=407_13 image url="https://goplus-builder.qiniu.io/assets/logo-HMW0HD2U.svg"
+                        uid=407_14 generic "Project menu" description="Hover to see project options (create/open/publish/unpublish/remove project, import/export project file, import Scratch project file, import assets from Scratch, etc.)"
+                          uid=407_15 ignored
+                            uid=407_16 image
+                          uid=407_17 ignored
+                            uid=407_18 image
+                        uid=407_19 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+                          uid=407_20 ignored
+                            uid=407_21 image
+                        uid=407_22 ignored
+                          uid=407_23 button disableable disabled
+                            uid=407_24 ignored
+                              uid=407_25 image
+                          uid=407_26 button disableable disabled
+                            uid=407_27 ignored
+                              uid=407_28 image
+                      uid=407_29 ignored
+                        uid=407_30 ignored
+                          uid=407_31 button "Project display name trigger" description="Click to start inline editing for project display name"
+                            uid=407_32 generic
+                              uid=407_33 StaticText "小牛快跑"
+                                uid=407_34 InlineTextBox "小牛快跑"
+                          uid=407_35 ignored
+                            uid=407_36 generic
+                              uid=407_37 image
+                      uid=407_38 ignored
+                        uid=407_39 generic "Editor mode menu" description="Hover to see editor mode options (default, map)"
+                          uid=407_40 generic "Default mode" description="Editor for defining the behavior and resources of independent entities (Sprites, Sounds, Stage). It features code editing, internal resource (Costumes, Animations, Backdrops, Widgets) management, and game running/debugging"
+                            uid=407_41 ignored
+                              uid=407_42 image
+                          uid=407_43 generic "Map edit mode" description="Map-centric editor for the game's spatial arrangement. It features sprite placement on the stage and global configuration (map size, physics, layer sorting, etc.)"
+                            uid=407_44 ignored
+                              uid=407_45 image
+                        uid=407_46 generic
+                          uid=407_47 image url="blob:https://goplus-builder.qiniu.io/9cc2b0bf-01b5-4cf5-b4da-b30320fb0fd1"
+                uid=407_48 main
+                  uid=407_49 generic "Editor for stage" description="Main editor panel for editing stage"
+                    uid=407_50 ignored
+                      uid=407_51 list "Stage editor tabs" description="Navigation tabs for switching between different stage editing views"
+                        uid=407_52 listitem "Code tab" description="Click to switch to code editing view" level="1"
+                          uid=407_53 StaticText "代码"
+                            uid=407_34 InlineTextBox "代码"
+                        uid=407_54 listitem "Backdrops tab" description="Click to switch to backdrops management view" level="1"
+                          uid=407_55 StaticText "背景"
+                            uid=407_34 InlineTextBox "背景"
+                        uid=407_56 listitem "Sounds tab" description="Click to switch to sounds management view" level="1"
+                          uid=407_57 StaticText "声音"
+                            uid=407_34 InlineTextBox "声音"
+                        uid=407_58 listitem "Widgets tab" description="Click to switch to widgets management view" level="1"
+                          uid=407_59 StaticText "控件"
+                            uid=407_34 InlineTextBox "控件"
+                      uid=407_60 ignored
+                    uid=407_61 ignored
+                    uid=407_62 generic "Sounds management" description="Managing sounds"
+                      uid=407_63 ignored
+                        uid=407_64 generic "List of sound" description="Drag to reorder"
+                          uid=407_65 generic "Sound item "草地行走"" description="Click to select the sound and view more options"
+                            uid=407_66 ignored
+                              uid=407_67 generic
+                                uid=407_68 generic
+                                  uid=407_69 ignored
+                                    uid=407_70 image
+                            uid=407_71 ignored
+                              uid=407_72 ignored
+                                uid=407_73 StaticText "草地行走"
+                                  uid=407_34 InlineTextBox "草地行走"
+                            uid=407_74 generic "Options button" description="Click to view more options (save to asset library, remove, etc.)"
+                              uid=407_75 ignored
+                                uid=407_76 image
+                        uid=407_77 button "Add sound" description="Button for adding new sound to the list"
+                          uid=407_78 ignored
+                            uid=407_79 image
+                      uid=407_80 ignored
+                        uid=407_81 ignored
+                          uid=407_82 ignored
+                            uid=407_83 ignored
+                              uid=407_84 StaticText "草地行走"
+                                uid=407_34 InlineTextBox "草地行走"
+                            uid=407_85 generic "Rename sound" description="Click to rename the sound"
+                              uid=407_86 image
+                          uid=407_87 generic
+                            uid=407_88 StaticText "12.8s"
+                              uid=407_34 InlineTextBox "12.8s"
+                        uid=407_89 generic
+                          uid=407_90 generic
+                            uid=407_91 generic
+                            uid=407_92 generic
+                            uid=407_93 generic
+                              uid=407_94 generic
+                              uid=407_95 generic
+                            uid=407_96 generic
+                            uid=407_97 generic
+                          uid=407_98 generic
+                        uid=407_99 ignored
+                          uid=407_100 ignored
+                            uid=407_101 generic
+                              uid=407_102 generic
+                                uid=407_103 ignored
+                                  uid=407_104 image
+                          uid=407_105 ignored
+                            uid=407_106 ignored
+                              uid=407_107 image
+                            uid=407_108 generic
+                              uid=407_109 generic
+                                uid=407_110 generic
+                                uid=407_111 generic
+                                  uid=407_112 generic
+                                    uid=407_113 ignored
+                            uid=407_114 ignored
+                              uid=407_115 image
+                          uid=407_116 ignored
+                  uid=407_117 ignored
+                    uid=407_118 generic "Editor preview" description="Preview panel for stage preview and project running"
+                      uid=407_119 ignored
+                        uid=407_120 ignored
+                          uid=407_121 generic
+                            uid=407_122 StaticText "预览"
+                              uid=407_34 InlineTextBox "预览"
+                          uid=407_123 button "Run button" description="Click to run the project in debug mode"
+                            uid=407_124 ignored
+                              uid=407_125 ignored
+                                uid=407_126 image
+                              uid=407_127 StaticText "运行"
+                                uid=407_34 InlineTextBox "运行"
+                          uid=407_128 button "Publish button" description="Click to publish the project"
+                            uid=407_129 ignored
+                              uid=407_130 image url="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='14'%20height='14'%20viewBox='0%200%2014%2014'%20fill='none'%3e%3cpath%20d='M10.5821%201.05929C11.2532%200.891893%2011.9475%201.084%2012.4356%201.57198C12.8937%202.03027%2013.0911%202.67005%2012.9766%203.3005L12.9493%203.42647L11.043%2011.0515V11.0525L11.0372%2011.0759C10.7662%2012.1573%209.87431%2012.9092%208.78328%2012.9987L8.77449%2012.9997L8.57136%2013.0075H8.54499C7.34796%2012.9988%206.35367%2012.2058%206.07917%2011.0407L5.48445%208.52022L2.96686%207.9294C1.8019%207.65487%201.00888%206.66047%201.00007%205.46358C0.991729%204.2666%201.77161%203.26178%202.93269%202.9714L10.5821%201.05929ZM11.0118%202.51046L10.9346%202.52511L3.29694%204.43429C2.71202%204.58079%202.50529%205.06311%202.50788%205.45284C2.51079%205.84262%202.72404%206.32221%203.31159%206.46065L5.87507%207.06319L8.22078%204.72042C8.51527%204.4262%208.99264%204.42618%209.28718%204.72042C9.58134%205.01494%209.58142%205.49233%209.28718%205.78683L6.94343%208.13058L7.54695%2010.696C7.68544%2011.2827%208.16432%2011.4956%208.55378%2011.4987L8.55574%2011.4997C8.96535%2011.5032%209.42548%2011.2984%209.57332%2010.7097L11.4854%203.06026C11.5235%202.90659%2011.4798%202.75071%2011.3682%202.63937L11.3624%202.63351C11.2771%202.55107%2011.1681%202.50852%2011.0567%202.50851C11.0428%202.50853%2011.0277%202.50878%2011.0118%202.51046ZM7.42878%2010.9665C7.43179%2010.9737%207.43446%2010.9809%207.43757%2010.988C7.4344%2010.981%207.43185%2010.9737%207.42878%2010.9665ZM2.8155%207.68038C2.8798%207.70126%202.94568%207.71926%203.01276%207.73507V7.73409C2.94577%207.7183%202.87978%207.701%202.8155%207.68038ZM9.14558%205.64522V5.6462C9.17256%205.61921%209.19662%205.58995%209.21687%205.55929V5.55831C9.19658%205.58908%209.17265%205.61814%209.14558%205.64522ZM3.24909%204.23995C3.20536%204.25089%203.16335%204.26403%203.12311%204.27804L3.24909%204.24093L10.8985%202.32784L3.24909%204.23995ZM12.755%203.37765L12.793%203.1794C12.7937%203.17456%2012.7934%203.1696%2012.794%203.16476C12.7852%203.23575%2012.7726%203.30689%2012.755%203.37765Z'%20fill='%230BC0CF'/%3e%3c/svg%3e"
+                              uid=407_131 StaticText "发布"
+                                uid=407_34 InlineTextBox "发布"
+                        uid=407_132 separator orientation="horizontal"
+                          uid=407_133 ignored
+                      uid=407_134 ignored
+                        uid=407_135 generic
+                          uid=407_136 generic "Stage viewer" description="View and manipulate the stage and objects (sprites, widgets, etc.) on the stage. Click on object to select it."
+                            uid=407_137 ignored
+                              uid=407_138 Canvas
+                              uid=407_139 Canvas
+                              uid=407_140 Canvas
+                            uid=407_141 generic
+                              uid=407_142 StaticText "0, 0"
+                                uid=407_34 InlineTextBox "0, 0"
+                    uid=407_143 ignored
+                      uid=407_144 generic "Sprites panel" description="Panel containing sprites for the project"
+                        uid=407_145 ignored
+                          uid=407_146 region "Sprites panel" description="Panel for managing project sprites"
+                            uid=407_147 ignored
+                              uid=407_148 ignored
+                                uid=407_149 StaticText "精灵"
+                                  uid=407_34 InlineTextBox "精灵"
+                              uid=407_150 generic "Add" description="Button to add a new item for current panel, click to view more options"
+                                uid=407_151 ignored
+                                  uid=407_152 image
+                            uid=407_153 ignored
+                              uid=407_154 generic "Sprite item "牛小七"" description="Click to select the sprite and view more options"
+                                uid=407_155 generic
+                                uid=407_156 ignored
+                                  uid=407_157 ignored
+                                    uid=407_158 StaticText "牛小七"
+                                      uid=407_34 InlineTextBox "牛小七"
+                              uid=407_159 generic "Sprite item "牛小花"" description="Click to select the sprite and view more options"
+                                uid=407_160 generic
+                                uid=407_161 ignored
+                                  uid=407_162 ignored
+                                    uid=407_163 StaticText "牛小花"
+                                      uid=407_34 InlineTextBox "牛小花"
+                              uid=407_164 generic "Sprite item "花朵"" description="Click to select the sprite and view more options"
+                                uid=407_165 generic
+                                uid=407_166 ignored
+                                  uid=407_167 ignored
+                                    uid=407_168 StaticText "花朵"
+                                      uid=407_34 InlineTextBox "花朵"
+                                  uid=407_169 generic description="不可见"
+                                    uid=407_170 image
+                      uid=407_171 generic "Stage panel" description="Panel for stage of the project, with quick entries to widgets, sounds and backdrops tabs"
+                        uid=407_172 generic
+                          uid=407_173 heading "舞台" level="4"
+                            uid=407_174 StaticText "舞台"
+                              uid=407_34 InlineTextBox "舞台"
+                          uid=407_175 main
+                            uid=407_176 ignored
+                              uid=407_177 generic "Stage overview" description="Overview of the stage, click to view stage details"
+                                uid=407_178 generic
+                            uid=407_179 separator orientation="horizontal"
+                              uid=407_180 ignored
+                            uid=407_181 generic
+                              uid=407_182 ignored
+                                uid=407_183 button "Backdrops quick entry" description="Quick entry to open backdrops management tab in stage editor"
+                                  uid=407_184 ignored
+                                    uid=407_185 image
+                                  uid=407_186 ignored
+                                    uid=407_187 StaticText "背景"
+                                      uid=407_34 InlineTextBox "背景"
+                                uid=407_188 button "Sounds quick entry" description="Quick entry to open sounds management tab in stage editor"
+                                  uid=407_189 ignored
+                                    uid=407_190 image
+                                  uid=407_191 ignored
+                                    uid=407_192 StaticText "声音"
+                                      uid=407_34 InlineTextBox "声音"
+                                uid=407_193 button "Widgets quick entry" description="Quick entry to open widgets management tab in stage editor"
+                                  uid=407_194 ignored
+                                    uid=407_195 image
+                                  uid=407_196 ignored
+                                    uid=407_197 StaticText "控件"
+                                      uid=407_34 InlineTextBox "控件"
+              uid=407_198 generic
+              uid=407_199 generic
+                uid=407_200 generic
+                  uid=407_201 generic
+                    uid=407_202 ignored
+                      uid=407_203 image
+                  uid=407_204 generic
+                    uid=407_205 generic
+                      uid=407_206 image
+                    uid=407_207 ignored
+                      uid=407_208 generic
+                        uid=407_209 StaticText "你好，小伙伴"
+                          uid=407_34 InlineTextBox "你好，小伙伴"
+                      uid=407_210 generic
+                        uid=407_211 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=407_34 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=407_212 ignored
+                        uid=407_213 button "XBuilder 可以做什么？"
+                          uid=407_214 StaticText "XBuilder 可以做什么？"
+                            uid=407_34 InlineTextBox "XBuilder 可以做什么？"
+                        uid=407_215 button "如何创建一个新项目？"
+                          uid=407_216 StaticText "如何创建一个新项目？"
+                            uid=407_34 InlineTextBox "如何创建一个新项目？"
+                        uid=407_217 button "介绍下这个页面有哪些功能。"
+                          uid=407_218 StaticText "介绍下这个页面有哪些功能。"
+                            uid=407_34 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=407_219 ignored
+                    uid=407_220 generic
+                      uid=407_221 ignored
+                        uid=407_222 generic
+                          uid=407_223 textbox "在这里输入你的问题" multiline
+                            uid=407_224 ignored
+                            uid=407_225 generic
+                        uid=407_226 button
+                          uid=407_227 image
+                uid=407_228 ignored
+                  uid=407_229 ignored
+                    uid=407_230 generic
+                      uid=407_231 image
+          uid=407_232 ignored
+      uid=407_233 generic
+        uid=407_234 alert atomic live="assertive" relevant="additions text"
+        uid=407_235 alert atomic live="assertive" relevant="additions text"
+        uid=407_236 generic atomic live="polite" relevant="additions text"
+        uid=407_237 generic atomic live="polite" relevant="additions text"

@@ -1,0 +1,110 @@
+uid=321_0 RootWebArea "XBuilder" url="https://goplus-builder.qiniu.io/project/nighca/hello-world"
+  uid=321_1 ignored
+    uid=321_2 generic
+      uid=321_3 generic
+        uid=321_4 ignored
+          uid=321_5 ignored
+            uid=321_6 ignored
+              uid=321_7 generic
+                uid=321_8 navigation "Navbar" description="Top navigation bar"
+                  uid=321_9 ignored
+                    uid=321_10 ignored
+                      uid=321_11 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+                        uid=321_12 image url="https://goplus-builder.qiniu.io/assets/logo-HMW0HD2U.svg"
+                      uid=321_13 generic "Project menu" description="Hover to see project options (create/open project)"
+                        uid=321_14 ignored
+                          uid=321_15 image
+                        uid=321_16 ignored
+                          uid=321_17 image
+                      uid=321_18 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+                        uid=321_19 ignored
+                          uid=321_20 image
+                    uid=321_21 ignored
+                    uid=321_22 ignored
+                      uid=321_23 ignored
+                        uid=321_24 generic "Search input" description="Input and press enter to search projects"
+                          uid=321_25 generic
+                            uid=321_26 ignored
+                              uid=321_27 ignored
+                                uid=321_28 image
+                            uid=321_29 generic
+                              uid=321_30 textbox "搜索项目"
+                                uid=321_31 ignored
+                                uid=321_32 generic
+                              uid=321_33 generic
+                                uid=321_34 ignored
+                                  uid=321_35 StaticText "搜索项目"
+                                    uid=321_36 InlineTextBox "搜索项目"
+                          uid=321_37 generic
+                          uid=321_38 generic
+                      uid=321_39 generic
+                        uid=321_40 image url="blob:https://goplus-builder.qiniu.io/c4dad913-40a2-4356-bd62-87b8c4057230"
+                uid=321_41 generic
+                  uid=321_42 generic "Project content" description="Main content area for project details and runner"
+                    uid=321_43 generic
+                      uid=321_44 image url="https://goplus-builder.qiniu.io/assets/default-error-CkHiv3-o.svg"
+                      uid=321_45 heading "加载项目失败 (资源不存在)" level="5"
+                        uid=321_46 StaticText "加载项目失败 (资源不存在)"
+                          uid=321_36 InlineTextBox "加载项目失败 (资源不存在)"
+                      uid=321_47 ignored
+                        uid=321_48 button "重试"
+                          uid=321_49 StaticText "重试"
+                            uid=321_36 InlineTextBox "重试"
+                    uid=321_50 ignored
+                      uid=321_51 generic
+                      uid=321_52 ignored
+                        uid=321_53 button "Share button" description="Click to share the project"
+                          uid=321_54 ignored
+                            uid=321_55 ignored
+                              uid=321_56 image
+                    uid=321_57 ignored
+                  uid=321_58 region "Popular remixes section" description="Section showing popular remixes of this project"
+                    uid=321_59 sectionheader
+                      uid=321_60 heading "热门改编" level="2"
+                        uid=321_61 StaticText "热门改编"
+                          uid=321_36 InlineTextBox "热门改编"
+                    uid=321_62 generic
+                      uid=321_63 ignored
+                        uid=321_64 image url="https://goplus-builder.qiniu.io/assets/game-BFxCChLE.svg"
+                        uid=321_65 StaticText "没有项目"
+                          uid=321_36 InlineTextBox "没有项目"
+              uid=321_66 generic
+              uid=321_67 generic
+                uid=321_68 generic
+                  uid=321_69 generic
+                    uid=321_70 ignored
+                      uid=321_71 image
+                  uid=321_72 generic
+                    uid=321_73 generic
+                      uid=321_74 image
+                    uid=321_75 ignored
+                      uid=321_76 generic
+                        uid=321_77 StaticText "你好，小伙伴"
+                          uid=321_36 InlineTextBox "你好，小伙伴"
+                      uid=321_78 generic
+                        uid=321_79 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=321_36 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=321_80 ignored
+                        uid=321_81 button "XBuilder 可以做什么？"
+                          uid=321_82 StaticText "XBuilder 可以做什么？"
+                            uid=321_36 InlineTextBox "XBuilder 可以做什么？"
+                        uid=321_83 button "如何创建一个新项目？"
+                          uid=321_84 StaticText "如何创建一个新项目？"
+                            uid=321_36 InlineTextBox "如何创建一个新项目？"
+                        uid=321_85 button "介绍下这个页面有哪些功能。"
+                          uid=321_86 StaticText "介绍下这个页面有哪些功能。"
+                            uid=321_36 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=321_87 ignored
+                    uid=321_88 generic
+                      uid=321_89 ignored
+                        uid=321_90 generic
+                          uid=321_91 textbox "在这里输入你的问题" multiline
+                            uid=321_92 ignored
+                            uid=321_93 generic
+                        uid=321_94 button
+                          uid=321_95 image
+                uid=321_96 ignored
+                  uid=321_97 ignored
+                    uid=321_98 generic
+                      uid=321_99 image
+          uid=321_100 ignored

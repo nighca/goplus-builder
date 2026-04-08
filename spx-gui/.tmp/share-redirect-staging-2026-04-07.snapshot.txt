@@ -1,0 +1,39 @@
+uid=39_0 RootWebArea "HelloWo - Hanxing Yang - XBuilder" url="https://goplus-builder.qiniu.io/project/nighca/hello-world"
+  uid=39_1 navigation "Navbar" description="Top navigation bar"
+    uid=39_2 link "Logo link" description="Logo image as link to the homepage" url="https://goplus-builder.qiniu.io/"
+    uid=39_3 link "Navbar tutorials link" description="Click to open the tutorials page" url="https://goplus-builder.qiniu.io/tutorials"
+    uid=39_4 textbox "搜索项目"
+    uid=39_5 StaticText "搜索项目"
+  uid=39_6 Iframe
+    uid=39_7 RootWebArea "runtime-3372111281" url="https://goplus-builder.qiniu.io/spx_2.0.0-pre.48/runner.html"
+      uid=39_8 Canvas
+  uid=39_9 button "Run button" description="Click to run the project"
+  uid=39_10 button "Share button" description="Click to share the project"
+  uid=39_11 heading "HelloWo" level="2"
+  uid=39_12 link "User link" description="Click to view user profile" url="https://goplus-builder.qiniu.io/user/nighca"
+    uid=39_13 StaticText "Hanxing Yang"
+  uid=39_14 StaticText "11"
+  uid=39_15 StaticText "0"
+  uid=39_16 StaticText "0"
+  uid=39_17 button "Edit button" description="Click to edit the project"
+  uid=39_18 button "Publish button" description="Click to publish the project"
+  uid=39_19 button "More options button" description="Click to see more project options"
+  uid=39_20 heading "描述" level="5"
+  uid=39_21 main
+    uid=39_22 StaticText "暂无描述"
+  uid=39_23 heading "操作说明" level="5"
+  uid=39_24 main
+    uid=39_25 StaticText "暂无操作说明"
+  uid=39_26 heading "发布历史" level="5"
+  uid=39_27 main
+    uid=39_28 StaticText "暂无发布历史"
+  uid=39_29 region "Popular remixes section" description="Section showing popular remixes of this project"
+    uid=39_30 heading "热门改编" level="2"
+    uid=39_31 StaticText "没有项目"
+  uid=39_32 StaticText "你好，小伙伴"
+  uid=39_33 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=39_34 button "XBuilder 可以做什么？"
+  uid=39_35 button "如何创建一个新项目？"
+  uid=39_36 button "介绍下这个页面有哪些功能。"
+  uid=39_37 textbox "在这里输入你的问题" multiline
+  uid=39_38 button

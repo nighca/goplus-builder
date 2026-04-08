@@ -1,0 +1,43 @@
+uid=UID RootWebArea "test-publish - Hanxing Yang - XBuilder" url="URL"
+  uid=UID navigation "Navbar" description="Top navigation bar"
+    uid=UID link "Logo link" description="Logo image as link to the homepage" url="URL"
+    uid=UID link "Navbar tutorials link" description="Click to open the tutorials page" url="URL"
+    uid=UID textbox "搜索项目"
+    uid=UID StaticText "搜索项目"
+  uid=UID Iframe
+    uid=UID RootWebArea "runtime-3372111281" url="URL"
+      uid=UID Canvas
+  uid=UID button "Run button" description="Click to run the project"
+  uid=UID button "Share button" description="Click to share the project" focusable focused
+  uid=UID heading "test-publish" level="2"
+  uid=UID link "User link" description="Click to view user profile" url="URL"
+    uid=UID StaticText "Hanxing Yang"
+  uid=UID StaticText "1"
+  uid=UID StaticText "0"
+  uid=UID StaticText "0"
+  uid=UID button "Edit button" description="Click to edit the project"
+  uid=UID button "Publish button" description="Click to publish the project"
+  uid=UID button "More options button" description="Click to see more project options"
+  uid=UID heading "描述" level="5"
+  uid=UID main
+    uid=UID StaticText "暂无描述"
+  uid=UID heading "操作说明" level="5"
+  uid=UID main
+    uid=UID StaticText "暂无操作说明"
+  uid=UID heading "发布历史" level="5"
+  uid=UID main
+    uid=UID StaticText "暂无发布历史"
+  uid=UID region "Popular remixes section" description="Section showing popular remixes of this project"
+    uid=UID heading "热门改编" level="2"
+    uid=UID StaticText "没有项目"
+  uid=UID StaticText "你好，小伙伴"
+  uid=UID StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+  uid=UID button "XBuilder 可以做什么？"
+  uid=UID button "如何创建一个新项目？"
+  uid=UID button "介绍下这个页面有哪些功能。"
+  uid=UID textbox "在这里输入你的问题" multiline
+  uid=UID button
+  uid=UID StaticText "项目分享链接"
+  uid=UID StaticText "项目的分享链接已生成。请复制下方链接，与他人分享该项目。"
+  uid=UID textbox readonly value="URL"
+  uid=UID button "Copy button" description="Click to copy sharing link to clipboard"

@@ -1,0 +1,110 @@
+uid=320_0 RootWebArea "XBuilder" url="http://localhost:5173/project/nighca/hello-world"
+  uid=320_1 ignored
+    uid=320_2 generic
+      uid=320_3 generic
+        uid=320_4 ignored
+          uid=320_5 ignored
+            uid=320_6 ignored
+              uid=320_7 generic
+                uid=320_8 navigation "Navbar" description="Top navigation bar"
+                  uid=320_9 ignored
+                    uid=320_10 ignored
+                      uid=320_11 link "Logo link" description="Logo image as link to the homepage" url="http://localhost:5173/"
+                        uid=320_12 image url="http://localhost:5173/src/components/navbar/logo.svg"
+                      uid=320_13 generic "Project menu" description="Hover to see project options (create/open project)"
+                        uid=320_14 ignored
+                          uid=320_15 image
+                        uid=320_16 ignored
+                          uid=320_17 image
+                      uid=320_18 link "Navbar tutorials link" description="Click to open the tutorials page" url="http://localhost:5173/tutorials"
+                        uid=320_19 ignored
+                          uid=320_20 image
+                    uid=320_21 ignored
+                    uid=320_22 ignored
+                      uid=320_23 ignored
+                        uid=320_24 generic "Search input" description="Input and press enter to search projects"
+                          uid=320_25 generic
+                            uid=320_26 ignored
+                              uid=320_27 ignored
+                                uid=320_28 image
+                            uid=320_29 generic
+                              uid=320_30 textbox "搜索项目"
+                                uid=320_31 ignored
+                                uid=320_32 generic
+                              uid=320_33 generic
+                                uid=320_34 ignored
+                                  uid=320_35 StaticText "搜索项目"
+                                    uid=320_36 InlineTextBox "搜索项目"
+                          uid=320_37 generic
+                          uid=320_38 generic
+                      uid=320_39 generic
+                        uid=320_40 image url="blob:http://localhost:5173/b6f94ebe-31a4-4a53-b170-331109d4a961"
+                uid=320_41 generic
+                  uid=320_42 generic "Project content" description="Main content area for project details and runner"
+                    uid=320_43 generic
+                      uid=320_44 image url="http://localhost:5173/src/components/ui/error/default-error.svg"
+                      uid=320_45 heading "加载项目失败 (资源不存在)" level="5"
+                        uid=320_46 StaticText "加载项目失败 (资源不存在)"
+                          uid=320_36 InlineTextBox "加载项目失败 (资源不存在)"
+                      uid=320_47 ignored
+                        uid=320_48 button "重试"
+                          uid=320_49 StaticText "重试"
+                            uid=320_36 InlineTextBox "重试"
+                    uid=320_50 ignored
+                      uid=320_51 generic
+                      uid=320_52 ignored
+                        uid=320_53 button "Share button" description="Click to share the project"
+                          uid=320_54 ignored
+                            uid=320_55 ignored
+                              uid=320_56 image
+                    uid=320_57 ignored
+                  uid=320_58 region "Popular remixes section" description="Section showing popular remixes of this project"
+                    uid=320_59 sectionheader
+                      uid=320_60 heading "热门改编" level="2"
+                        uid=320_61 StaticText "热门改编"
+                          uid=320_36 InlineTextBox "热门改编"
+                    uid=320_62 generic
+                      uid=320_63 ignored
+                        uid=320_64 image url="http://localhost:5173/src/components/ui/empty/game.svg"
+                        uid=320_65 StaticText "没有项目"
+                          uid=320_36 InlineTextBox "没有项目"
+              uid=320_66 generic
+              uid=320_67 generic
+                uid=320_68 generic
+                  uid=320_69 generic
+                    uid=320_70 ignored
+                      uid=320_71 image
+                  uid=320_72 generic
+                    uid=320_73 generic
+                      uid=320_74 image
+                    uid=320_75 ignored
+                      uid=320_76 generic
+                        uid=320_77 StaticText "你好，小伙伴"
+                          uid=320_36 InlineTextBox "你好，小伙伴"
+                      uid=320_78 generic
+                        uid=320_79 StaticText "我可以帮助你了解并使用 XBuilder，尽管问！"
+                          uid=320_36 InlineTextBox "我可以帮助你了解并使用 XBuilder，尽管问！"
+                      uid=320_80 ignored
+                        uid=320_81 button "XBuilder 可以做什么？"
+                          uid=320_82 StaticText "XBuilder 可以做什么？"
+                            uid=320_36 InlineTextBox "XBuilder 可以做什么？"
+                        uid=320_83 button "如何创建一个新项目？"
+                          uid=320_84 StaticText "如何创建一个新项目？"
+                            uid=320_36 InlineTextBox "如何创建一个新项目？"
+                        uid=320_85 button "介绍下这个页面有哪些功能。"
+                          uid=320_86 StaticText "介绍下这个页面有哪些功能。"
+                            uid=320_36 InlineTextBox "介绍下这个页面有哪些功能。"
+                    uid=320_87 ignored
+                    uid=320_88 generic
+                      uid=320_89 ignored
+                        uid=320_90 generic
+                          uid=320_91 textbox "在这里输入你的问题" multiline
+                            uid=320_92 ignored
+                            uid=320_93 generic
+                        uid=320_94 button
+                          uid=320_95 image
+                uid=320_96 ignored
+                  uid=320_97 ignored
+                    uid=320_98 generic
+                      uid=320_99 image
+          uid=320_100 ignored
