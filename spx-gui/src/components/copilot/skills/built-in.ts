@@ -1,8 +1,9 @@
+import { getSpxProjectSkillFiles, spxProjectSkillName } from '@/utils/spx/skill'
 import { fromText, type Files } from '@/models/common/file'
 import { InMemorySkillRegistry } from './registry'
 import type { SkillBundle, SkillRegistry } from './types'
 
-export const skillSpxProject = 'spx-project'
+export const skillSpxProject = spxProjectSkillName
 export const skillXgoLanguage = 'xgo-language'
 
 const builtInSkills = [skillSpxProject, skillXgoLanguage]
@@ -16,13 +17,22 @@ const bundleFiles = import.meta.glob(
   }
 ) as Record<string, string>
 
-function createBuiltInSkillBundle(name: string): SkillBundle {
-  const files: Files = {}
+function getBuiltInSkillFiles(name: string): Record<string, string> {
+  if (name === skillSpxProject) return getSpxProjectSkillFiles()
+
+  const files: Record<string, string> = {}
   const pathPrefix = `./bundles/${name}/`
   for (const path of Object.keys(bundleFiles).sort()) {
     if (!path.startsWith(pathPrefix)) continue
-    const filePath = path.slice(pathPrefix.length)
-    files[filePath] = fromText(filePath, bundleFiles[path])
+    files[path.slice(pathPrefix.length)] = bundleFiles[path]
+  }
+  return files
+}
+
+function createBuiltInSkillBundle(name: string): SkillBundle {
+  const files: Files = {}
+  for (const [filePath, content] of Object.entries(getBuiltInSkillFiles(name))) {
+    files[filePath] = fromText(filePath, content)
   }
   return { files }
 }

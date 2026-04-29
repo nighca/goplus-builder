@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { getSpxProjectKnowledge } from '@/utils/spx/skill'
 import { Copilot } from '../copilot'
 import { createBuiltInSkillRegistry } from './built-in'
 import { createLoadSkillResourceTool, createLoadSkillTool } from './tools'
@@ -67,6 +68,15 @@ describe('built-in skill registry', () => {
     await expect(registry.loadResource('spx-project', 'references/missing.md')).rejects.toThrow(
       'Skill resource not found: spx-project/references/missing.md'
     )
+  })
+
+  it('builds spx project knowledge from the skill bundle', async () => {
+    const knowledge = await getSpxProjectKnowledge()
+
+    expect(knowledge).toContain('# About spx')
+    expect(knowledge).toContain('# references/ai-interaction.md')
+    expect(knowledge).toContain('# references/apis.md')
+    expect(knowledge).toContain('# spx APIs')
   })
 })
 
