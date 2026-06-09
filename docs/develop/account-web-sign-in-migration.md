@@ -149,7 +149,7 @@ spx-gui/
 ├── index.html                       # 主站 HTML 入口
 ├── account.html                     # Account Web 独立 HTML 入口
 ├── vite.config.ts                   # 主站构建配置
-├── vite.config.account-web.ts       # Account Web 构建配置
+├── vite.config.account.ts           # Account Web 构建配置
 └── src/
     ├── apps/
     │   ├── account/                 # Account Web 入口
@@ -216,7 +216,7 @@ spx-gui/
   - 用户名密码登录表单
 - `spx-gui/src/components/sign-in/LoginForm.vue`
   - 登录页状态机与 API 调用编排
-- `spx-gui/vite.config.account-web.ts`
+- `spx-gui/vite.config.account.ts`
   - `Account Web` 独立构建配置、同源 `/api` 代理和 Vercel rewrite
 
 #### 已改造

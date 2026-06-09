@@ -171,7 +171,7 @@ function accountWebCDPCallbackPlugin(callbackOrigin: string | null): Plugin | nu
   if (callbackOrigin == null) return null
 
   return {
-    name: 'account-web-cdp-callback-redirect',
+    name: 'account-cdp-callback-redirect',
     apply: 'serve',
     configureServer(server) {
       let chrome: ChildProcess | null = null
@@ -216,7 +216,7 @@ async function startCDPCallbackRedirect(server: ViteDevServer, callbackOrigin: s
 
 function launchChrome(remoteDebuggingPort: number, devOrigin: string) {
   const executable = findChromeExecutable()
-  const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xbuilder-account-web-chrome-'))
+  const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'xbuilder-account-chrome-'))
   return spawn(
     executable,
     [
@@ -324,7 +324,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       ...(cdpCallbackPlugin == null ? [] : [cdpCallbackPlugin]),
       {
-        name: 'account-web-rename-output-html',
+        name: 'account-rename-output-html',
         apply: 'build',
         closeBundle() {
           const from = resolve('dist/account.html')
@@ -333,7 +333,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       {
-        name: 'account-web-dev-spa-fallback',
+        name: 'account-dev-spa-fallback',
         configureServer(server) {
           server.middlewares.use((req, _res, next) => {
             if (req.url == null) return next()
