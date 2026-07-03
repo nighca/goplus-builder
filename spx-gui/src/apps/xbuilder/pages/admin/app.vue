@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router'
 import { useMessageHandle } from '@/utils/exception'
 import { useI18n } from '@/utils/i18n'
 import { useQuery } from '@/utils/query'
+import { usePageTitle } from '@/utils/utils'
 import { useSignedInStateQuery } from '@/stores/user'
 import { UIButton, UIError, UILoading, UISwitch, UITextInput } from '@/components/ui'
 import CopyButton from '@/components/common/CopyButton.vue'
@@ -39,6 +40,14 @@ const appQuery = useQuery(
   }
 )
 const app = computed(() => appQuery.data.value)
+usePageTitle(() =>
+  app.value == null
+    ? { en: 'OAuth app', zh: 'OAuth 应用' }
+    : [
+        { en: app.value.displayName, zh: app.value.displayName },
+        { en: 'OAuth app', zh: 'OAuth 应用' }
+      ]
+)
 
 const displayName = ref('')
 const status = ref<accountAdminApis.AccountApp['status']>('active')
@@ -50,6 +59,7 @@ const savedRedirectURIs = ref<string[]>([])
 const savedAllowedOrigins = ref<string[]>([])
 const appUpdatedAt = ref('')
 const appFallbackText = computed(() => displayName.value.trim().charAt(0).toUpperCase() || '?')
+const trimmedDisplayName = computed(() => displayName.value.trim())
 
 watch(
   app,
@@ -72,7 +82,7 @@ const parsedRedirectURIs = computed(() => parseLines(redirectURIs.value))
 const parsedAllowedOrigins = computed(() => parseLines(allowedOrigins.value))
 const isActive = computed(() => status.value === 'active')
 const isIdentityChanged = computed(
-  () => displayName.value.trim() !== '' && displayName.value.trim() !== savedDisplayName.value
+  () => trimmedDisplayName.value !== '' && trimmedDisplayName.value !== savedDisplayName.value
 )
 const isStatusChanged = computed(() => status.value !== savedStatus.value)
 const areEndpointsChanged = computed(
@@ -105,7 +115,7 @@ function refetchAll() {
 
 const handleUpdateIdentity = useMessageHandle(
   async () => {
-    const updated = await accountAdminApis.updateAccountApp(props.appID, { displayName: displayName.value.trim() })
+    const updated = await accountAdminApis.updateAccountApp(props.appID, { displayName: trimmedDisplayName.value })
     savedDisplayName.value = updated.displayName
     appUpdatedAt.value = updated.updatedAt
   },
@@ -139,10 +149,12 @@ const handleUpdateStatus = useMessageHandle(
 
 const secretName = ref('')
 const createdSecret = ref<accountAdminApis.CreatedAccountAppSecret | null>(null)
+const trimmedSecretName = computed(() => secretName.value.trim())
+const isSecretNameValid = computed(() => trimmedSecretName.value !== '')
 
 const handleCreateSecret = useMessageHandle(
   async () => {
-    const secret = await accountAdminApis.createAccountAppSecret(props.appID, { name: secretName.value.trim() })
+    const secret = await accountAdminApis.createAccountAppSecret(props.appID, { name: trimmedSecretName.value })
     createdSecret.value = secret
     secretName.value = ''
     secretsQuery.refetch()
@@ -238,7 +250,6 @@ function deleteSecret(secretID: string) {
           icon="reload"
           shape="square"
           type="white"
-          :aria-label="$t({ en: 'Refresh app details', zh: '刷新应用详情' })"
           @click="refetchAll"
         />
       </header>
@@ -268,7 +279,10 @@ function deleteSecret(secretID: string) {
                 </div>
                 <label class="flex flex-col gap-1 text-sm text-grey-900">
                   {{ $t({ en: 'Display name', zh: '显示名称' }) }}
-                  <UITextInput v-model:value="displayName" maxlength="100" />
+                  <UITextInput
+                    v-model:value="displayName"
+                    :maxlength="accountAdminApis.accountAppDisplayNameMaxLength"
+                  />
                 </label>
                 <div class="text-sm">
                   <div class="text-grey-800">{{ $t({ en: 'Client ID', zh: '客户端 ID' }) }}</div>
@@ -390,7 +404,6 @@ function deleteSecret(secretID: string) {
                   desc: 'Enable or disable OAuth flows for this app'
                 }"
                 :value="isActive"
-                :aria-label="$t({ en: 'App availability', zh: '应用可用状态' })"
                 @update:value="handleActiveChange"
               />
             </div>
@@ -455,7 +468,7 @@ function deleteSecret(secretID: string) {
               <form class="mb-4 flex flex-col gap-3" @submit.prevent="handleCreateSecret.fn">
                 <label class="flex flex-col gap-1 text-sm text-grey-900">
                   {{ $t({ en: 'New secret name', zh: '新密钥名称' }) }}
-                  <UITextInput v-model:value="secretName" maxlength="100" />
+                  <UITextInput v-model:value="secretName" :maxlength="accountAdminApis.accountAppSecretNameMaxLength" />
                   <span class="text-xs text-grey-700">
                     {{
                       $t({
@@ -468,7 +481,7 @@ function deleteSecret(secretID: string) {
                 <UIButton
                   html-type="submit"
                   type="primary"
-                  :disabled="secretName.trim() === ''"
+                  :disabled="!isSecretNameValid"
                   :loading="handleCreateSecret.isLoading.value"
                 >
                   {{ $t({ en: 'Create secret', zh: '创建密钥' }) }}

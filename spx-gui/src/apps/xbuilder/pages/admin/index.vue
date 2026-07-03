@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
-import { useSignedInStateQuery } from '@/stores/user'
+import { untilNotNull, usePageTitle } from '@/utils/utils'
+import { useSignIn, useSignedInStateQuery } from '@/stores/user'
 import { UIError, UILoading, UIMenu, UIMenuGroup, UIMenuItem } from '@/components/ui'
 import CenteredWrapper from '@/components/common/CenteredWrapper.vue'
 import NavbarDropdown from '@/components/navbar/NavbarDropdown.vue'
 import NavbarWrapper from '@/components/navbar/NavbarWrapper.vue'
 
+usePageTitle({ en: 'Account admin', zh: '账号管理' })
+
 const route = useRoute()
 const router = useRouter()
+const signIn = useSignIn()
 const signedInStateQuery = useSignedInStateQuery()
 const signedInUser = computed(() => signedInStateQuery.data.value?.user ?? null)
 const canManageAccount = computed(() => signedInUser.value?.capabilities.canManageAccount === true)
@@ -28,6 +32,11 @@ const navItems = computed(() => [
       ]
     : [])
 ])
+
+onMounted(async () => {
+  const { isSignedIn } = await untilNotNull(signedInStateQuery.data)
+  if (!isSignedIn) signIn(route.fullPath)
+})
 </script>
 
 <template>
