@@ -1,12 +1,19 @@
 <script lang="ts">
-const ispxWasmUrl = new URL('@/assets/wasm/ispx.wasm', import.meta.url).href
+import spxPackage from '@xgo-pkgs/spx/package.json'
 
-function getProjectRunnerBaseUrl(spxVersion: string) {
+const ispxWasmUrl = new URL('@/assets/wasm/ispx.wasm', import.meta.url).href
+// TODO: Importing runner.html as a Vite asset would give us a hashed immutable
+// URL and remove the need for this versioned public path. It cannot replace the
+// link step yet because runner.html expects sibling files like engine.js and
+// game.js to stay available through relative paths.
+const spxVersion = spxPackage.version
+
+function getProjectRunnerBaseUrl() {
   return `/spx_${spxVersion}`
 }
 
-function getProjectRunnerAssetURLs(spxVersion: string) {
-  const runnerBaseUrl = getProjectRunnerBaseUrl(spxVersion)
+function getProjectRunnerAssetURLs() {
+  const runnerBaseUrl = getProjectRunnerBaseUrl()
   return {
     // TODO: include these assets as "static asset" to generate immutable URLs
     'engineres.zip': `${runnerBaseUrl}/engineres.zip`,
@@ -101,8 +108,8 @@ function uiUpdated(signal?: AbortSignal) {
 }
 
 // TODO: consider to call prefetch in some global place
-export function prefetchProjectRunnerAssets(spxVersion: string) {
-  Object.values(getProjectRunnerAssetURLs(spxVersion)).forEach((url) => {
+export function prefetchProjectRunnerAssets() {
+  Object.values(getProjectRunnerAssetURLs()).forEach((url) => {
     // Use `<link rel=prefetch>` instead of `<link rel=preload>`:
     // * `preload` indicates higher priority than `prefetch`. Preloaded content are expected to be used soon. For example, chrome will warn if the preloaded content is not used within 3 or 5 seconds. While project here will not be run until the user clicks some "run" button.
     // * `preload` results are not shared across different documents, while the iframe content is a different document. The "preloading" is meaningful only when the HTTP cache is shared, which is more like the case of `prefetch`.
@@ -151,13 +158,11 @@ import { isProjectUsingAIInteraction } from '@/utils/project'
 import { capture, Cancelled } from '@/utils/exception'
 import { client } from '@/apis/common'
 import errorBgUrl from './error-bg.svg'
-import { useSpxVersion } from './config'
 
-const spxVersion = useSpxVersion()
-const runnerBaseUrl = getProjectRunnerBaseUrl(spxVersion)
+const runnerBaseUrl = getProjectRunnerBaseUrl()
 const runnerUrl = new URL(`${runnerBaseUrl}/runner.html`, import.meta.url).href
 const aiInteractionEndpoint = client.urlFor('/ai-interaction').toString()
-const assetURLs = getProjectRunnerAssetURLs(spxVersion)
+const assetURLs = getProjectRunnerAssetURLs()
 
 const props = defineProps<{ project: SpxProject }>()
 
