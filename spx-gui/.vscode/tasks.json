@@ -26,17 +26,6 @@
         "panel": "dedicated"
       },
       "problemMatcher": []
-    },
-    {
-      "label": "link spx",
-      "detail": "Link spx runtime assets for spx-gui",
-      "type": "shell",
-      "command": "bash link-spx.sh",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      },
-      "problemMatcher": []
     }
   ]
 }
