@@ -11,9 +11,6 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.6
         version: 1.7.6
-      '@xgo-pkgs/spx':
-        specifier: 2.0.4
-        version: 2.0.4
       '@jridgewell/resolve-uri':
         specifier: ^3.1.2
         version: 3.1.2
@@ -83,6 +80,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.8.1
         version: 0.8.1(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3))
+      '@xgo-pkgs/spx':
+        specifier: 2.0.5-0.20260708083310-ffe456ac46fd
+        version: 2.0.5-0.20260708083310-ffe456ac46fd
       bowser:
         specifier: ^2.14.1
         version: 2.14.1
@@ -372,9 +372,6 @@ packages:
 
   '@floating-ui/vue@1.1.9':
     resolution: {integrity: sha512-BfNqNW6KA83Nexspgb9DZuz578R7HT8MZw1CfK9I6Ah4QReNWEJsXWHN+SdmOVLNGmTPDi+fDT535Df5PzMLbQ==}
-
-  '@xgo-pkgs/spx@2.0.4':
-    resolution: {integrity: sha512-aV6L7UD/6GXH6dEUjzSTU/7kpLXsN/L8Wy8rnFzR4gez0otKlmxjX8Ogft9COaQR1hQ5N0AvhXw0jPJdN+5FjA==}
 
   '@headlessui/tailwindcss@0.2.2':
     resolution: {integrity: sha512-xNe42KjdyA4kfUKLLPGzME9zkH7Q3rOZ5huFihWNWOQFxnItxPB3/67yBI8/qBfY8nwBRx5GHn4VprsoluVMGw==}
@@ -1226,6 +1223,9 @@ packages:
     resolution: {integrity: sha512-e89uuTLMh0U5cZ9iDpEI2senqPGfbPRTHM/0AaQkcxnpqjkZqDYP8rpfm7edOz8s+pOCOROEy1PIveSW8+fL5g==}
     peerDependencies:
       vue: ^3.5.0
+
+  '@xgo-pkgs/spx@2.0.5-0.20260708083310-ffe456ac46fd':
+    resolution: {integrity: sha512-qInH5wfs8qHqKSVq9lfInE08/QoZQuyP6VwQVj4p+8oasU7oGV7pwQprAgJHlQaVAe6U0e2ny+FZtsfnTE17uA==}
 
   abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
@@ -3109,8 +3109,6 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@xgo-pkgs/spx@2.0.4': {}
-
   '@headlessui/tailwindcss@0.2.2(tailwindcss@4.2.2)':
     dependencies:
       tailwindcss: 4.2.2
@@ -4196,6 +4194,8 @@ snapshots:
   '@vueuse/shared@13.9.0(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       vue: 3.5.25(typescript@5.9.3)
+
+  '@xgo-pkgs/spx@2.0.5-0.20260708083310-ffe456ac46fd': {}
 
   abbrev@2.0.0: {}
 
