@@ -8,7 +8,7 @@
     "postinstall": "./link-spx.sh",
     "predev": "./build-wasm.sh && ./build-tutorial-books.sh",
     "dev": "vite",
-    "build": "./link-spx.sh && ./build-tutorial-books.sh && vue-tsc --build --force && NODE_ENV=production vite build --mode ${VITE_MODE:-production}",
+    "build": "./build-tutorial-books.sh && vue-tsc --build --force && NODE_ENV=production vite build --mode ${VITE_MODE:-production}",
     "preview": "vite preview",
     "dev:account": "vite --config vite.config.account.ts --port 5174",
     "build:account": "NODE_ENV=production vite build --config vite.config.account.ts --mode ${VITE_MODE:-production}",
