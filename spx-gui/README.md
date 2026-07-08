@@ -2,7 +2,7 @@
 
 ## Environment Requirements
 
-- **Node.js**: >= 20.11.1
+- **Node.js**: ^24.11.1
 - **pnpm**: ^11.9.0
 - **Go**: >= 1.25.0
 
