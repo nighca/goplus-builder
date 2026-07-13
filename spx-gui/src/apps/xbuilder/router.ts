@@ -119,6 +119,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('./pages/tutorials/index.vue')
   },
   {
+    path: '/debug/xgo-executor',
+    component: () => import('./pages/debug/xgo-executor.vue')
+  },
+  {
     path: '/course/:courseSeriesIdInput/:courseIdInput/start',
     component: () => import('./pages/tutorials/course-start.vue'),
     props: true

@@ -14,3 +14,7 @@ cp ../tools/spxls/spxls-pkgdata.zip src/assets/wasm/spxls-pkgdata.zip
 # Build and copy ispx.wasm
 ( cd ../tools/ispx && ./build.sh )
 cp ../tools/ispx/ispx.wasm src/assets/wasm/ispx.wasm
+
+# Build and copy the generic XGo executor.
+( cd ../tools/xgoexec && bash build.sh )
+cp ../tools/xgoexec/xgoexec.wasm src/assets/wasm/xgoexec.wasm
