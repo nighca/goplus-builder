@@ -11,10 +11,8 @@ import (
 	"sync"
 	"syscall/js"
 
-	"github.com/goplus/builder/tools/xgoexec/tutorial"
 	"github.com/goplus/ixgo"
 	"github.com/goplus/ixgo/xgobuild"
-	"github.com/goplus/mod/modfile"
 )
 
 var state struct {
@@ -22,7 +20,7 @@ var state struct {
 	ctx       *ixgo.Context
 	interp    *ixgo.Interp
 	cancel    context.CancelFunc
-	framework string
+	framework Framework
 }
 
 func init() {
@@ -41,12 +39,16 @@ func configure(this js.Value, args []js.Value) any {
 	ctx := ixgo.NewContext(ixgo.SupportMultipleInterp | xgobuild.StaticLoad)
 	ctx.SetPanic(func(info *ixgo.PanicInfo) { js.Global().Call("xbuilder_xgoexec_error", "runtime", info.Error.Error()) })
 	ctx.Loader.Import("fmt")
-	if len(args) > 0 && args[0].String() == "tutorial" {
-		xgobuild.RegisterProject(&modfile.Project{Ext: ".course", Class: "Course", PkgPaths: []string{"github.com/goplus/builder/tools/xgoexec/tutorial"}})
-		tutorial.SetShowMessage(func(content string) { js.Global().Call("xbuilder_xgoexec_capability", "showMessage", content) })
-	}
+	ctx.Loader.Import("time")
 	if len(args) > 0 {
-		state.framework = args[0].String()
+		framework, ok := frameworks[args[0].String()]
+		if !ok {
+			return jsError("unknown framework: " + args[0].String())
+		}
+		if err := framework.Configure(); err != nil {
+			return jsError(err.Error())
+		}
+		state.framework = framework
 	}
 	state.ctx = ctx
 	return nil
@@ -74,8 +76,8 @@ func build(this js.Value, args []js.Value) any {
 	if err != nil {
 		return jsError(err.Error())
 	}
-	if state.framework == "tutorial" {
-		source = []byte(strings.Replace(string(source), "new(Course).Main()", "new(Course).MainEntry()", 1))
+	if state.framework != nil {
+		source = state.framework.Transform(source)
 	}
 	pkg, err := state.ctx.LoadFile("main.go", source)
 	if err != nil {
