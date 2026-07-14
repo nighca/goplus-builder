@@ -5,7 +5,6 @@ go 1.25.0
 tool github.com/goplus/ixgo/cmd/qexp
 
 require (
-	github.com/goplus/builder/tools/xgoexec/tutorial v0.0.0
 	github.com/goplus/ixgo v1.1.0
 	github.com/goplus/mod v0.20.2
 )
@@ -21,5 +20,3 @@ require (
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
 )
-
-replace github.com/goplus/builder/tools/xgoexec/tutorial => ./tutorial

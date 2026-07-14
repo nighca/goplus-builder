@@ -3,25 +3,16 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"io/fs"
-	"path"
-	"strings"
-	"sync"
 	"syscall/js"
 
-	"github.com/goplus/ixgo"
-	"github.com/goplus/ixgo/xgobuild"
+	"github.com/goplus/builder/tools/xgoexec/core"
+	"github.com/goplus/builder/tools/xgoexec/frameworks/tutorial"
 )
 
-var state struct {
-	sync.Mutex
-	ctx       *ixgo.Context
-	interp    *ixgo.Interp
-	cancel    context.CancelFunc
-	framework Framework
-}
+var runtime = core.NewRuntime(
+	map[string]core.Framework{tutorial.Name: tutorial.Binding{}},
+	func(phase, message string) { js.Global().Call("xbuilder_xgoexec_error", phase, message) },
+)
 
 func init() {
 	js.Global().Set("xbuilder_xgoexec_configure", js.FuncOf(configure))
@@ -31,26 +22,13 @@ func init() {
 }
 
 func configure(this js.Value, args []js.Value) any {
-	state.Lock()
-	defer state.Unlock()
-	if state.ctx != nil {
-		return jsError("already configured")
-	}
-	ctx := ixgo.NewContext(ixgo.SupportMultipleInterp | xgobuild.StaticLoad)
-	ctx.SetPanic(func(info *ixgo.PanicInfo) { js.Global().Call("xbuilder_xgoexec_error", "runtime", info.Error.Error()) })
-	ctx.Loader.Import("fmt")
-	ctx.Loader.Import("time")
+	name := ""
 	if len(args) > 0 {
-		framework, ok := frameworks[args[0].String()]
-		if !ok {
-			return jsError("unknown framework: " + args[0].String())
-		}
-		if err := framework.Configure(); err != nil {
-			return jsError(err.Error())
-		}
-		state.framework = framework
+		name = args[0].String()
 	}
-	state.ctx = ctx
+	if err := runtime.Configure(name); err != nil {
+		return jsError(err.Error())
+	}
 	return nil
 }
 
@@ -67,119 +45,24 @@ func build(this js.Value, args []js.Value) any {
 		js.CopyBytesToGo(data, value)
 		files[name] = data
 	}
-	state.Lock()
-	defer state.Unlock()
-	if state.ctx == nil {
-		return jsError("not configured")
-	}
-	if state.cancel != nil {
-		return jsError("executor is running")
-	}
-	source, err := xgobuild.BuildFSDir(state.ctx, mapFS(files), ".")
-	if err != nil {
+	if err := runtime.Build(files); err != nil {
 		return jsError(err.Error())
 	}
-	if state.framework != nil {
-		source = state.framework.Transform(source)
-	}
-	pkg, err := state.ctx.LoadFile("main.go", source)
-	if err != nil {
-		return jsError(err.Error())
-	}
-	interp, err := state.ctx.NewInterp(pkg)
-	if err != nil {
-		return jsError(err.Error())
-	}
-	state.interp = interp
 	return nil
 }
 
 func run(this js.Value, args []js.Value) any {
-	state.Lock()
-	if state.ctx == nil || state.interp == nil {
-		state.Unlock()
-		return jsError("not built")
+	if err := runtime.Run(); err != nil {
+		return jsError(err.Error())
 	}
-	if state.cancel != nil {
-		state.Unlock()
-		return jsError("executor is running")
-	}
-	ctx, interp := state.ctx, state.interp
-	runCtx, cancel := context.WithCancel(context.Background())
-	state.cancel = cancel
-	state.Unlock()
-	go func() {
-		ctx.RunContext = runCtx
-		_, err := ctx.RunInterp(interp, "main.go", nil)
-		if err != nil && runCtx.Err() == nil {
-			js.Global().Call("xbuilder_xgoexec_error", "runtime", err.Error())
-		}
-		state.Lock()
-		state.cancel = nil
-		state.Unlock()
-	}()
 	return nil
 }
 
 func stop(this js.Value, args []js.Value) any {
-	state.Lock()
-	defer state.Unlock()
-	if state.cancel != nil {
-		state.cancel()
-	}
+	runtime.Stop()
 	return nil
 }
+
 func jsError(message string) any { return js.Global().Get("Error").New(message) }
-
-type mapFS map[string][]byte
-
-func (p mapFS) ReadFile(name string) ([]byte, error) {
-	value, ok := p[name]
-	if !ok {
-		return nil, fs.ErrNotExist
-	}
-	return value, nil
-}
-func (p mapFS) ReadDir(dirname string) ([]fs.DirEntry, error) {
-	prefix := ""
-	if dirname != "." {
-		prefix = dirname + "/"
-	}
-	entries := map[string]bool{}
-	for filename := range p {
-		if !strings.HasPrefix(filename, prefix) {
-			continue
-		}
-		name := strings.TrimPrefix(filename, prefix)
-		if i := strings.IndexByte(name, '/'); i >= 0 {
-			entries[name[:i]] = true
-		} else {
-			entries[name] = false
-		}
-	}
-	result := make([]fs.DirEntry, 0, len(entries))
-	for name, isDir := range entries {
-		result = append(result, mapDirEntry{name: name, dir: isDir})
-	}
-	return result, nil
-}
-func (p mapFS) Join(elem ...string) string          { return path.Join(elem...) }
-func (p mapFS) Base(filename string) string         { return path.Base(filename) }
-func (p mapFS) Abs(filename string) (string, error) { return path.Join("/", filename), nil }
-
-type mapDirEntry struct {
-	name string
-	dir  bool
-}
-
-func (p mapDirEntry) Name() string { return p.name }
-func (p mapDirEntry) IsDir() bool  { return p.dir }
-func (p mapDirEntry) Type() fs.FileMode {
-	if p.dir {
-		return fs.ModeDir
-	}
-	return 0
-}
-func (p mapDirEntry) Info() (fs.FileInfo, error) { return nil, fmt.Errorf("not implemented") }
 
 func main() { select {} }
