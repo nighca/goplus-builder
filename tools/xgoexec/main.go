@@ -72,6 +72,9 @@ func build(this js.Value, args []js.Value) any {
 	if state.ctx == nil {
 		return jsError("not configured")
 	}
+	if state.cancel != nil {
+		return jsError("executor is running")
+	}
 	source, err := xgobuild.BuildFSDir(state.ctx, mapFS(files), ".")
 	if err != nil {
 		return jsError(err.Error())
@@ -97,6 +100,10 @@ func run(this js.Value, args []js.Value) any {
 		state.Unlock()
 		return jsError("not built")
 	}
+	if state.cancel != nil {
+		state.Unlock()
+		return jsError("executor is running")
+	}
 	ctx, interp := state.ctx, state.interp
 	runCtx, cancel := context.WithCancel(context.Background())
 	state.cancel = cancel
@@ -107,6 +114,9 @@ func run(this js.Value, args []js.Value) any {
 		if err != nil && runCtx.Err() == nil {
 			js.Global().Call("xbuilder_xgoexec_error", "runtime", err.Error())
 		}
+		state.Lock()
+		state.cancel = nil
+		state.Unlock()
 	}()
 	return nil
 }
@@ -116,7 +126,6 @@ func stop(this js.Value, args []js.Value) any {
 	defer state.Unlock()
 	if state.cancel != nil {
 		state.cancel()
-		state.cancel = nil
 	}
 	return nil
 }

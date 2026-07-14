@@ -6,14 +6,15 @@ import { UIButton, UICard, useMessage } from '@/components/ui'
 const message = useMessage()
 const result = ref('')
 let executor: XGoExecutor | null = null
+const onError = (phase: string, content: string) => { result.value = `${phase}: ${content}` }
 
 async function runPlain() {
   result.value = ''
-  try { executor = new XGoExecutor(null); await executor.run({ 'main.xgo': 'import "time"\necho "plain XGo is running"\ntime.Sleep(time.Minute)' }); result.value = 'plain XGo is running' } catch (error) { result.value = String(error) }
+  try { executor = new XGoExecutor({ framework: null, onError }); await executor.run({ 'main.xgo': 'import "time"\necho "plain XGo is running"\ntime.Sleep(time.Minute)' }); result.value = 'plain XGo is running' } catch (error) { result.value = String(error) }
 }
 async function runTutorial() {
   result.value = ''
-  try { executor = new XGoExecutor({ name: 'tutorial', capabilities: { showMessage: message.info } }); await executor.run({ 'main_course.gox': 'onStart => {\n  showMessage "Tutorial course started"\n}' }); result.value = 'tutorial class framework is running' } catch (error) { result.value = String(error) }
+  try { executor = new XGoExecutor({ framework: { name: 'tutorial', capabilities: { showMessage: message.info } }, onError }); await executor.run({ 'main_course.gox': 'onStart => {\n  showMessage "Tutorial course started"\n}' }); result.value = 'tutorial class framework is running' } catch (error) { result.value = String(error) }
 }
 function stop() { executor?.stop(); result.value = 'stopped' }
 </script>
