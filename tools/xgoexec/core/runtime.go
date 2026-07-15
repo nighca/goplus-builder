@@ -10,18 +10,24 @@ import (
 )
 
 type ErrorReporter func(phase, message string)
+type ExitReporter func(reason string)
+
+type RuntimeHooks struct {
+	Error ErrorReporter
+	Exit  ExitReporter
+}
 
 type Runtime struct {
 	sync.Mutex
-	ctx         *ixgo.Context
-	interp      *ixgo.Interp
-	cancel      context.CancelFunc
-	frameworks  map[string]Framework
-	reportError ErrorReporter
+	ctx        *ixgo.Context
+	interp     *ixgo.Interp
+	cancel     context.CancelFunc
+	frameworks map[string]Framework
+	hooks      RuntimeHooks
 }
 
-func NewRuntime(frameworks map[string]Framework, reportError ErrorReporter) *Runtime {
-	return &Runtime{frameworks: frameworks, reportError: reportError}
+func NewRuntime(frameworks map[string]Framework, hooks RuntimeHooks) *Runtime {
+	return &Runtime{frameworks: frameworks, hooks: hooks}
 }
 
 func (p *Runtime) Configure(name string) error {
@@ -40,9 +46,12 @@ func (p *Runtime) Configure(name string) error {
 		}
 	}
 	ctx := ixgo.NewContext(ixgo.SupportMultipleInterp | xgobuild.StaticLoad)
-	ctx.SetPanic(func(info *ixgo.PanicInfo) { p.reportError("runtime", info.Error.Error()) })
-	ctx.Loader.Import("fmt")
-	ctx.Loader.Import("time")
+	ctx.SetPanic(func(info *ixgo.PanicInfo) { p.hooks.Error("runtime", info.Error.Error()) })
+	for _, path := range StandardPackages {
+		if _, err := ctx.Loader.Import(path); err != nil {
+			return fmt.Errorf("import standard package %q: %w", path, err)
+		}
+	}
 	p.ctx = ctx
 	return nil
 }
@@ -89,12 +98,17 @@ func (p *Runtime) Run() error {
 	go func() {
 		ctx.RunContext = runCtx
 		_, err := ctx.RunInterp(interp, "main.go", nil)
-		if err != nil && runCtx.Err() == nil {
-			p.reportError("runtime", err.Error())
+		reason := "completed"
+		if runCtx.Err() != nil {
+			reason = "stopped"
+		} else if err != nil {
+			reason = "error"
+			p.hooks.Error("runtime", err.Error())
 		}
 		p.Lock()
 		p.cancel = nil
 		p.Unlock()
+		p.hooks.Exit(reason)
 	}()
 	return nil
 }
@@ -104,5 +118,6 @@ func (p *Runtime) Stop() {
 	defer p.Unlock()
 	if p.cancel != nil {
 		p.cancel()
+		RejectPendingCapabilities("executor stopped")
 	}
 }

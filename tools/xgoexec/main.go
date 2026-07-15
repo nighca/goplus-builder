@@ -3,15 +3,19 @@
 package main
 
 import (
+	"fmt"
 	"syscall/js"
 
 	"github.com/goplus/builder/tools/xgoexec/core"
-	"github.com/goplus/builder/tools/xgoexec/frameworks/tutorial"
+	tutorialbinding "github.com/goplus/builder/tools/xgoexec/frameworks/tutorial/binding"
 )
 
 var runtime = core.NewRuntime(
-	map[string]core.Framework{tutorial.Name: tutorial.Binding{}},
-	func(phase, message string) { js.Global().Call("xbuilder_xgoexec_error", phase, message) },
+	map[string]core.Framework{tutorialbinding.Name: tutorialbinding.Binding{}},
+	core.RuntimeHooks{
+		Error: func(phase, message string) { js.Global().Call("xbuilder_xgoexec_error", phase, message) },
+		Exit:  func(reason string) { js.Global().Call("xbuilder_xgoexec_exit", reason) },
+	},
 )
 
 func init() {
@@ -19,50 +23,70 @@ func init() {
 	js.Global().Set("xbuilder_xgoexec_build", js.FuncOf(build))
 	js.Global().Set("xbuilder_xgoexec_run", js.FuncOf(run))
 	js.Global().Set("xbuilder_xgoexec_stop", js.FuncOf(stop))
+	js.Global().Set("xbuilder_xgoexec_resolve_capability", js.FuncOf(resolveCapability))
+	js.Global().Call("xbuilder_xgoexec_ready")
 }
 
 func configure(this js.Value, args []js.Value) any {
-	name := ""
-	if len(args) > 0 {
-		name = args[0].String()
-	}
-	if err := runtime.Configure(name); err != nil {
-		return jsError(err.Error())
-	}
-	return nil
+	return newPromise(func() error {
+		name := ""
+		if len(args) > 0 {
+			name = args[0].String()
+		}
+		return runtime.Configure(name)
+	})
 }
 
 func build(this js.Value, args []js.Value) any {
-	if len(args) == 0 {
-		return jsError("missing files")
-	}
-	files := map[string][]byte{}
-	keys := js.Global().Get("Object").Call("keys", args[0])
-	for i := 0; i < keys.Length(); i++ {
-		name := keys.Index(i).String()
-		value := args[0].Get(name)
-		data := make([]byte, value.Length())
-		js.CopyBytesToGo(data, value)
-		files[name] = data
-	}
-	if err := runtime.Build(files); err != nil {
-		return jsError(err.Error())
-	}
-	return nil
+	return newPromise(func() error {
+		if len(args) == 0 {
+			return fmt.Errorf("missing files")
+		}
+		files := map[string][]byte{}
+		keys := js.Global().Get("Object").Call("keys", args[0])
+		for i := 0; i < keys.Length(); i++ {
+			name := keys.Index(i).String()
+			value := args[0].Get(name)
+			data := make([]byte, value.Length())
+			js.CopyBytesToGo(data, value)
+			files[name] = data
+		}
+		return runtime.Build(files)
+	})
 }
 
 func run(this js.Value, args []js.Value) any {
-	if err := runtime.Run(); err != nil {
-		return jsError(err.Error())
-	}
-	return nil
+	return newPromise(runtime.Run)
 }
 
 func stop(this js.Value, args []js.Value) any {
-	runtime.Stop()
+	return newPromise(func() error {
+		runtime.Stop()
+		return nil
+	})
+}
+
+func resolveCapability(this js.Value, args []js.Value) any {
+	if len(args) < 3 {
+		return nil
+	}
+	core.ResolveCapability(uint64(args[0].Int()), args[1].String(), args[2].String())
 	return nil
 }
 
-func jsError(message string) any { return js.Global().Get("Error").New(message) }
+func newPromise(action func() error) js.Value {
+	executor := js.FuncOf(func(this js.Value, args []js.Value) any {
+		resolve, reject := args[0], args[1]
+		if err := action(); err != nil {
+			reject.Invoke(js.Global().Get("Error").New(err.Error()))
+		} else {
+			resolve.Invoke(js.Undefined())
+		}
+		return nil
+	})
+	promise := js.Global().Get("Promise").New(executor)
+	executor.Release()
+	return promise
+}
 
 func main() { select {} }

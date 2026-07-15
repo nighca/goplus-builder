@@ -4,6 +4,7 @@ package core
 
 import "syscall/js"
 
-func CallCapability(name, content string) {
-	js.Global().Call("xbuilder_xgoexec_capability", name, content)
+func dispatchCapability(id uint64, name, request string) error {
+	js.Global().Call("xbuilder_xgoexec_capability", id, name, request)
+	return nil
 }
