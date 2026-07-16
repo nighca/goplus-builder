@@ -11,6 +11,8 @@ export type XGoExecutorOptions = {
   framework: XGoFramework | null
   /** Receives failures using the phases documented by `XGoErrorPhase`. */
   onError: (phase: XGoErrorPhase, message: string) => void
+  /** Receives lines written by the XGo program, including `echo` output. */
+  onOutput?: (message: string) => void
   /** Fires exactly once when execution completes, is stopped, or exits because of an error. */
   onExit: (reason: XGoExitReason) => void
 }
@@ -32,11 +34,17 @@ type Deferred<T> = {
  * Runs one XGo project at a time in a dedicated Web Worker/WASM runtime.
  * Call `run` again after `onExit` for sequential projects. Use a separate executor for a different framework or for
  * concurrent execution; separate executors are isolated but each loads its own WASM runtime.
+ *
+ * The dedicated worker keeps XGo compilation and interpretation off the UI thread and isolates the Go bridge globals
+ * used by each WASM runtime. The tradeoff is one WASM instance per concurrent executor; a shared worker would require
+ * the Go bridge to address multiple runtimes and is a possible optimization if this cost becomes significant.
  */
 export class XGoExecutor {
   private worker: WorkerHandler | null = null
   private state: 'idle' | 'starting' | 'running' = 'idle'
   private exitDeferred: Deferred<void> | null = null
+  private nextEventCallId = 0
+  private pendingEventCalls = new Map<number, Deferred<void>>()
 
   constructor(private options: XGoExecutorOptions) {}
 
@@ -79,6 +87,22 @@ export class XGoExecutor {
     await exitDeferred.promise
   }
 
+  /** Dispatches a framework event and resolves once the running program has accepted it. */
+  async dispatchEvent(name: string, payload: unknown): Promise<void> {
+    const worker = this.worker
+    if (worker == null || this.state !== 'running') throw new Error('XGo executor is not running')
+    const id = ++this.nextEventCallId
+    const deferred = createDeferred<void>()
+    this.pendingEventCalls.set(id, deferred)
+    try {
+      worker.postMessage({ type: 'event', id, name, payload })
+    } catch (error) {
+      this.pendingEventCalls.delete(id)
+      throw error
+    }
+    await deferred.promise
+  }
+
   private handleMessage(worker: WorkerHandler, message: WorkerMessage, ready: Deferred<void>, started: Deferred<void>) {
     if (worker !== this.worker) return
     switch (message.type) {
@@ -99,24 +123,35 @@ export class XGoExecutor {
       case 'exit':
         this.finish(worker, message.reason)
         break
-      case 'capability':
-        void this.handleCapability(worker, message.id, message.name, message.request)
+      case 'output':
+        this.options.onOutput?.(message.message)
         break
+      case 'capabilityCall':
+        void this.handleCapabilityCall(worker, message.id, message.name, message.request)
+        break
+      case 'eventResult': {
+        const call = this.pendingEventCalls.get(message.id)
+        if (call == null) break
+        this.pendingEventCalls.delete(message.id)
+        if (message.error == null) call.resolve()
+        else call.reject(new Error(message.error))
+        break
+      }
     }
   }
 
-  private async handleCapability(worker: WorkerHandler, id: number, name: string, request: unknown) {
+  private async handleCapabilityCall(worker: WorkerHandler, id: number, name: string, request: unknown) {
     try {
       const capability = this.options.framework?.capabilities[name]
       if (capability == null) throw new Error(`unsupported capability: ${name}`)
       const result = await capability(request)
       if (worker !== this.worker) return
-      worker.postMessage({ type: 'capabilityResult', id, result, error: null })
+      worker.postMessage({ type: 'capabilityCallResult', id, result, error: null })
     } catch (error) {
       if (worker !== this.worker) return
       const message = toErrorMessage(error)
       this.options.onError('capability', message)
-      worker.postMessage({ type: 'capabilityResult', id, result: null, error: message })
+      worker.postMessage({ type: 'capabilityCallResult', id, result: null, error: message })
     }
   }
 
@@ -125,6 +160,8 @@ export class XGoExecutor {
     worker.terminate()
     this.worker = null
     this.state = 'idle'
+    for (const call of this.pendingEventCalls.values()) call.reject(new Error(`XGo executor exited: ${reason}`))
+    this.pendingEventCalls.clear()
     this.options.onExit(reason)
     this.exitDeferred?.resolve()
     this.exitDeferred = null

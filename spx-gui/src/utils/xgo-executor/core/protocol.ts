@@ -15,19 +15,30 @@ export type RunMessage = {
 
 export type StopMessage = { type: 'stop' }
 
-export type CapabilityResultMessage = {
-  type: 'capabilityResult'
+export type CapabilityCallResultMessage = {
+  type: 'capabilityCallResult'
   id: number
   result: unknown
   error: string | null
 }
 
-export type MainMessage = RunMessage | StopMessage | CapabilityResultMessage
+export type EventMessage = { type: 'event'; id: number; name: string; payload: unknown }
+
+export type MainMessage = RunMessage | StopMessage | CapabilityCallResultMessage | EventMessage
 
 export type ReadyMessage = { type: 'ready' }
 export type StartedMessage = { type: 'started' }
 export type ErrorMessage = { type: 'error'; phase: XGoErrorPhase; message: string }
 export type ExitMessage = { type: 'exit'; reason: XGoExitReason }
-export type CapabilityMessage = { type: 'capability'; id: number; name: string; request: unknown }
+export type OutputMessage = { type: 'output'; message: string }
+export type CapabilityCallMessage = { type: 'capabilityCall'; id: number; name: string; request: unknown }
+export type EventResultMessage = { type: 'eventResult'; id: number; error: string | null }
 
-export type WorkerMessage = ReadyMessage | StartedMessage | ErrorMessage | ExitMessage | CapabilityMessage
+export type WorkerMessage =
+  | ReadyMessage
+  | StartedMessage
+  | ErrorMessage
+  | ExitMessage
+  | OutputMessage
+  | CapabilityCallMessage
+  | EventResultMessage

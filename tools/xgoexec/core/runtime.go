@@ -93,6 +93,7 @@ func (p *Runtime) Run() error {
 	}
 	ctx, interp := p.ctx, p.interp
 	runCtx, cancel := context.WithCancel(context.Background())
+	setCurrentRunContext(runCtx)
 	p.cancel = cancel
 	p.Unlock()
 	go func() {
@@ -118,6 +119,6 @@ func (p *Runtime) Stop() {
 	defer p.Unlock()
 	if p.cancel != nil {
 		p.cancel()
-		RejectPendingCapabilities("executor stopped")
+		RejectPendingCapabilityCalls("executor stopped")
 	}
 }

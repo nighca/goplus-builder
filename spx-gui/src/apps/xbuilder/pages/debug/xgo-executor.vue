@@ -1,13 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { createTutorialFramework, XGoExecutor, type TutorialProgress } from '@/utils/xgo-executor'
+import {
+  createTutorialFramework,
+  dispatchTutorialSubmit,
+  XGoExecutor,
+  type TutorialProgress
+} from '@/utils/xgo-executor'
 import { UIButton, UICard, UITextInput, useMessage } from '@/components/ui'
 
 const PLAIN_XGO_SOURCE = `
-import "time"
+import (
+  "sort"
+  "strconv"
+  "strings"
+  "time"
+)
 
-echo "plain XGo is running"
-time.Sleep(time.Minute)
+values := []int{3, 1, 2}
+sort.Ints(values)
+for i := 1; i <= 60; i++ {
+  echo strings.ToUpper("plain XGo tick") + " " + strconv.Itoa(i), values
+  time.Sleep(time.Second)
+}
 `
 
 const QUICK_XGO_SOURCE = `
@@ -19,8 +33,9 @@ onStart => {
   code := readCode()
   showMessage "Current code: " + code
   setProgress 1, 2
+}
 
-  submission := waitForSubmit()
+onSubmit submission => {
   showMessage "Submitted: " + submission
   setProgress 2, 2
 }
@@ -35,7 +50,6 @@ const progress = ref<TutorialProgress>({ completed: 0, total: 2 })
 const events = ref<string[]>([])
 let plainExecutor: XGoExecutor | null = null
 let tutorialExecutor: XGoExecutor | null = null
-let resolveSubmission: ((value: string) => void) | null = null
 
 async function runPlain(source = PLAIN_XGO_SOURCE) {
   plainStatus.value = 'starting'
@@ -44,6 +58,7 @@ async function runPlain(source = PLAIN_XGO_SOURCE) {
     onError: (phase, content) => {
       plainStatus.value = `${phase}: ${content}`
     },
+    onOutput: (content) => events.value.push(`plain output: ${content}`),
     onExit: (reason) => {
       plainStatus.value = `exited: ${reason}`
       events.value.push(`plain exited: ${reason}`)
@@ -70,12 +85,6 @@ async function runTutorial() {
       events.value.push('code read')
       return userCode.value
     },
-    waitForSubmit: () => {
-      tutorialStatus.value = 'waiting for submission'
-      return new Promise((resolve) => {
-        resolveSubmission = resolve
-      })
-    },
     setProgress: (value) => {
       progress.value = value
       events.value.push(`progress: ${value.completed}/${value.total}`)
@@ -88,7 +97,6 @@ async function runTutorial() {
     },
     onExit: (reason) => {
       tutorialStatus.value = `exited: ${reason}`
-      resolveSubmission = null
       events.value.push(`tutorial exited: ${reason}`)
     }
   })
@@ -100,11 +108,14 @@ async function runTutorial() {
   }
 }
 
-function submit() {
-  if (resolveSubmission == null) return
-  const resolve = resolveSubmission
-  resolveSubmission = null
-  resolve(submission.value)
+async function submit() {
+  if (tutorialExecutor == null) return
+  try {
+    await dispatchTutorialSubmit(tutorialExecutor, submission.value)
+    events.value.push(`submission dispatched: ${submission.value}`)
+  } catch (error) {
+    tutorialStatus.value = String(error)
+  }
 }
 
 async function stopAll() {
@@ -133,9 +144,7 @@ async function stopAll() {
         </UIButton>
         <UIButton
           type="secondary"
-          :disabled="
-            tutorialStatus === 'starting' || tutorialStatus === 'running' || tutorialStatus === 'waiting for submission'
-          "
+          :disabled="tutorialStatus === 'starting' || tutorialStatus === 'running'"
           @click="runTutorial"
         >
           Run tutorial course
@@ -149,9 +158,9 @@ async function stopAll() {
           <UITextInput v-model:value="userCode" type="textarea" :rows="4" />
         </label>
         <label class="space-y-2">
-          <span class="text-sm font-medium">Submission returned by waitForSubmit</span>
+          <span class="text-sm font-medium">Submission dispatched to onSubmit</span>
           <UITextInput v-model:value="submission" />
-          <UIButton type="secondary" :disabled="resolveSubmission == null" @click="submit">Submit</UIButton>
+          <UIButton type="secondary" :disabled="tutorialStatus !== 'running'" @click="submit">Submit</UIButton>
         </label>
       </div>
 

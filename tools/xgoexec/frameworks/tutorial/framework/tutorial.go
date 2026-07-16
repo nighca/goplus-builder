@@ -1,11 +1,18 @@
 package tutorial
 
-import "github.com/goplus/builder/tools/xgoexec/core"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/goplus/builder/tools/xgoexec/core"
+)
 
 const GopPackage = true
 
 type Course struct {
-	onStart func()
+	onStart     func()
+	onSubmit    func(string)
+	submissions chan string
 }
 
 type CourseProto interface {
@@ -21,7 +28,7 @@ type codeResult struct {
 	Code string `json:"code"`
 }
 
-type submissionResult struct {
+type submissionEvent struct {
 	Submission string `json:"submission"`
 }
 
@@ -32,9 +39,37 @@ type progressRequest struct {
 
 func (p *Course) OnStart(handler func()) { p.onStart = handler }
 
+func (p *Course) OnSubmit(handler func(string)) {
+	p.onSubmit = handler
+	p.submissions = make(chan string, 1)
+	core.RegisterEventHandler("submit", func(payload json.RawMessage) error {
+		var event submissionEvent
+		if err := json.Unmarshal(payload, &event); err != nil {
+			return err
+		}
+		select {
+		case p.submissions <- event.Submission:
+			return nil
+		default:
+			return fmt.Errorf("submit event queue is full")
+		}
+	})
+}
+
 func (p *Course) Start() {
 	if p.onStart != nil {
 		p.onStart()
+	}
+	if p.onSubmit == nil {
+		return
+	}
+	for {
+		select {
+		case submission := <-p.submissions:
+			p.onSubmit(submission)
+		case <-core.CurrentRunContext().Done():
+			return
+		}
 	}
 }
 
@@ -46,12 +81,6 @@ func (p *Course) ReadCode() string {
 	var result codeResult
 	mustCallCapability("readCode", nil, &result)
 	return result.Code
-}
-
-func (p *Course) WaitForSubmit() string {
-	var result submissionResult
-	mustCallCapability("waitForSubmit", nil, &result)
-	return result.Submission
 }
 
 func (p *Course) SetProgress(completed, total int) {

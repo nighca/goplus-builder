@@ -21,16 +21,18 @@ interface XGoExecutorBridge {
   xbuilder_xgoexec_run(): Promise<void>
   /** Requests cancellation of the running program. */
   xbuilder_xgoexec_stop(): Promise<void>
-  /** Delivers an asynchronous capability result back to the blocked XGo call. */
-  xbuilder_xgoexec_resolve_capability(id: number, result: string, error: string): void
+  /** Dispatches a UI event to the framework code currently listening for it. */
+  xbuilder_xgoexec_dispatch_event(name: string, payload: string): Promise<void>
+  /** Delivers an asynchronous capability call result back to the blocked XGo call. */
+  xbuilder_xgoexec_resolve_capability_call(id: number, result: string, error: string): void
   /** Called once all bridge methods above are installed by Go. */
   xbuilder_xgoexec_ready(): void
   /** Reports interpreter failures. The Go bridge currently emits the `runtime` phase. */
   xbuilder_xgoexec_error(phase: 'runtime', message: string): void
   /** Reports natural completion, cancellation, or runtime failure. */
   xbuilder_xgoexec_exit(reason: XGoExitReason): void
-  /** Starts a capability RPC. The result is returned through `xbuilder_xgoexec_resolve_capability`. */
-  xbuilder_xgoexec_capability(id: number, name: string, request: string): void
+  /** Starts a capability call. The result is returned through `xbuilder_xgoexec_resolve_capability_call`. */
+  xbuilder_xgoexec_capability_call(id: number, name: string, request: string): void
 }
 
 interface WorkerScope {
@@ -40,9 +42,16 @@ interface WorkerScope {
 
 const scope: WorkerScope = self
 const bridge = globalThis as unknown as XGoExecutorBridge
+const workerConsole = globalThis.console
+const logToConsole = workerConsole.log.bind(workerConsole)
 let exited = false
 let started = false
 let pendingExit: XGoExitReason | null = null
+
+workerConsole.log = (...values) => {
+  scope.postMessage({ type: 'output', message: values.map(String).join(' ') })
+  logToConsole(...values)
+}
 
 bridge.xbuilder_xgoexec_ready = () => scope.postMessage({ type: 'ready' })
 bridge.xbuilder_xgoexec_error = (phase, message) => scope.postMessage({ type: 'error', phase, message })
@@ -50,8 +59,8 @@ bridge.xbuilder_xgoexec_exit = (reason) => {
   if (started) emitExit(reason)
   else pendingExit = reason
 }
-bridge.xbuilder_xgoexec_capability = (id, name, request) => {
-  scope.postMessage({ type: 'capability', id, name, request: JSON.parse(request) })
+bridge.xbuilder_xgoexec_capability_call = (id, name, request) => {
+  scope.postMessage({ type: 'capabilityCall', id, name, request: JSON.parse(request) })
 }
 
 async function runProject(message: Extract<MainMessage, { type: 'run' }>) {
@@ -86,7 +95,16 @@ async function stopProject() {
   }
 }
 
-function resolveCapability(message: Extract<MainMessage, { type: 'capabilityResult' }>) {
+async function dispatchEvent(message: Extract<MainMessage, { type: 'event' }>) {
+  try {
+    await bridge.xbuilder_xgoexec_dispatch_event(message.name, JSON.stringify(message.payload ?? null))
+    scope.postMessage({ type: 'eventResult', id: message.id, error: null })
+  } catch (error) {
+    scope.postMessage({ type: 'eventResult', id: message.id, error: toErrorMessage(error) })
+  }
+}
+
+function resolveCapabilityCall(message: Extract<MainMessage, { type: 'capabilityCallResult' }>) {
   let result = 'null'
   let error = message.error ?? ''
   if (error === '') {
@@ -96,7 +114,7 @@ function resolveCapability(message: Extract<MainMessage, { type: 'capabilityResu
       error = toErrorMessage(reason)
     }
   }
-  bridge.xbuilder_xgoexec_resolve_capability(message.id, result, error)
+  bridge.xbuilder_xgoexec_resolve_capability_call(message.id, result, error)
 }
 
 function fail(phase: XGoErrorPhase, error: unknown) {
@@ -123,8 +141,11 @@ scope.addEventListener('message', (event) => {
     case 'stop':
       void stopProject()
       break
-    case 'capabilityResult':
-      resolveCapability(message)
+    case 'capabilityCallResult':
+      resolveCapabilityCall(message)
+      break
+    case 'event':
+      void dispatchEvent(message)
       break
   }
 })

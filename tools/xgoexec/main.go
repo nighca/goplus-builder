@@ -23,7 +23,8 @@ func init() {
 	js.Global().Set("xbuilder_xgoexec_build", js.FuncOf(build))
 	js.Global().Set("xbuilder_xgoexec_run", js.FuncOf(run))
 	js.Global().Set("xbuilder_xgoexec_stop", js.FuncOf(stop))
-	js.Global().Set("xbuilder_xgoexec_resolve_capability", js.FuncOf(resolveCapability))
+	js.Global().Set("xbuilder_xgoexec_dispatch_event", js.FuncOf(dispatchEvent))
+	js.Global().Set("xbuilder_xgoexec_resolve_capability_call", js.FuncOf(resolveCapabilityCall))
 	js.Global().Call("xbuilder_xgoexec_ready")
 }
 
@@ -66,11 +67,20 @@ func stop(this js.Value, args []js.Value) any {
 	})
 }
 
-func resolveCapability(this js.Value, args []js.Value) any {
+func dispatchEvent(this js.Value, args []js.Value) any {
+	return newPromise(func() error {
+		if len(args) < 2 {
+			return fmt.Errorf("missing event name or payload")
+		}
+		return core.DispatchEvent(args[0].String(), []byte(args[1].String()))
+	})
+}
+
+func resolveCapabilityCall(this js.Value, args []js.Value) any {
 	if len(args) < 3 {
 		return nil
 	}
-	core.ResolveCapability(uint64(args[0].Int()), args[1].String(), args[2].String())
+	core.ResolveCapabilityCall(uint64(args[0].Int()), args[1].String(), args[2].String())
 	return nil
 }
 
