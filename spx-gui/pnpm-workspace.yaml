@@ -2,3 +2,5 @@ packages:
   - .
 allowBuilds:
   vue-demi: true
+minimumReleaseAgeExclude:
+  - '@xgo-pkgs/spx@3.0.0'
