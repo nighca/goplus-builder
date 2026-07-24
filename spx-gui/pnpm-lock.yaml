@@ -17,6 +17,9 @@ importers:
       '@lottiefiles/dotlottie-vue':
         specifier: ^0.5.8
         version: 0.5.8(vue@3.5.25(typescript@5.9.3))
+      '@lottiefiles/dotlottie-web':
+        specifier: 0.41.0
+        version: 0.41.0
       '@nighca/fflate':
         specifier: ^0.8.3
         version: 0.8.3
