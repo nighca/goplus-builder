@@ -6,7 +6,7 @@ tool github.com/goplus/xgolsw/cmd/pkgdatagen
 
 require (
 	github.com/goplus/builder/tools/ai v0.0.0
-	github.com/goplus/xgolsw v0.0.0-20260723110434-6fbe2361be35
+	github.com/goplus/xgolsw v0.0.0-20260724034425-a614569d36e0
 )
 
 require (
@@ -27,4 +27,4 @@ require (
 
 replace github.com/goplus/builder/tools/ai => ../ai
 
-replace github.com/goplus/xgolsw => github.com/nighca/goxlsw v0.0.0-20260723110434-6fbe2361be35
+replace github.com/goplus/xgolsw => github.com/nighca/goxlsw v0.0.0-20260724034425-a614569d36e0
