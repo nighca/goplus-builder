@@ -114,13 +114,13 @@ export async function ensureAccessToken(): Promise<string | null> {
       return
     }
 
-    const refreshToken = userState.refreshToken
+    const refreshTokenBeforeRefresh = userState.refreshToken
     try {
-      await ensureOAuthFlow().refreshToken(refreshToken).then(handleTokenResponse)
+      await ensureOAuthFlow().refreshToken(refreshTokenBeforeRefresh).then(handleTokenResponse)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
       restoreUserState()
-      if (userState.refreshToken === refreshToken) clearUserState()
+      if (userState.refreshToken === refreshTokenBeforeRefresh) clearUserState()
     }
   })
   return userState.accessToken
