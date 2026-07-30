@@ -1,4 +1,4 @@
-import { reactive, watchEffect, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { composeQuery, useQuery, useQueryCache, useQueryWithCache } from '@/utils/query'
 import { capture, useAction } from '@/utils/exception'
 import { OAuthFlow, type OAuthTokenResponse } from '@/utils/oauth'
@@ -31,15 +31,27 @@ export function initUserState(clientId: string) {
     redirectUri: `${window.location.origin}/sign-in/callback`
   })
 
-  const stored = localStorage.getItem(userStateStorageKey)
-  if (stored != null) {
-    try {
-      Object.assign(userState, JSON.parse(stored))
-    } catch {
-      localStorage.removeItem(userStateStorageKey)
-    }
+  restoreUserState()
+  window.addEventListener('storage', (event) => {
+    if (event.key === userStateStorageKey) restoreUserState(event.newValue)
+  })
+}
+
+function restoreUserState(stored: string | null = localStorage.getItem(userStateStorageKey)) {
+  if (stored == null) {
+    clearUserState(false)
+    return
   }
-  watchEffect(() => localStorage.setItem(userStateStorageKey, JSON.stringify(userState)))
+  try {
+    Object.assign(userState, JSON.parse(stored))
+  } catch {
+    localStorage.removeItem(userStateStorageKey)
+    clearUserState(false)
+  }
+}
+
+function persistUserState() {
+  localStorage.setItem(userStateStorageKey, JSON.stringify(userState))
 }
 
 async function getSignedInUsernameByAccessToken(accessToken: string) {
@@ -53,6 +65,7 @@ async function handleTokenResponse(resp: OAuthTokenResponse) {
   userState.accessTokenExpiresAt = resp.expires_in != null ? Date.now() + resp.expires_in * 1000 : null
   userState.refreshToken = resp.refresh_token ?? null
   userState.username = username
+  persistUserState()
 }
 
 export function useSignIn() {
@@ -78,13 +91,15 @@ export async function signInWithAccessToken(accessToken: string) {
   userState.accessTokenExpiresAt = null
   userState.refreshToken = null
   userState.username = username
+  persistUserState()
 }
 
-function clearUserState() {
+function clearUserState(persist: boolean = true) {
   userState.accessToken = null
   userState.accessTokenExpiresAt = null
   userState.refreshToken = null
   userState.username = null
+  if (persist) persistUserState()
 }
 
 export async function signOut() {
@@ -104,16 +119,27 @@ export async function ensureAccessToken(): Promise<string | null> {
     return null
   }
   if (tokenRefreshPromise == null) {
-    tokenRefreshPromise = ensureOAuthFlow()
-      .refreshToken(userState.refreshToken)
-      .then(handleTokenResponse)
-      .catch((e) => {
-        capture(e, 'Failed to refresh access token')
-        clearUserState()
+    tokenRefreshPromise = (async () => {
+      await navigator.locks.request('builder-user-token-refresh', async () => {
+        restoreUserState()
+        if (isAccessTokenValid()) return
+        if (userState.refreshToken == null) {
+          clearUserState()
+          return
+        }
+
+        const refreshToken = userState.refreshToken
+        try {
+          await ensureOAuthFlow().refreshToken(refreshToken).then(handleTokenResponse)
+        } catch (e) {
+          capture(e, 'Failed to refresh access token')
+          restoreUserState()
+          if (userState.refreshToken === refreshToken) clearUserState()
+        }
       })
-      .finally(() => {
-        tokenRefreshPromise = null
-      })
+    })().finally(() => {
+      tokenRefreshPromise = null
+    })
   }
   await tokenRefreshPromise
   return userState.accessToken
