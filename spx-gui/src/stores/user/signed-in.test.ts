@@ -23,21 +23,22 @@ describe('ensureAccessToken', () => {
         username: 'alice'
       })
     )
+    const request = vi.fn(async (_name: string, callback: () => Promise<void>) => {
+      localStorage.setItem(
+        userStateStorageKey,
+        JSON.stringify({
+          accessToken: 'new-access-token',
+          accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+          refreshToken: 'new-refresh-token',
+          username: 'alice'
+        })
+      )
+      await callback()
+    })
     Object.defineProperty(navigator, 'locks', {
       configurable: true,
       value: {
-        request: vi.fn(async (_name: string, callback: () => Promise<void>) => {
-          localStorage.setItem(
-            userStateStorageKey,
-            JSON.stringify({
-              accessToken: 'new-access-token',
-              accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
-              refreshToken: 'new-refresh-token',
-              username: 'alice'
-            })
-          )
-          await callback()
-        })
+        request
       }
     })
     const refreshToken = vi.spyOn(accountOAuthApisForXBuilder, 'refreshToken')
@@ -45,6 +46,31 @@ describe('ensureAccessToken', () => {
     initUserState('client-id')
 
     await expect(ensureAccessToken()).resolves.toBe('new-access-token')
+    expect(request).toHaveBeenCalledWith('builder-user-access-token', expect.any(Function))
     expect(refreshToken).not.toHaveBeenCalled()
+  })
+
+  it('waits for the access token lock when the cached token is valid', async () => {
+    localStorage.setItem(
+      userStateStorageKey,
+      JSON.stringify({
+        accessToken: 'access-token',
+        accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+        refreshToken: 'refresh-token',
+        username: 'alice'
+      })
+    )
+    const request = vi.fn(async (_name: string, callback: () => Promise<void>) => callback())
+    Object.defineProperty(navigator, 'locks', {
+      configurable: true,
+      value: {
+        request
+      }
+    })
+
+    initUserState('client-id')
+
+    await expect(ensureAccessToken()).resolves.toBe('access-token')
+    expect(request).toHaveBeenCalledWith('builder-user-access-token', expect.any(Function))
   })
 })

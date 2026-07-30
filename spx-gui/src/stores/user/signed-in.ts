@@ -10,6 +10,7 @@ import { getUserQueryKey } from './query-keys'
 export type SignedInUser = userApis.SignedInUser
 
 const userStateStorageKey = 'builder-user'
+const userAccessTokenLockName = 'builder-user-access-token'
 
 let oauthFlow: OAuthFlow<{ returnTo: string }> | null = null
 
@@ -105,12 +106,7 @@ export async function signOut() {
 }
 
 export async function ensureAccessToken(): Promise<string | null> {
-  if (isAccessTokenValid()) return userState.accessToken
-  if (userState.refreshToken == null) {
-    clearUserState()
-    return null
-  }
-  await navigator.locks.request('builder-user-token-refresh', async () => {
+  await navigator.locks.request(userAccessTokenLockName, async () => {
     restoreUserState()
     if (isAccessTokenValid()) return
     if (userState.refreshToken == null) {
