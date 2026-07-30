@@ -41,11 +41,15 @@ export function initUserState(clientId: string) {
 
 function restoreUserState() {
   const stored = localStorage.getItem(userStateStorageKey)
-  if (stored == null) return
+  if (stored == null) {
+    clearUserState()
+    return
+  }
   try {
     Object.assign(userState, JSON.parse(stored))
   } catch {
     localStorage.removeItem(userStateStorageKey)
+    clearUserState()
   }
 }
 

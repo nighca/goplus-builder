@@ -78,4 +78,28 @@ describe('ensureAccessToken', () => {
     await expect(ensureAccessToken()).resolves.toBe('access-token')
     expect(request).not.toHaveBeenCalled()
   })
+
+  it('clears cached state when the shared state is removed', async () => {
+    localStorage.setItem(
+      userStateStorageKey,
+      JSON.stringify({
+        accessToken: 'access-token',
+        accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+        refreshToken: 'refresh-token',
+        username: 'alice'
+      })
+    )
+    Object.defineProperty(navigator, 'locks', {
+      configurable: true,
+      value: {
+        request: vi.fn(async (_name: string, callback: () => Promise<void>) => callback())
+      }
+    })
+    initUserState('client-id')
+
+    localStorage.removeItem(userStateStorageKey)
+    window.dispatchEvent(new StorageEvent('storage', { key: userStateStorageKey }))
+
+    await expect(ensureAccessToken()).resolves.toBe(null)
+  })
 })
