@@ -26,7 +26,8 @@ export async function getRenderableImageUrl(file: File, signal: AbortSignal) {
       .arrayBuffer()
       .then(async (ab) => {
         const svgText = new TextDecoder().decode(ab)
-        // Project font rendering is deferred, so this shared path must not embed project fonts yet.
+        // Project font rendering is deferred to https://github.com/goplus/builder/issues/3366,
+        // so this shared path must not embed project fonts yet.
         const injectedSvgText = await injectFontsToSvgText(svgText, [], new Map())
         return new Blob([injectedSvgText ?? ab], { type: 'image/svg+xml' })
       })
