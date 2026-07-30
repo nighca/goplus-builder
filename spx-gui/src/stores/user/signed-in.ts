@@ -103,6 +103,8 @@ export async function signOut() {
 }
 
 export async function ensureAccessToken(): Promise<string | null> {
+  if (isAccessTokenValid()) return userState.accessToken
+
   await navigator.locks.request(userAccessTokenLockName, async () => {
     restoreUserState()
     if (isAccessTokenValid()) return

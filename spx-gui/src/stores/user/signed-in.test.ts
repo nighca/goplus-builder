@@ -55,7 +55,7 @@ describe('ensureAccessToken', () => {
     expect(refreshToken).not.toHaveBeenCalled()
   })
 
-  it('waits for the access token lock when the cached token is valid', async () => {
+  it('returns the cached access token without acquiring the lock', async () => {
     localStorage.setItem(
       userStateStorageKey,
       JSON.stringify({
@@ -76,6 +76,6 @@ describe('ensureAccessToken', () => {
     initUserState('client-id')
 
     await expect(ensureAccessToken()).resolves.toBe('access-token')
-    expect(request).toHaveBeenCalledWith('builder-user-access-token', expect.any(Function))
+    expect(request).not.toHaveBeenCalled()
   })
 })
