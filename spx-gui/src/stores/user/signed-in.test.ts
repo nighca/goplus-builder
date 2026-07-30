@@ -78,39 +78,4 @@ describe('ensureAccessToken', () => {
     await expect(ensureAccessToken()).resolves.toBe('access-token')
     expect(request).toHaveBeenCalledWith('builder-user-access-token', expect.any(Function))
   })
-
-  it('preserves a session written while a refresh request fails', async () => {
-    localStorage.setItem(
-      userStateStorageKey,
-      JSON.stringify({
-        accessToken: 'expired-access-token',
-        accessTokenExpiresAt: Date.now(),
-        refreshToken: 'old-refresh-token',
-        username: 'alice'
-      })
-    )
-    const request = vi.fn(async (_name: string, callback: () => Promise<void>) => callback())
-    Object.defineProperty(navigator, 'locks', {
-      configurable: true,
-      value: {
-        request
-      }
-    })
-    vi.spyOn(accountOAuthApisForXBuilder, 'refreshToken').mockImplementationOnce(async () => {
-      localStorage.setItem(
-        userStateStorageKey,
-        JSON.stringify({
-          accessToken: 'new-access-token',
-          accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
-          refreshToken: 'new-refresh-token',
-          username: 'alice'
-        })
-      )
-      throw new Error('Refresh failed')
-    })
-
-    initUserState('client-id')
-
-    await expect(ensureAccessToken()).resolves.toBe('new-access-token')
-  })
 })

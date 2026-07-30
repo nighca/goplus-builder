@@ -112,17 +112,11 @@ export async function ensureAccessToken(): Promise<string | null> {
     }
 
     const refreshTokenBeforeRefresh = userState.refreshToken
-    const storedUserStateBeforeRefresh = localStorage.getItem(userStateStorageKey)
     try {
       await ensureOAuthFlow().refreshToken(refreshTokenBeforeRefresh).then(handleTokenResponse)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
-      if (localStorage.getItem(userStateStorageKey) === storedUserStateBeforeRefresh) {
-        clearUserState()
-      } else {
-        // Preserve a session written by another page while this request was in flight.
-        restoreUserState()
-      }
+      clearUserState()
     }
   })
   return userState.accessToken
