@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue'
+import { reactive, watchEffect, computed } from 'vue'
 import { composeQuery, useQuery, useQueryCache, useQueryWithCache } from '@/utils/query'
 import { capture, useAction } from '@/utils/exception'
 import { OAuthFlow, type OAuthTokenResponse } from '@/utils/oauth'
@@ -35,23 +35,20 @@ export function initUserState(clientId: string) {
   window.addEventListener('storage', (event) => {
     if (event.key === userStateStorageKey) restoreUserState(event.newValue)
   })
+  watchEffect(() => localStorage.setItem(userStateStorageKey, JSON.stringify(userState)))
 }
 
 function restoreUserState(stored: string | null = localStorage.getItem(userStateStorageKey)) {
   if (stored == null) {
-    clearUserState(false)
+    clearUserState()
     return
   }
   try {
     Object.assign(userState, JSON.parse(stored))
   } catch {
     localStorage.removeItem(userStateStorageKey)
-    clearUserState(false)
+    clearUserState()
   }
-}
-
-function persistUserState() {
-  localStorage.setItem(userStateStorageKey, JSON.stringify(userState))
 }
 
 async function getSignedInUsernameByAccessToken(accessToken: string) {
@@ -65,7 +62,6 @@ async function handleTokenResponse(resp: OAuthTokenResponse) {
   userState.accessTokenExpiresAt = resp.expires_in != null ? Date.now() + resp.expires_in * 1000 : null
   userState.refreshToken = resp.refresh_token ?? null
   userState.username = username
-  persistUserState()
 }
 
 export function useSignIn() {
@@ -91,15 +87,13 @@ export async function signInWithAccessToken(accessToken: string) {
   userState.accessTokenExpiresAt = null
   userState.refreshToken = null
   userState.username = username
-  persistUserState()
 }
 
-function clearUserState(persist: boolean = true) {
+function clearUserState() {
   userState.accessToken = null
   userState.accessTokenExpiresAt = null
   userState.refreshToken = null
   userState.username = null
-  if (persist) persistUserState()
 }
 
 export async function signOut() {
