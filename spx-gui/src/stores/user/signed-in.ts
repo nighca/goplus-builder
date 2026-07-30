@@ -104,38 +104,29 @@ export async function signOut() {
   ).catch((e) => capture(e, 'Failed to revoke tokens during sign out'))
 }
 
-let tokenRefreshPromise: Promise<void> | null = null
-
 export async function ensureAccessToken(): Promise<string | null> {
   if (isAccessTokenValid()) return userState.accessToken
   if (userState.refreshToken == null) {
     clearUserState()
     return null
   }
-  if (tokenRefreshPromise == null) {
-    tokenRefreshPromise = (async () => {
-      await navigator.locks.request('builder-user-token-refresh', async () => {
-        restoreUserState()
-        if (isAccessTokenValid()) return
-        if (userState.refreshToken == null) {
-          clearUserState()
-          return
-        }
+  await navigator.locks.request('builder-user-token-refresh', async () => {
+    restoreUserState()
+    if (isAccessTokenValid()) return
+    if (userState.refreshToken == null) {
+      clearUserState()
+      return
+    }
 
-        const refreshToken = userState.refreshToken
-        try {
-          await ensureOAuthFlow().refreshToken(refreshToken).then(handleTokenResponse)
-        } catch (e) {
-          capture(e, 'Failed to refresh access token')
-          restoreUserState()
-          if (userState.refreshToken === refreshToken) clearUserState()
-        }
-      })
-    })().finally(() => {
-      tokenRefreshPromise = null
-    })
-  }
-  await tokenRefreshPromise
+    const refreshToken = userState.refreshToken
+    try {
+      await ensureOAuthFlow().refreshToken(refreshToken).then(handleTokenResponse)
+    } catch (e) {
+      capture(e, 'Failed to refresh access token')
+      restoreUserState()
+      if (userState.refreshToken === refreshToken) clearUserState()
+    }
+  })
   return userState.accessToken
 }
 
