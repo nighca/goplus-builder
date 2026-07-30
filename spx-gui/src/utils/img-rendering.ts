@@ -26,6 +26,7 @@ export async function getRenderableImageUrl(file: File, signal: AbortSignal) {
       .arrayBuffer()
       .then(async (ab) => {
         const svgText = new TextDecoder().decode(ab)
+        // Project font rendering is deferred, so this shared path must not embed project fonts yet.
         const injectedSvgText = await injectFontsToSvgText(svgText, [], new Map())
         return new Blob([injectedSvgText ?? ab], { type: 'image/svg+xml' })
       })

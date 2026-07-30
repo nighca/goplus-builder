@@ -28,8 +28,7 @@ export async function createDefaultProject(owner: string, name: string, fontPref
   const project = new SpxProject(owner, name)
   const files = getTemplateAssets()
   const backdropFile = files['assets/backdrop.png']!
-  backdropFile.meta.imgSize = { width: 480, height: 360 }
-  project.stage.addBackdrop(new Backdrop('backdrop', backdropFile, { bitmapResolution: 2, pivot: { x: 120, y: 90 } }))
+  project.stage.addBackdrop(await Backdrop.create('backdrop', backdropFile))
   project.stage.setExtraConfig({ autoSetCollisionLayer: true, stretchMode: true })
 
   const sprite = await Sprite.load('NiuXiaoQi', files, { sounds: [] })

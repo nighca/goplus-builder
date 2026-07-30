@@ -11,17 +11,24 @@ type RawFontConfig = {
   faces?: { path?: string }[]
 }
 
+function validateFontFamilyName(name: string) {
+  if (name === '') throw new Error('font family name must not be empty')
+  if (name === 'default') throw new Error('font family default is reserved')
+}
+
 export class FontFamily {
   name: string
   file: File
 
   constructor(name: string, file: File) {
+    validateFontFamilyName(name)
     this.name = name
     this.file = file
     return reactive(this) as this
   }
 
   static async load(name: string, files: Files) {
+    validateFontFamilyName(name)
     const prefix = join(fontAssetPath, name)
     const configFile = files[join(prefix, fontConfigFileName)]
     if (configFile == null) throw new Error(`font configuration not found for ${name}`)
