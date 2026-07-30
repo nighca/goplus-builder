@@ -34,21 +34,18 @@ export function initUserState(clientId: string) {
 
   restoreUserState()
   window.addEventListener('storage', (event) => {
-    if (event.key === userStateStorageKey) restoreUserState(event.newValue)
+    if (event.key === userStateStorageKey) restoreUserState()
   })
   watchEffect(() => localStorage.setItem(userStateStorageKey, JSON.stringify(userState)))
 }
 
-function restoreUserState(stored: string | null = localStorage.getItem(userStateStorageKey)) {
-  if (stored == null) {
-    clearUserState()
-    return
-  }
+function restoreUserState() {
+  const stored = localStorage.getItem(userStateStorageKey)
+  if (stored == null) return
   try {
     Object.assign(userState, JSON.parse(stored))
   } catch {
     localStorage.removeItem(userStateStorageKey)
-    clearUserState()
   }
 }
 
@@ -115,12 +112,17 @@ export async function ensureAccessToken(): Promise<string | null> {
     }
 
     const refreshTokenBeforeRefresh = userState.refreshToken
+    const storedUserStateBeforeRefresh = localStorage.getItem(userStateStorageKey)
     try {
       await ensureOAuthFlow().refreshToken(refreshTokenBeforeRefresh).then(handleTokenResponse)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
-      restoreUserState()
-      if (userState.refreshToken === refreshTokenBeforeRefresh) clearUserState()
+      if (localStorage.getItem(userStateStorageKey) === storedUserStateBeforeRefresh) {
+        clearUserState()
+      } else {
+        // Preserve a session written by another page while this request was in flight.
+        restoreUserState()
+      }
     }
   })
   return userState.accessToken
