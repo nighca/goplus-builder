@@ -56,6 +56,8 @@ interface RunnerIframeWindow extends Window {
   xbuilder_set_ai_interaction_api_endpoint: (endpoint: string) => void
   xbuilder_set_ai_interaction_api_token_provider: (provider: () => Promise<string>) => void
   xbuilder_set_ai_description: (description: string) => void
+  /** Set the current logged-in username, injected into the spx runtime before running. */
+  xbuilder_set_username: (username: string) => void
   /** Init the engine. Can be called early; project-agnostic. */
   initEngine(assetURLs: Record<string, string>, config?: EngineConfig): Promise<void>
   /** Init the game with project files. Should be called after `initEngine`, before `startGame` or earlier (when files change, etc.). */
@@ -153,7 +155,7 @@ import type { Files } from '@/models/common/file'
 import { hashFiles } from '@/models/common/hash'
 import type { SpxProject } from '@/models/spx/project'
 import { UIImg, UIDetailedLoading } from '@/components/ui'
-import { ensureAccessToken } from '@/stores/user'
+import { ensureAccessToken, useSignedInStateQuery } from '@/stores/user'
 import { isProjectUsingAIInteraction } from '@/utils/project'
 import { capture, Cancelled } from '@/utils/exception'
 import { client } from '@/apis/common'
@@ -172,6 +174,7 @@ const emit = defineEmits<{
 }>()
 
 const [thumbnailUrl, thumbnailUrlLoading] = useRenderableImageUrl(() => props.project.thumbnail)
+const signedInStateQuery = useSignedInStateQuery()
 const state = shallowRef<State>({ type: 'initial' })
 const runnerIframeRef = ref<HTMLIFrameElement>()
 const runnerIframeWindowRef = ref<RunnerIframeWindow | null>(null)
@@ -341,6 +344,13 @@ async function runInternal(ctrl: AbortController) {
     ])
 
     await uiUpdated(ctrl.signal)
+
+    // Inject the current logged-in username into the spx runtime before running.
+    // Some projects (e.g. Scratch-converted ones) rely on Scratch's `username` capability.
+    // For signed-out users we set an empty string, which spx treats as an anonymous user.
+    // See https://github.com/goplus/builder/issues/3364.
+    const signedInState = await untilNotNull(signedInStateQuery.data, ctrl.signal)
+    iframeWindow.xbuilder_set_username(signedInState.isSignedIn ? signedInState.user.username : '')
 
     // TODO: get progress for engine-loading, which is now included in `startGame`
     startGameReporter.startAutoReport(10_000)

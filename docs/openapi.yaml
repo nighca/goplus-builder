@@ -1683,7 +1683,6 @@ paths:
                 - title
                 - thumbnail
                 - entrypoint
-                - references
                 - prompt
               properties:
                 title:
@@ -1692,8 +1691,6 @@ paths:
                   $ref: "#/components/schemas/Course/properties/thumbnail"
                 entrypoint:
                   $ref: "#/components/schemas/Course/properties/entrypoint"
-                references:
-                  $ref: "#/components/schemas/Course/properties/references"
                 prompt:
                   $ref: "#/components/schemas/Course/properties/prompt"
       responses:
@@ -3137,8 +3134,6 @@ paths:
                   $ref: "#/components/schemas/Course/properties/thumbnail"
                 entrypoint:
                   $ref: "#/components/schemas/Course/properties/entrypoint"
-                references:
-                  $ref: "#/components/schemas/Course/properties/references"
                 prompt:
                   $ref: "#/components/schemas/Course/properties/prompt"
       responses:
@@ -4600,7 +4595,7 @@ paths:
                   description: |
                     Scratch project file, such as .sb2, .sb3, or project zip. Form field name must be `file`.
 
-                    Maximum size is 64 MiB.
+                    Maximum size is 128 MiB.
                   type: string
                   format: binary
       responses:
@@ -5409,8 +5404,6 @@ paths:
                   $ref: "#/components/schemas/AccountApp/properties/clientType"
                 redirectURIs:
                   $ref: "#/components/schemas/AccountApp/properties/redirectURIs"
-                allowedOrigins:
-                  $ref: "#/components/schemas/AccountApp/properties/allowedOrigins"
       responses:
         "201":
           description: Account app created.
@@ -5489,8 +5482,6 @@ paths:
                   $ref: "#/components/schemas/AccountApp/properties/status"
                 redirectURIs:
                   $ref: "#/components/schemas/AccountApp/properties/redirectURIs"
-                allowedOrigins:
-                  $ref: "#/components/schemas/AccountApp/properties/allowedOrigins"
       responses:
         "200":
           description: Account app updated.
@@ -6357,12 +6348,12 @@ components:
           examples:
             - John Doe
         avatar:
-          description: Public HTTP URL or Kodo universal URL of the user's avatar image.
+          description: Public HTTP URL of the user's avatar image.
           type: string
           format: uri
+          pattern: "^https?://"
           examples:
             - https://avatars.example.com/users/10137.png
-            - kodo://xbuilder-usercontent-test/files/avatar.png
         description:
           description: Brief bio or description of the user.
           type: string
@@ -6667,7 +6658,6 @@ components:
         - status
         - redirectURIs
         - redirectURIPatterns
-        - allowedOrigins
       properties:
         id:
           $ref: "#/components/schemas/Model/properties/id"
@@ -6743,16 +6733,6 @@ components:
             type: string
           examples:
             - - https://app-*.example.com/oauth/callback
-        allowedOrigins:
-          description: |
-            Allowed web origins.
-
-            Production web origins must use `https`, must not include path, query, or fragment, and must be matched
-            exactly by the server.
-          type: array
-          items:
-            type: string
-            format: uri
 
     AccountAppSecret:
       type: object
@@ -7580,7 +7560,6 @@ components:
         - title
         - thumbnail
         - entrypoint
-        - references
         - prompt
       properties:
         id:
@@ -7613,37 +7592,12 @@ components:
           minLength: 1
           examples:
             - /editor/john/loop
-        references:
-          description: References associated with the course.
-          type: array
-          items:
-            $ref: "#/components/schemas/CourseReference"
         prompt:
           description: Prompt text for the course (used for copilot assistance).
           type: string
           maxLength: 4000
           examples:
             - Learn the basics of XGo programming language
-
-    CourseReference:
-      description: Reference to a resource associated with a course.
-      type: object
-      required:
-        - type
-        - fullName
-      properties:
-        type:
-          description: Type of the reference.
-          type: string
-          enum:
-            - project
-          examples:
-            - project
-        fullName:
-          description: Full name of the reference, in the format `owner/project`.
-          $ref: "#/components/schemas/ProjectFullName"
-          examples:
-            - john/NiuXiaoQi
 
     CourseSeries:
       description: Collection of related courses.

@@ -17,6 +17,9 @@ importers:
       '@lottiefiles/dotlottie-vue':
         specifier: ^0.5.8
         version: 0.5.8(vue@3.5.25(typescript@5.9.3))
+      '@lottiefiles/dotlottie-web':
+        specifier: 0.41.0
+        version: 0.41.0
       '@nighca/fflate':
         specifier: ^0.8.3
         version: 0.8.3
@@ -81,8 +84,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3))
       '@xgo-pkgs/spx':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 3.0.0
+        version: 3.0.0
       bowser:
         specifier: ^2.14.1
         version: 2.14.1
@@ -1224,8 +1227,8 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  '@xgo-pkgs/spx@2.0.4':
-    resolution: {integrity: sha512-aV6L7UD/6GXH6dEUjzSTU/7kpLXsN/L8Wy8rnFzR4gez0otKlmxjX8Ogft9COaQR1hQ5N0AvhXw0jPJdN+5FjA==}
+  '@xgo-pkgs/spx@3.0.0':
+    resolution: {integrity: sha512-+aLj+XSXJZpuBJcAGgOqhHDEBs7qcer3xQ/ZkiSvNPDdXEfn1006V1X8VS6avXsGyr/eKSHV4ep4rpuKMgQrRg==}
 
   abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
@@ -4195,7 +4198,7 @@ snapshots:
     dependencies:
       vue: 3.5.25(typescript@5.9.3)
 
-  '@xgo-pkgs/spx@2.0.4': {}
+  '@xgo-pkgs/spx@3.0.0': {}
 
   abbrev@2.0.0: {}
 
