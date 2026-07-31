@@ -1,4 +1,4 @@
-import { reactive, watchEffect, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { composeQuery, useQuery, useQueryCache, useQueryWithCache } from '@/utils/query'
 import { capture, useAction } from '@/utils/exception'
 import { OAuthFlow, type OAuthTokenResponse } from '@/utils/oauth'
@@ -12,14 +12,23 @@ export type SignedInUser = userApis.SignedInUser
 const userStateStorageKey = 'builder-user'
 const userAccessTokenLockName = 'builder-user-access-token'
 
+type UserState = {
+  accessToken: string | null
+  accessTokenExpiresAt: number | null
+  refreshToken: string | null
+  username: string | null
+}
+
+const emptyUserState: UserState = {
+  accessToken: null,
+  accessTokenExpiresAt: null,
+  refreshToken: null,
+  username: null
+}
+
 let oauthFlow: OAuthFlow<{ returnTo: string }> | null = null
 
-const userState = reactive({
-  accessToken: null as string | null,
-  accessTokenExpiresAt: null as number | null,
-  refreshToken: null as string | null,
-  username: null as string | null
-})
+const userState = reactive<UserState>({ ...emptyUserState })
 
 function ensureOAuthFlow() {
   if (oauthFlow == null) throw new Error('OAuth flow is not initialized')
@@ -34,23 +43,24 @@ export function initUserState(clientId: string) {
 
   restoreUserState()
   window.addEventListener('storage', (event) => {
-    if (event.key === userStateStorageKey) restoreUserState()
+    if (event.key == null || event.key === userStateStorageKey) restoreUserState()
   })
-  watchEffect(() => localStorage.setItem(userStateStorageKey, JSON.stringify(userState)))
 }
 
 function restoreUserState() {
   const stored = localStorage.getItem(userStateStorageKey)
-  if (stored == null) {
-    clearUserState()
-    return
-  }
   try {
-    Object.assign(userState, JSON.parse(stored))
+    const newState: UserState = stored != null ? JSON.parse(stored) : emptyUserState
+    Object.assign(userState, newState)
   } catch {
     localStorage.removeItem(userStateStorageKey)
-    clearUserState()
+    Object.assign(userState, emptyUserState)
   }
+}
+
+function setUserState(state: UserState) {
+  Object.assign(userState, state)
+  localStorage.setItem(userStateStorageKey, JSON.stringify(state))
 }
 
 async function getSignedInUsernameByAccessToken(accessToken: string) {
@@ -60,10 +70,12 @@ async function getSignedInUsernameByAccessToken(accessToken: string) {
 
 async function handleTokenResponse(resp: OAuthTokenResponse) {
   const username = await getSignedInUsernameByAccessToken(resp.access_token)
-  userState.accessToken = resp.access_token
-  userState.accessTokenExpiresAt = resp.expires_in != null ? Date.now() + resp.expires_in * 1000 : null
-  userState.refreshToken = resp.refresh_token ?? null
-  userState.username = username
+  setUserState({
+    accessToken: resp.access_token,
+    accessTokenExpiresAt: resp.expires_in != null ? Date.now() + resp.expires_in * 1000 : null,
+    refreshToken: resp.refresh_token ?? null,
+    username
+  })
 }
 
 export function useSignIn() {
@@ -85,17 +97,16 @@ export async function completeSignIn(search: string) {
 
 export async function signInWithAccessToken(accessToken: string) {
   const username = await getSignedInUsernameByAccessToken(accessToken)
-  userState.accessToken = accessToken
-  userState.accessTokenExpiresAt = null
-  userState.refreshToken = null
-  userState.username = username
+  setUserState({
+    accessToken,
+    accessTokenExpiresAt: null,
+    refreshToken: null,
+    username
+  })
 }
 
 function clearUserState() {
-  userState.accessToken = null
-  userState.accessTokenExpiresAt = null
-  userState.refreshToken = null
-  userState.username = null
+  setUserState(emptyUserState)
 }
 
 export async function signOut() {

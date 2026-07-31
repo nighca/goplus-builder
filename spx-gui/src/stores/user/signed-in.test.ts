@@ -102,4 +102,46 @@ describe('ensureAccessToken', () => {
 
     await expect(ensureAccessToken()).resolves.toBe(null)
   })
+
+  it('clears cached state when the shared storage is cleared', async () => {
+    localStorage.setItem(
+      userStateStorageKey,
+      JSON.stringify({
+        accessToken: 'access-token',
+        accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+        refreshToken: 'refresh-token',
+        username: 'alice'
+      })
+    )
+    Object.defineProperty(navigator, 'locks', {
+      configurable: true,
+      value: {
+        request: vi.fn(async (_name: string, callback: () => Promise<void>) => callback())
+      }
+    })
+    initUserState('client-id')
+
+    localStorage.clear()
+    window.dispatchEvent(new StorageEvent('storage', { key: null }))
+
+    await expect(ensureAccessToken()).resolves.toBe(null)
+  })
+
+  it('does not write state back after receiving a storage event', () => {
+    initUserState('client-id')
+    localStorage.setItem(
+      userStateStorageKey,
+      JSON.stringify({
+        accessToken: 'access-token',
+        accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+        refreshToken: 'refresh-token',
+        username: 'alice'
+      })
+    )
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
+
+    window.dispatchEvent(new StorageEvent('storage', { key: userStateStorageKey }))
+
+    expect(setItem).not.toHaveBeenCalled()
+  })
 })
