@@ -121,6 +121,7 @@ export async function ensureAccessToken(): Promise<string | null> {
   if (isAccessTokenValid()) return userState.accessToken
 
   await navigator.locks.request(userAccessTokenLockName, async () => {
+    // Another tab may have refreshed the token while this request waited for the lock.
     restoreUserState()
     if (isAccessTokenValid()) return
     if (userState.refreshToken == null) {
