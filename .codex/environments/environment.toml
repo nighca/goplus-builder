@@ -3,6 +3,4 @@ version = 1
 name = "builder"
 
 [setup]
-script = '''
-cd "$CODEX_WORKTREE_PATH"
-cd spx-gui && pnpm install'''
+script = "cd \"$CODEX_WORKTREE_PATH/spx-gui\" && pnpm install --frozen-lockfile"
