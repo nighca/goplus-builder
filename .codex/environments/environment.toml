@@ -1,0 +1,7 @@
+[setup]
+script = "cd spx-gui && pnpm install"
+
+[[actions]]
+name = "Run"
+icon = "run"
+command = "cd spx-gui && pnpm run dev"
