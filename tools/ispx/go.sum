@@ -20,8 +20,6 @@ github.com/goplus/spx/v3 v3.1.0 h1:r87JOG6MMqxvF7ctYKhFQRCcVLoa7fjEpqbn5g30ROQ=
 github.com/goplus/spx/v3 v3.1.0/go.mod h1:V0MxLPWgI/s36APu8KD9buuk9JDSXoxYgkKtCxHRI5M=
 github.com/goplus/xgo v1.7.5 h1:biSNkiyWe3e+YmOmDRSs1Z6K4RLkLpzN6mTp1WbryAw=
 github.com/goplus/xgo v1.7.5/go.mod h1:TRIPQ1bRVkq1x0+Ve/gWGS+qcb3ACPIZHNcmuiKzYkE=
-github.com/petermattis/goid v0.0.0-20250721140440-ea1c0173183e h1:D0bJD+4O3G4izvrQUmzCL80zazlN7EwJ0PPDhpJWC/I=
-github.com/petermattis/goid v0.0.0-20250721140440-ea1c0173183e/go.mod h1:pxMtw7cyUw6B2bRH0ZBANSPg+AoSud1I1iyJHI69jH4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/qiniu/x v1.18.0 h1:iMfc7Gqy1au+akr+Tl5Z40px7TR8VBLLkJsIeajKIbc=
@@ -39,8 +37,6 @@ github.com/timandy/routine v1.1.6 h1:cueNRVPutK8O6387LL7dmYPLNyS6aKlPCPi5qWCLdc8
 github.com/timandy/routine v1.1.6/go.mod h1:kXslgIosdY8LW0byTyPnenDgn4/azt2euufAq9rK51w=
 github.com/visualfc/funcval v0.1.5 h1:jR21zdx0pFk4nUzmutrFZL6EiRuMYR/ZaD+KOzTwyEk=
 github.com/visualfc/funcval v0.1.5/go.mod h1:3Izv+irhArmrTvy+lmL6pIq16gSOzx73CIka51J9eR0=
-github.com/visualfc/gid v0.3.1 h1:wWnU17tIBISc7sbbfRxNIg0rdfJUqANZYeX04KbbhlU=
-github.com/visualfc/gid v0.3.1/go.mod h1:vpt7mMzO6Mst8v6T4vCSTPKzrNwfVsaDZQ12T4eQT8o=
 github.com/visualfc/gid v0.3.2 h1:gf+BfbkR5j3TI6t3RwQHCKfeHpsspb+JWSGI4DYRa2Q=
 github.com/visualfc/gid v0.3.2/go.mod h1:vpt7mMzO6Mst8v6T4vCSTPKzrNwfVsaDZQ12T4eQT8o=
 github.com/visualfc/goembed v0.3.4 h1:foORJ0KT/pKwA23dStPFOtxaW7F96PnNSiLXHVXrfVk=
