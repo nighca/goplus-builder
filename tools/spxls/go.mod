@@ -13,7 +13,7 @@ require (
 	github.com/goplus/gogen v1.23.5 // indirect
 	github.com/goplus/mod v0.21.1 // indirect
 	github.com/goplus/spbase v0.1.0 // indirect
-	github.com/goplus/spx/v3 v3.0.0 // indirect
+	github.com/goplus/spx/v3 v3.1.0 // indirect
 	github.com/goplus/xgo v1.7.5 // indirect
 	github.com/petermattis/goid v0.0.0-20250721140440-ea1c0173183e // indirect
 	github.com/qiniu/x v1.18.0 // indirect
