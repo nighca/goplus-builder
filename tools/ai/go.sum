@@ -4,5 +4,7 @@ github.com/goplus/spx/v3 v3.1.0 h1:r87JOG6MMqxvF7ctYKhFQRCcVLoa7fjEpqbn5g30ROQ=
 github.com/goplus/spx/v3 v3.1.0/go.mod h1:V0MxLPWgI/s36APu8KD9buuk9JDSXoxYgkKtCxHRI5M=
 github.com/petermattis/goid v0.0.0-20250721140440-ea1c0173183e h1:D0bJD+4O3G4izvrQUmzCL80zazlN7EwJ0PPDhpJWC/I=
 github.com/petermattis/goid v0.0.0-20250721140440-ea1c0173183e/go.mod h1:pxMtw7cyUw6B2bRH0ZBANSPg+AoSud1I1iyJHI69jH4=
+github.com/visualfc/gid v0.3.2 h1:gf+BfbkR5j3TI6t3RwQHCKfeHpsspb+JWSGI4DYRa2Q=
+github.com/visualfc/gid v0.3.2/go.mod h1:vpt7mMzO6Mst8v6T4vCSTPKzrNwfVsaDZQ12T4eQT8o=
 golang.org/x/image v0.23.0 h1:HseQ7c2OpPKTPVzNjG5fwJsOTCiiwS4QdsYi5XU6H68=
 golang.org/x/image v0.23.0/go.mod h1:wJJBTdLfCCf3tiHa1fNxpZmUI4mmoZvwMCPP0ddoNKY=
