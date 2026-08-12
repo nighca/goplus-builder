@@ -369,14 +369,12 @@ const handlePublishProject = useMessageHandle(() => publishProject(editorCtx.pro
 const handleRun = useMessageHandle(
   async () => {
     const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
-    try {
-      await Promise.race([checkAndNotifyPreRunErrors(timeoutSignal), promiseForSignal(timeoutSignal)])
-    } catch (error) {
-      if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
-      else throw error
-    } finally {
-      cancelTimeout()
-    }
+    await Promise.race([checkAndNotifyPreRunErrors(timeoutSignal), promiseForSignal(timeoutSignal)])
+      .catch((error) => {
+        if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
+        else throw error
+      })
+      .finally(cancelTimeout)
     await executeRun('run')
   },
   { en: 'Failed to run project', zh: '运行项目失败' }
