@@ -163,7 +163,7 @@ function isSpxPanicLog(obj: SpxLog): obj is SpxPanicLog {
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { getTimeoutSignal } from '@/utils/disposable'
+import { getTimeoutSignal, promiseForSignal } from '@/utils/disposable'
 import { capture, useMessageHandle } from '@/utils/exception'
 import { useI18n, type LocaleMessage } from '@/utils/i18n'
 import { humanizeListWithLimit, untilNotNull } from '@/utils/utils'
@@ -365,8 +365,13 @@ const handleRun = useMessageHandle(
   async () => {
     const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
     try {
-      await checkAndNotifyCodeError(timeoutSignal)
-      await checkAndNotifyMonitorError(timeoutSignal)
+      await Promise.race([
+        (async () => {
+          await checkAndNotifyCodeError(timeoutSignal)
+          await checkAndNotifyMonitorError(timeoutSignal)
+        })(),
+        promiseForSignal(timeoutSignal)
+      ])
     } catch (error) {
       if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
       else throw error
