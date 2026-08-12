@@ -182,7 +182,7 @@ import StageViewer from './stage-viewer/StageViewer.vue'
 import { useNetwork } from '@/utils/network'
 import { usePublishProject } from '@/components/project'
 
-const STATIC_CHECK_TIMEOUT = 5_000 // ms
+const CODE_EDITOR_OPERATION_TIMEOUT = 5_000 // ms
 
 const editorCtx = useEditorCtx()
 const codeEditor = useCodeEditor()
@@ -290,7 +290,7 @@ function handleExit(code: number) {
 }
 
 async function checkAndNotifyCodeError() {
-  const r = await withTimeout(STATIC_CHECK_TIMEOUT, (signal) => codeEditor.diagnosticWorkspace(signal))
+  const r = await withTimeout(CODE_EDITOR_OPERATION_TIMEOUT, (signal) => codeEditor.diagnosticWorkspace(signal))
   const codeFilesWithError: LocaleMessage[] = []
   for (const item of r.items) {
     if (!item.diagnostics.some((d) => d.severity === DiagnosticSeverity.Error)) continue
@@ -311,7 +311,7 @@ async function checkAndNotifyMonitorError() {
   const { sprites, stage } = editorCtx.project
   const monitors = stage.widgets.filter((w) => w.type === 'monitor')
   const spriteNames = new Set(sprites.map((s) => s.name))
-  const invalidMonitors = await withTimeout(STATIC_CHECK_TIMEOUT, (signal) =>
+  const invalidMonitors = await withTimeout(CODE_EDITOR_OPERATION_TIMEOUT, (signal) =>
     getInvalidMonitors(monitors, spriteNames, (target, signal) => codeEditor.getProperties(target, signal), signal)
   )
   if (invalidMonitors.length === 0) return
