@@ -164,7 +164,7 @@ function isSpxPanicLog(obj: SpxLog): obj is SpxPanicLog {
 import dayjs from 'dayjs'
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { getTimeoutSignal, promiseForSignal } from '@/utils/disposable'
-import { capture, useMessageHandle } from '@/utils/exception'
+import { Cancelled, capture, useMessageHandle } from '@/utils/exception'
 import { useI18n, type LocaleMessage } from '@/utils/i18n'
 import { humanizeListWithLimit, untilNotNull } from '@/utils/utils'
 import { useSignedInUser } from '@/stores/user'
@@ -289,8 +289,13 @@ function handleExit(code: number) {
   runnerState.value = shouldRestore ? 'running' : 'loading'
 }
 
-async function checkAndNotifyCodeError(signal?: AbortSignal) {
-  const r = await codeEditor.diagnosticWorkspace(signal)
+async function withStaticCheckTimeout<T>(fn: (signal: AbortSignal) => Promise<T>) {
+  const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
+  return Promise.race([fn(timeoutSignal), promiseForSignal(timeoutSignal)]).finally(cancelTimeout)
+}
+
+async function checkAndNotifyCodeError() {
+  const r = await withStaticCheckTimeout((signal) => codeEditor.diagnosticWorkspace(signal))
   const codeFilesWithError: LocaleMessage[] = []
   for (const item of r.items) {
     if (!item.diagnostics.some((d) => d.severity === DiagnosticSeverity.Error)) continue
@@ -307,15 +312,12 @@ async function checkAndNotifyCodeError(signal?: AbortSignal) {
   })
 }
 
-async function checkAndNotifyMonitorError(signal?: AbortSignal) {
+async function checkAndNotifyMonitorError() {
   const { sprites, stage } = editorCtx.project
   const monitors = stage.widgets.filter((w) => w.type === 'monitor')
   const spriteNames = new Set(sprites.map((s) => s.name))
-  const invalidMonitors = await getInvalidMonitors(
-    monitors,
-    spriteNames,
-    (target, signal) => codeEditor.getProperties(target, signal),
-    signal
+  const invalidMonitors = await withStaticCheckTimeout((signal) =>
+    getInvalidMonitors(monitors, spriteNames, (target, signal) => codeEditor.getProperties(target, signal), signal)
   )
   if (invalidMonitors.length === 0) return
   const monitorNames = humanizeListWithLimit(invalidMonitors.map((m) => ({ en: m.name, zh: m.name })))
@@ -328,9 +330,9 @@ async function checkAndNotifyMonitorError(signal?: AbortSignal) {
   })
 }
 
-async function checkAndNotifyPreRunErrors(signal?: AbortSignal) {
-  await checkAndNotifyCodeError(signal)
-  await checkAndNotifyMonitorError(signal)
+async function checkAndNotifyPreRunErrors() {
+  await checkAndNotifyCodeError()
+  await checkAndNotifyMonitorError()
 }
 
 async function executeRun(action: 'run' | 'rerun') {
@@ -368,13 +370,10 @@ const handlePublishProject = useMessageHandle(() => publishProject(editorCtx.pro
 
 const handleRun = useMessageHandle(
   async () => {
-    const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
-    await Promise.race([checkAndNotifyPreRunErrors(timeoutSignal), promiseForSignal(timeoutSignal)])
-      .catch((error) => {
-        if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
-        else throw error
-      })
-      .finally(cancelTimeout)
+    await checkAndNotifyPreRunErrors().catch((error) => {
+      if (error instanceof Cancelled) throw error
+      capture(error, 'Failed to check project before running')
+    })
     await executeRun('run')
   },
   { en: 'Failed to run project', zh: '运行项目失败' }
