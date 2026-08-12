@@ -328,6 +328,11 @@ async function checkAndNotifyMonitorError(signal?: AbortSignal) {
   })
 }
 
+async function checkAndNotifyPreRunErrors(signal?: AbortSignal) {
+  await checkAndNotifyCodeError(signal)
+  await checkAndNotifyMonitorError(signal)
+}
+
 async function executeRun(action: 'run' | 'rerun') {
   exitGuard.value = 'idle'
   runnerState.value = 'loading'
@@ -365,13 +370,7 @@ const handleRun = useMessageHandle(
   async () => {
     const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
     try {
-      await Promise.race([
-        (async () => {
-          await checkAndNotifyCodeError(timeoutSignal)
-          await checkAndNotifyMonitorError(timeoutSignal)
-        })(),
-        promiseForSignal(timeoutSignal)
-      ])
+      await Promise.race([checkAndNotifyPreRunErrors(timeoutSignal), promiseForSignal(timeoutSignal)])
     } catch (error) {
       if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
       else throw error
