@@ -182,7 +182,7 @@ import StageViewer from './stage-viewer/StageViewer.vue'
 import { useNetwork } from '@/utils/network'
 import { usePublishProject } from '@/components/project'
 
-const STATIC_CHECK_TIMEOUT = 5_000
+const STATIC_CHECK_TIMEOUT = 5_000 // ms
 
 const editorCtx = useEditorCtx()
 const codeEditor = useCodeEditor()
