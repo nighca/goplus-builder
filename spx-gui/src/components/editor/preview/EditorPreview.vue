@@ -363,12 +363,13 @@ const handlePublishProject = useMessageHandle(() => publishProject(editorCtx.pro
 
 const handleRun = useMessageHandle(
   async () => {
-    const [signal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
+    const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
     try {
-      await checkAndNotifyCodeError(signal)
-      await checkAndNotifyMonitorError(signal)
+      await checkAndNotifyCodeError(timeoutSignal)
+      await checkAndNotifyMonitorError(timeoutSignal)
     } catch (error) {
-      if (!signal.aborted) throw error
+      if (timeoutSignal.aborted) capture(error, 'Pre-run static checks timed out')
+      else throw error
     } finally {
       cancelTimeout()
     }
