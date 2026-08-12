@@ -163,7 +163,7 @@ function isSpxPanicLog(obj: SpxLog): obj is SpxPanicLog {
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { getTimeoutSignal, promiseForSignal } from '@/utils/disposable'
+import { withTimeout } from '@/utils/disposable'
 import { Cancelled, capture, useMessageHandle } from '@/utils/exception'
 import { useI18n, type LocaleMessage } from '@/utils/i18n'
 import { humanizeListWithLimit, untilNotNull } from '@/utils/utils'
@@ -289,13 +289,8 @@ function handleExit(code: number) {
   runnerState.value = shouldRestore ? 'running' : 'loading'
 }
 
-async function withStaticCheckTimeout<T>(fn: (signal: AbortSignal) => Promise<T>) {
-  const [timeoutSignal, cancelTimeout] = getTimeoutSignal(STATIC_CHECK_TIMEOUT)
-  return Promise.race([fn(timeoutSignal), promiseForSignal(timeoutSignal)]).finally(cancelTimeout)
-}
-
 async function checkAndNotifyCodeError() {
-  const r = await withStaticCheckTimeout((signal) => codeEditor.diagnosticWorkspace(signal))
+  const r = await withTimeout(STATIC_CHECK_TIMEOUT, (signal) => codeEditor.diagnosticWorkspace(signal))
   const codeFilesWithError: LocaleMessage[] = []
   for (const item of r.items) {
     if (!item.diagnostics.some((d) => d.severity === DiagnosticSeverity.Error)) continue
@@ -316,7 +311,7 @@ async function checkAndNotifyMonitorError() {
   const { sprites, stage } = editorCtx.project
   const monitors = stage.widgets.filter((w) => w.type === 'monitor')
   const spriteNames = new Set(sprites.map((s) => s.name))
-  const invalidMonitors = await withStaticCheckTimeout((signal) =>
+  const invalidMonitors = await withTimeout(STATIC_CHECK_TIMEOUT, (signal) =>
     getInvalidMonitors(monitors, spriteNames, (target, signal) => codeEditor.getProperties(target, signal), signal)
   )
   if (invalidMonitors.length === 0) return
@@ -372,6 +367,7 @@ const handleRun = useMessageHandle(
   async () => {
     await checkAndNotifyPreRunErrors().catch((error) => {
       if (error instanceof Cancelled) throw error
+      // Do not let a slow or unavailable language server block project execution.
       capture(error, 'Failed to check project before running')
     })
     await executeRun('run')
