@@ -182,6 +182,7 @@ import StageViewer from './stage-viewer/StageViewer.vue'
 import { useNetwork } from '@/utils/network'
 import { usePublishProject } from '@/components/project'
 
+// Code Editor operations may take a long time for some projects and block project execution.
 const CODE_EDITOR_OPERATION_TIMEOUT = 5_000 // ms
 
 const editorCtx = useEditorCtx()
@@ -367,7 +368,6 @@ const handleRun = useMessageHandle(
   async () => {
     await checkAndNotifyPreRunErrors().catch((error) => {
       if (error instanceof Cancelled) throw error
-      // Do not let a slow or unavailable language server block project execution.
       capture(error, 'Failed to check project before running')
     })
     await executeRun('run')
