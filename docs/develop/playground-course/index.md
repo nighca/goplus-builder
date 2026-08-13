@@ -92,8 +92,8 @@ See [Course Editor](./module_CourseEditor.ts).
 
 ```mermaid
 flowchart LR
-    CoursePage["Course page"] -->|load Course and Series| CourseApis["Course APIs"]
-    CoursePage -->|start loaded Course| Tutorial
+    CoursePlayground["Course playground"] -->|load Course and Series| CourseApis["Course APIs"]
+    CoursePlayground -->|start loaded Course| Tutorial
 
     CourseEditor["Course Editor"] -->|load and save| CourseApis
     CourseEditor -->|preview in-memory snapshot| Tutorial
