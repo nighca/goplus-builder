@@ -366,6 +366,7 @@ const handlePublishProject = useMessageHandle(() => publishProject(editorCtx.pro
 
 const handleRun = useMessageHandle(
   async () => {
+    // Cancellation means the user declined to run; other check failures should not block project execution.
     await checkAndNotifyPreRunErrors().catch((error) => {
       if (error instanceof Cancelled) throw error
       capture(error, 'Failed to check project before running')
