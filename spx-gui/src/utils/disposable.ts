@@ -87,9 +87,10 @@ export function promiseForSignal(signal: AbortSignal): Promise<never> {
 
 /**
  * Run a promise factory with a signal that aborts when the timeout or an optional external signal expires.
- * The returned promise rejects with the same exception on timeout.
+ * The returned promise rejects with `TimeoutException` on timeout or the external signal's reason on cancellation.
  */
 export function withTimeout<T>(timeout: number, fn: (signal: AbortSignal) => Promise<T>, signal?: AbortSignal) {
   const [timeoutSignal, cancelTimeout] = getTimeoutSignal(timeout)
-  return Promise.race([fn(mergeSignals(timeoutSignal, signal)), promiseForSignal(timeoutSignal)]).finally(cancelTimeout)
+  const mergedSignal = mergeSignals(timeoutSignal, signal)
+  return Promise.race([fn(mergedSignal), promiseForSignal(mergedSignal)]).finally(cancelTimeout)
 }
