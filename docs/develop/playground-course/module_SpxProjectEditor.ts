@@ -27,6 +27,7 @@ export interface ProjectEditorMode {
 
 export interface ProjectStageViewer {
   onSpriteNameClick(listener: (spriteName: string) => void): Disposer;
+  setRulerVisible(visible: boolean): void;
 }
 
 export interface ProjectEditorSpotlight {
@@ -37,6 +38,11 @@ export interface EditorState {
   dispose(): void;
 }
 
+export interface ProjectActions {
+  /** Creates an owned regular project from the current course-project state. */
+  saveAsProject(): Promise<void>;
+}
+
 export type SpxProjectEditorContext = {
   project: SpxProject;
   state: EditorState;
@@ -45,6 +51,7 @@ export type SpxProjectEditorContext = {
   mode: ProjectEditorMode;
   stageViewer: ProjectStageViewer;
   spotlight: ProjectEditorSpotlight;
+  actions: ProjectActions;
 };
 
 export interface SpxProjectEditorFactory {

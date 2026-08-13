@@ -1,5 +1,6 @@
 import type { Files, SpxProject, TextFiles, UI } from "./base";
-import type { CourseSeries, PlaygroundEditor } from "./module_CourseApis";
+import type { CourseSeries } from "./module_CourseApis";
+import type { TutorialEditorConfig } from "./module_TutorialFramework";
 
 export type PlaygroundCourseEditingState = {
   id: string | null;
@@ -12,7 +13,7 @@ export type PlaygroundCourseEditingState = {
   };
   localFiles: Files;
   copilotContext: string;
-  editor: PlaygroundEditor;
+  editor: TutorialEditorConfig;
 };
 
 /** In-memory Course Editor state. Preview reads it without saving first. */
@@ -21,6 +22,11 @@ export interface CourseEditorState {
   readonly series: CourseSeries | null;
   save(): Promise<void>;
 }
+
+export type CourseSeriesEditorState = {
+  series: CourseSeries;
+  courses: PlaygroundCourseEditingState[];
+};
 
 export type CourseEditorProps = {
   state: CourseEditorState;

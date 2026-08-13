@@ -1,0 +1,12 @@
+onStart => {
+	editor.codeEditor.filterAPIs ["stepTo"]
+	showMessage "Move Lita to Mushroom. Click Mushroom's name to insert it into your code."
+}
+
+editor.runtime.onLog log => {
+	if log == "reached-target" {
+		code := editor.codeEditor.getCode()
+		feedback := copilot.generateResponse "Give one short sentence of feedback about this solution:\n" + code
+		completeWith feedback
+	}
+}

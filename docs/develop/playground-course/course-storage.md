@@ -2,18 +2,17 @@
 
 ## Goals
 
-Course storage supports two Course kinds without mixing their content schemas:
+A Course is persisted as metadata plus an opaque content document. In particular, a Playground Course is an XGo Tutorial project whose internal directory structure, configuration and assets will become more complex and evolve independently of the database schema.
 
-- `guided`: an entrypoint and a Copilot prompt.
-- `playground`: an embedded project, Tutorial program, local files, Copilot context and editor configuration.
+The database therefore owns Course identity, ownership, kind and display metadata, but does not interpret or validate kind-specific content. The frontend and other consumers load that content into typed models and enforce the applicable content-format contract.
 
-A Course Series contains courses of exactly one kind. This design does not introduce draft/published revisions, persisted runtime sessions or unfinished-course progress.
+A Course Series contains courses of exactly one kind. This design does not introduce draft/published revisions, persisted runtime sessions or unfinished-course progress. A saved Course is immediately available for learning.
 
 ## Tables
 
 ### `course`
 
-Stores fields shared by both Course kinds.
+Stores both common fields and kind-specific content.
 
 | Column       | Type          | Constraint                         |
 | ------------ | ------------- | ---------------------------------- |
@@ -24,49 +23,22 @@ Stores fields shared by both Course kinds.
 | `kind`       | `text`        | Not null, `guided` or `playground` |
 | `title`      | `text`        | Not null                           |
 | `thumbnail`  | `text`        | Not null, universal URL            |
+| `content`    | `jsonb`       | Not null                           |
 
 `kind` is immutable after creation. An index on `(kind, id)` supports kind-filtered administration queries.
 
-### `guided_course`
+For a Guided Course, `content` contains the Guided Course data exposed by `GuidedCourse.content` in the HTTP contract.
 
-Stores the content of a Guided Course.
+For a Playground Course, `content` is a `FileCollection`: a JSON object from file path to universal URL. The referenced files form the Tutorial project. Its directory layout and configuration schemas are owned by the Tutorial Class Framework contract and remain opaque to Course APIs and storage. Binary objects and file bodies remain in the existing file service and Kodo; PostgreSQL stores only the file-path-to-URL collection.
 
-| Column       | Type     | Constraint                                                 |
-| ------------ | -------- | ---------------------------------------------------------- |
-| `course_id`  | `bigint` | Primary key, foreign key to `course.id`, cascade on delete |
-| `entrypoint` | `text`   | Not null                                                   |
-| `prompt`     | `text`   | Not null                                                   |
+See the [example Tutorial Course project](./example-tutorial-course/) for a concrete directory before its paths are converted into a persisted `FileCollection`.
 
-There is exactly one `guided_course` row for every `course.kind = 'guided'` row.
+Keeping `content` opaque has these consequences:
 
-### `playground_course`
-
-Stores the content of a Playground Course.
-
-| Column            | Type     | Constraint                                                 |
-| ----------------- | -------- | ---------------------------------------------------------- |
-| `course_id`       | `bigint` | Primary key, foreign key to `course.id`, cascade on delete |
-| `project_type`    | `text`   | Not null; initially only `spx`                             |
-| `project_files`   | `jsonb`  | Not null, file path to universal URL                       |
-| `program_entry`   | `text`   | Not null                                                   |
-| `program_files`   | `jsonb`  | Not null, file path to universal URL                       |
-| `local_files`     | `jsonb`  | Not null, file path to universal URL                       |
-| `copilot_context` | `text`   | Not null                                                   |
-| `editor`          | `jsonb`  | Not null, standard or Simple Mode configuration            |
-
-The stored file collections reference the existing file service and Kodo objects. The Course row owns those references, but the binary objects are not stored in PostgreSQL.
-
-The `editor` value follows this shape:
-
-```json
-{ "kind": "standard" }
-```
-
-or:
-
-```json
-{ "kind": "simple", "spriteName": "Lita" }
-```
+- changes to the Tutorial project format do not require database migrations;
+- the API can preserve and return content from newer format versions without understanding it;
+- consumers must apply the Tutorial Class Framework's format contract and construct their own typed models;
+- relational constraints cannot enforce kind-specific content fields, so validation belongs at API/editor boundaries.
 
 ### `course_series`
 
@@ -78,9 +50,7 @@ The existing table keeps its metadata and ordered `course_ids` collection, with 
 
 ## Write transactions and invariants
 
-Creating a Course writes `course` and the matching content table in one transaction. Updating a Course locks the common row and updates only the content table selected by its immutable kind. Deleting the common row cascades to its content row.
-
-The controller guarantees that exactly one matching content row exists. This invariant spans tables and is therefore maintained by the write transaction rather than by nullable columns in one table.
+Creating or updating a Course writes one `course` row. The API validates only the stable outer contract, including the immutable `kind` and that `content` is valid JSON of the expected top-level type. It does not project Course-content fields into columns or couple writes to a particular content-format version.
 
 Creating or updating a Course Series follows the existing course-locking order:
 
@@ -97,11 +67,12 @@ This prevents a Course deletion or concurrent Series update from invalidating th
 
 All existing courses are Guided Courses, so migration can be deterministic:
 
-1. Create `guided_course` and `playground_course`.
-2. Add `course.kind` as non-null with temporary default `guided`.
-3. Copy every existing `course.entrypoint` and `course.prompt` into `guided_course`.
-4. Add `course_series.kind` as non-null with temporary default `guided`.
-5. Remove `entrypoint` and `prompt` from `course` after the application reads from `guided_course`.
-6. Remove the temporary defaults if Course creation must always provide kind explicitly.
+1. Add `course.kind` as non-null with temporary default `guided`.
+2. Add nullable `course.content`.
+3. Backfill `content` from each row's existing `entrypoint` and `prompt`.
+4. Make `content` non-null.
+5. Add `course_series.kind` as non-null with temporary default `guided`.
+6. Remove `course.entrypoint` and `course.prompt` after the application reads Guided Course data from `content`.
+7. Remove the temporary defaults if Course creation must always provide kind explicitly.
 
 No Course IDs or Course Series ordering changes during migration.

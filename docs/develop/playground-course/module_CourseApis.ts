@@ -1,4 +1,4 @@
-import type { CourseProject, FileCollection } from "./base";
+import type { FileCollection } from "./base";
 
 export type CourseKind = "guided" | "playground";
 
@@ -18,27 +18,21 @@ export type GuidedCourse = CourseBase & {
   };
 };
 
-export type PlaygroundEditor =
-  | {
-      kind: "standard";
-    }
-  | {
-      kind: "simple";
-      spriteName: string;
-    };
+export type GeneratePlaygroundCourseCopilotContextInput = {
+  title: string;
+  thumbnail: string;
+  /** Current unsaved Course content. */
+  content: FileCollection;
+};
+
+export type GeneratePlaygroundCourseCopilotContextResult = {
+  copilotContext: string;
+};
 
 export type PlaygroundCourse = CourseBase & {
   kind: "playground";
-  content: {
-    project: CourseProject;
-    program: {
-      entry: string;
-      files: FileCollection;
-    };
-    localFiles: FileCollection;
-    copilotContext: string;
-    editor: PlaygroundEditor;
-  };
+  /** An opaque Tutorial-project file collection. */
+  content: FileCollection;
 };
 
 export type Course = GuidedCourse | PlaygroundCourse;
@@ -81,6 +75,12 @@ export type ByPage<T> = {
 
 /** HTTP APIs provided by builder-backend for Course and Course Series data. */
 export interface CourseApis {
+  /** `POST /user/courses/playground/copilot-context`. Generates an editable context. */
+  generatePlaygroundCourseCopilotContext(
+    input: GeneratePlaygroundCourseCopilotContextInput,
+    signal?: AbortSignal,
+  ): Promise<GeneratePlaygroundCourseCopilotContextResult>;
+
   /** `GET /courses/{courseID}` */
   getCourse(id: string, signal?: AbortSignal): Promise<Course>;
 

@@ -16,12 +16,15 @@ type CourseAbilities interface {
 	showVideo(videoPath string)
 	// complete marks the course as completed.
 	complete()
+	// completeWith marks the course as completed and displays the given feedback.
+	completeWith(message string)
 }
 
 type Editor struct {
 	project    Project
 	runtime    Runtime
 	codeEditor CodeEditor
+	ruler      Ruler
 }
 
 type Project struct{}
@@ -40,11 +43,22 @@ type CodeEditor interface {
 	filterAPIs(apis []string)
 	// formatWorkspace formats the current code workspace.
 	formatWorkspace()
+	// getCode returns the learner's current code.
+	getCode() string
+}
+
+type Ruler interface {
+	// show displays the ruler over the stage.
+	show()
+	// hide removes the ruler from the stage.
+	hide()
 }
 
 type Copilot interface {
 	// onRoundFinish registers a callback that is called when a Copilot round finishes.
 	onRoundFinish(callback func(round CopilotRound))
+	// generateResponse asks Copilot to generate a response without adding a conversation round.
+	generateResponse(message string) string
 }
 
 type CopilotRound struct {

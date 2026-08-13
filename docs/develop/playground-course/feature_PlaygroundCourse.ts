@@ -1,6 +1,5 @@
 import type { Disposer } from "./base";
 import type { Copilot } from "./module_Copilot";
-import type { PlaygroundEditor } from "./module_CourseApis";
 import type {
   ProjectEditorProps,
   SimpleProjectEditorProps,
@@ -12,7 +11,10 @@ import type {
   TutorialDriver,
   TutorialView,
 } from "./module_Tutorial";
-import type { TutorialFrameworkFactory } from "./module_TutorialFramework";
+import type {
+  TutorialEditorConfig,
+  TutorialFrameworkFactory,
+} from "./module_TutorialFramework";
 import type { XGoExecutor, XGoExecutorFactory } from "./module_XGoExecutor";
 import { ProjectEditor, SimpleProjectEditor } from "./module_SpxProjectEditor";
 
@@ -47,9 +49,13 @@ export class PlaygroundCourseRunner implements TutorialDriver {
     const binding = frameworkFactory.create({
       showMessage: (message) => view.showMessage(message),
       showVideo: (path) => view.showVideo(this.input.localFiles[path]),
-      complete: () => this.complete(),
+      complete: (message) => this.complete(message),
       filterAPIs: (apis) => editor.codeEditor.filterAPIs(apis),
       formatWorkspace: () => editor.codeEditor.formatWorkspace(),
+      getCode: () => editor.codeEditor.readCurrentCode() ?? "",
+      setRulerVisible: (visible) => editor.stageViewer.setRulerVisible(visible),
+      generateResponse: (message) =>
+        copilot.generateResponse({ response: "text", message }),
       reveal: (target) => editor.spotlight.reveal(target),
     });
     const executor = executorFactory.create({
@@ -90,17 +96,17 @@ export class PlaygroundCourseRunner implements TutorialDriver {
     this.editor?.state.dispose();
   }
 
-  private async complete() {
+  private async complete(message: string | null) {
     if (this.completed) return;
     this.completed = true;
     await this.stop();
-    await view.showCompletion();
+    await view.showCourseCompletion(message);
   }
 }
 
 function createEditorUI(
   context: SpxProjectEditorContext,
-  editor: PlaygroundEditor,
+  editor: TutorialEditorConfig,
 ) {
   if (editor.kind === "standard")
     return ProjectEditor({ context } satisfies ProjectEditorProps);
