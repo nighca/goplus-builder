@@ -23,7 +23,7 @@ See [Course APIs](./module_CourseApis.ts) and [Course storage](./course-storage.
 
 Tutorial owns course lifecycle and dispatches each Course to a Guided Course Driver or Playground Course Driver. It owns course dialogs and completion UI, but it does not implement the project editor, Copilot or XGo execution.
 
-For a Playground Course, the driver interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute`, mounts the SPX Project Editor and starts a Copilot Topic. It then creates the Tutorial `XGoFramework`, passes it through `XGoExecutorOptions` and runs the conventional root `main.gox`. Stopping or completing the Course tears these resources down together.
+For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. It starts Tutorial with the loaded Course and editor capabilities. Tutorial starts a Copilot Topic, registers the editor and Copilot capabilities in the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main.gox`. Stopping or completing the Course tears these resources down together.
 
 See [Tutorial](./module_Tutorial.ts).
 
@@ -93,18 +93,17 @@ See [Course Editor](./module_CourseEditor.ts).
 ```mermaid
 flowchart LR
     CoursePlayground["Course playground"] -->|load Course and Series| CourseApis["Course APIs"]
-    CoursePlayground -->|start loaded Course| Tutorial
+    CoursePlayground -->|compose learning UI| ProjectEditor["SPX Project Editor"]
+    CoursePlayground -->|start Course with editor capabilities| Tutorial
 
     CourseEditor["Course Editor"] -->|load and save| CourseApis
-    CourseEditor -->|preview in-memory snapshot| Tutorial
+    CourseEditor -->|compose authoring and preview UI| ProjectEditor
+    CourseEditor -->|preview snapshot with editor capabilities| Tutorial
 
-    Tutorial -->|mount and manage EditorState| ProjectEditor["SPX Project Editor"]
-    Tutorial -->|manage session| Copilot
-    Tutorial -->|create with host capabilities| Framework["Tutorial Class Framework"]
+    Tutorial -->|manage session and register capabilities| Copilot
+    Tutorial -->|create with registered capabilities| Framework["Tutorial Class Framework"]
     Tutorial -->|run and stop| Executor["XGo Executor"]
 
     Framework -->|provide XGoFramework and dispatch events| Executor
     Executor -->|invoke framework capabilities| Framework
-    Framework -->|invoke editor capabilities| ProjectEditor
-    Framework -->|invoke Copilot capabilities| Copilot
 ```
