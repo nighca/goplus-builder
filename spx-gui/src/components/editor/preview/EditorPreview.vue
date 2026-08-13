@@ -183,7 +183,7 @@ import { useNetwork } from '@/utils/network'
 import { usePublishProject } from '@/components/project'
 
 // Code Editor operations may take a long time for some projects and block project execution.
-const CODE_EDITOR_OPERATION_TIMEOUT = 5_000 // ms
+const CODE_EDITOR_OPERATION_TIMEOUT = 3_000 // ms
 
 const editorCtx = useEditorCtx()
 const codeEditor = useCodeEditor()
@@ -313,7 +313,7 @@ async function checkAndNotifyMonitorError() {
   const monitors = stage.widgets.filter((w) => w.type === 'monitor')
   const spriteNames = new Set(sprites.map((s) => s.name))
   const invalidMonitors = await withTimeout(CODE_EDITOR_OPERATION_TIMEOUT, (signal) =>
-    getInvalidMonitors(monitors, spriteNames, (target, signal) => codeEditor.getProperties(target, signal), signal)
+    getInvalidMonitors(monitors, spriteNames, (target, s) => codeEditor.getProperties(target, s), signal)
   )
   if (invalidMonitors.length === 0) return
   const monitorNames = humanizeListWithLimit(invalidMonitors.map((m) => ({ en: m.name, zh: m.name })))
