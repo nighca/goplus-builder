@@ -91,18 +91,20 @@ See [Course Editor](./module_CourseEditor.ts).
 ## Module relationships
 
 ```mermaid
-flowchart TD
-    Learn["Course page"] --> Tutorial
-    Preview["Course Editor Preview"] --> PlaygroundRunner["Playground Course Runner"]
-    Tutorial --> GuidedDriver["Guided Course Driver"]
-    Tutorial --> PlaygroundRunner
-    Tutorial --> CourseApis["Course APIs"]
-    CourseEditor["Course Editor"] --> CourseApis
-    CourseEditor --> Preview
-    PlaygroundRunner --> ProjectEditor["SPX Project Editor"]
-    PlaygroundRunner --> Executor["XGo Executor"]
-    PlaygroundRunner --> Copilot
-    PlaygroundRunner --> Framework["Tutorial Class Framework"]
-    Framework --> ProjectEditor
-    Framework --> Copilot
+flowchart LR
+    CoursePage["Course page"] -->|load Course and Series| CourseApis["Course APIs"]
+    CoursePage -->|start loaded Course| Tutorial
+
+    CourseEditor["Course Editor"] -->|load and save| CourseApis
+    CourseEditor -->|preview in-memory snapshot| Tutorial
+
+    Tutorial -->|mount and manage EditorState| ProjectEditor["SPX Project Editor"]
+    Tutorial -->|manage session| Copilot
+    Tutorial -->|create with host capabilities| Framework["Tutorial Class Framework"]
+    Tutorial -->|run and stop| Executor["XGo Executor"]
+
+    Framework -->|provide XGoFramework and dispatch events| Executor
+    Executor -->|invoke framework capabilities| Framework
+    Framework -->|invoke editor capabilities| ProjectEditor
+    Framework -->|invoke Copilot capabilities| Copilot
 ```
