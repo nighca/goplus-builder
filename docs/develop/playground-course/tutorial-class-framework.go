@@ -57,8 +57,10 @@ type Ruler interface {
 type Copilot interface {
 	// onRoundFinish registers a callback that is called when a Copilot round finishes.
 	onRoundFinish(callback func(round CopilotRound))
-	// generateResponse asks Copilot to generate a response without adding a conversation round.
-	generateResponse(message string) string
+	// generateText asks Copilot to generate text without adding a conversation round.
+	generateText(message string) string
+	// generateJSON asks Copilot to generate a JSON value conforming to the given schema.
+	generateJSON(message string, schema any) any
 }
 
 type CopilotRound struct {

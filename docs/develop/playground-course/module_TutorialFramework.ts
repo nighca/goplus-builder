@@ -1,4 +1,4 @@
-import type { FileCollection } from "./base";
+import type { FileCollection, JSONSchema } from "./base";
 import type { XGoExecutor, XGoFramework } from "./module_XGoExecutor";
 
 /**
@@ -45,8 +45,10 @@ export interface TutorialFrameworkHost {
   editor_ruler_show(): void;
   /** Hides the Ruler overlay. */
   editor_ruler_hide(): void;
-  /** Generates a response without adding a Copilot conversation round. */
-  copilot_generateResponse(message: string): Promise<string>;
+  /** Generates text without adding a Copilot conversation round. */
+  copilot_generateText(message: string): Promise<string>;
+  /** Generates a JSON value conforming to the supplied schema. */
+  copilot_generateJSON(message: string, schema: JSONSchema): Promise<unknown>;
   /** Focuses the existing Spotlight on a UI target. */
   spotlight_reveal(target: string): Promise<void>;
 }
