@@ -45,6 +45,6 @@ export interface Copilot {
     signal?: AbortSignal,
   ): Promise<unknown>;
 
-  /** Subscribes to completed rounds in the current session. */
-  onRoundFinish(listener: (round: CopilotRound) => void): Disposer;
+  /** Subscribes to completed rounds through the module's event-emitter API. */
+  on(event: "roundFinish", listener: (round: CopilotRound) => void): Disposer;
 }

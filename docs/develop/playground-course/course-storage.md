@@ -36,7 +36,7 @@ See the [example Tutorial Course project](./example-tutorial-course/) for a conc
 Keeping `content` opaque has these consequences:
 
 - changes to the Tutorial project format do not require database migrations;
-- the API can preserve and return content from newer format versions without understanding it;
+- the API can preserve and return evolved content formats without understanding them;
 - consumers must apply the Tutorial Class Framework's format contract and construct their own typed models;
 - relational constraints cannot enforce kind-specific content fields, so validation belongs at API/editor boundaries.
 

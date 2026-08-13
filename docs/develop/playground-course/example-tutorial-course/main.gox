@@ -1,6 +1,7 @@
 onStart => {
 	editor.codeEditor.filterAPIs ["stepTo"]
 	showMessage "Move Lita to Mushroom. Click Mushroom's name to insert it into your code."
+	showVideo "resources/step-to.mp4"
 }
 
 editor.runtime.onLog log => {

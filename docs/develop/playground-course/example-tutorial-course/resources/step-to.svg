@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
-  <rect width="640" height="360" rx="24" fill="#172b4d" />
-  <text x="320" y="150" fill="#ffffff" font-family="sans-serif" font-size="40" text-anchor="middle">stepTo target</text>
-  <path d="M180 225 H440" stroke="#68d391" stroke-width="12" stroke-linecap="round" />
-  <path d="M410 195 L450 225 L410 255" fill="none" stroke="#68d391" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
-</svg>

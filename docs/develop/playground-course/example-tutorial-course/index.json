@@ -1,15 +1,8 @@
 {
-  "formatVersion": 1,
   "project": {
     "type": "spx",
     "root": "project"
   },
-  "tutorial": {
-    "entry": "tutorial/main.gox"
-  },
   "copilotContext": "Help the learner understand stepTo without writing the solution for them. The goal is to move Lita to Mushroom.",
-  "editor": {
-    "kind": "simple",
-    "spriteName": "Lita"
-  }
+  "inEditorRoute": "/simple/sprites/Lita"
 }

@@ -15,11 +15,6 @@ export type TextFiles = Record<string, string>;
 
 export type ProjectType = "spx";
 
-export type CourseProject = {
-  type: ProjectType;
-  files: FileCollection;
-};
-
 /** An in-memory model project. Course projects have no owner or cloud-project identity. */
 export interface SpxProject {
   owner: string | null;
@@ -37,11 +32,6 @@ export type ProjectSerialized = {
 export type RuntimeOutput = {
   kind: "log" | "error";
   message: string;
-};
-
-export type Diagnostic = {
-  message: string;
-  severity: "error" | "warning";
 };
 
 export type JSONSchema = Record<string, unknown>;

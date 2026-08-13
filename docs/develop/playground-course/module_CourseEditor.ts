@@ -1,19 +1,12 @@
-import type { Files, SpxProject, TextFiles, UI } from "./base";
+import type { Files, UI } from "./base";
 import type { CourseSeries } from "./module_CourseApis";
-import type { TutorialEditorConfig } from "./module_TutorialFramework";
 
 export type PlaygroundCourseEditingState = {
   id: string | null;
   title: string;
   thumbnail: File | null;
-  project: SpxProject;
-  program: {
-    entry: string;
-    files: TextFiles;
-  };
-  localFiles: Files;
-  copilotContext: string;
-  editor: TutorialEditorConfig;
+  /** Loaded, unsaved Tutorial-project directory. */
+  content: Files;
 };
 
 /** In-memory Course Editor state. Preview reads it without saving first. */
@@ -23,17 +16,12 @@ export interface CourseEditorState {
   save(): Promise<void>;
 }
 
-export type CourseSeriesEditorState = {
-  series: CourseSeries;
-  courses: PlaygroundCourseEditingState[];
-};
-
 export type CourseEditorProps = {
   state: CourseEditorState;
 };
 
 /**
- * Edits metadata, the embedded project, Tutorial program, local files and Copilot context.
+ * Edits metadata and a loaded Tutorial-project directory.
  * Tutorial-program diagnostics and completion are provided by a Language Server owned by this module.
  */
 export declare function CourseEditor(props: CourseEditorProps): UI;
