@@ -25,17 +25,30 @@ export type TutorialProjectIndex = {
  */
 export type TutorialProjectFiles = FileCollection;
 
-/** Host capabilities available to the framework implementation. */
+/** Flat capabilities passed to the Tutorial framework implementation. */
 export interface TutorialFrameworkHost {
-  showMessage(message: string): Promise<void>;
-  showVideo(videoPath: string): Promise<void>;
-  complete(message: string | null): Promise<void>;
-  filterAPIs(apis: string[]): void;
-  formatWorkspace(): Promise<void>;
-  getCode(): string;
-  setRulerVisible(visible: boolean): void;
-  generateResponse(message: string): Promise<string>;
-  reveal(target: string): Promise<void>;
+  /** Displays a message dialog. */
+  course_showMessage(message: string): Promise<void>;
+  /** Displays a Course-local video. */
+  course_showVideo(videoPath: string): Promise<void>;
+  /** Completes the Course without feedback. */
+  course_complete(): Promise<void>;
+  /** Completes the Course and displays feedback. */
+  course_completeWith(message: string): Promise<void>;
+  /** Limits APIs offered by Code Editor assistance. */
+  editor_codeEditor_filterAPIs(apis: string[]): void;
+  /** Formats the current code workspace. */
+  editor_codeEditor_formatWorkspace(): Promise<void>;
+  /** Returns the learner's current code. */
+  editor_codeEditor_getCode(): string;
+  /** Displays the Ruler overlay. */
+  editor_ruler_show(): void;
+  /** Hides the Ruler overlay. */
+  editor_ruler_hide(): void;
+  /** Generates a response without adding a Copilot conversation round. */
+  copilot_generateResponse(message: string): Promise<string>;
+  /** Focuses the existing Spotlight on a UI target. */
+  spotlight_reveal(target: string): Promise<void>;
 }
 
 /** Creates the framework passed to `XGoExecutorOptions.framework`. */

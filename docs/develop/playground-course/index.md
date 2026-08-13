@@ -80,7 +80,7 @@ See [Copilot](./module_Copilot.ts).
 
 ### Course Editor
 
-Course Editor edits Course metadata and a typed, in-memory view of the Tutorial-project file collection. It loads and writes the Tutorial Class Framework's project format; keeping these models valid is the Course Editor's responsibility rather than the Course APIs' or database's. It owns the Tutorial Language Server integration needed for program diagnostics, completion and hover; that Language Server is not designed separately here.
+Course Editor receives a Course Series ID and Course ID, then uses Course APIs internally to load and save Course metadata and a typed, in-memory view of the Tutorial-project file collection. It loads and writes the Tutorial Class Framework's project format; keeping these models valid is the Course Editor's responsibility rather than the Course APIs' or database's. It owns the Tutorial Language Server integration needed for program diagnostics, completion and hover; that Language Server is not designed separately here.
 
 Preview snapshots the current unsaved Tutorial-project file collection, then invokes the real Tutorial course flow. It never saves first and never passes the author's mutable project instance into the preview. Course Series Preview snapshots every Course in the author's current in-memory series and uses the real series flow to walk them in order.
 

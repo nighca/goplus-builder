@@ -1,27 +1,13 @@
-import type { Files, UI } from "./base";
-import type { CourseSeries } from "./module_CourseApis";
-
-export type PlaygroundCourseEditingState = {
-  id: string | null;
-  title: string;
-  thumbnail: File | null;
-  /** Loaded, unsaved Tutorial-project directory. */
-  content: Files;
-};
-
-/** In-memory Course Editor state. Preview reads it without saving first. */
-export interface CourseEditorState {
-  readonly course: PlaygroundCourseEditingState;
-  readonly series: CourseSeries | null;
-  save(): Promise<void>;
-}
+import type { UI } from "./base";
 
 export type CourseEditorProps = {
-  state: CourseEditorState;
+  courseSeriesID: string;
+  courseID: string;
 };
 
 /**
- * Edits metadata and a loaded Tutorial-project directory.
+ * Loads and edits the identified Course and its Tutorial-project directory.
+ * It uses Course APIs internally for loading and saving.
  * Tutorial-program diagnostics and completion are provided by a Language Server owned by this module.
  */
 export declare function CourseEditor(props: CourseEditorProps): UI;

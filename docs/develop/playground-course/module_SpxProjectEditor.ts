@@ -1,10 +1,7 @@
 import type { Disposer, RuntimeOutput, SpxProject, UI } from "./base";
 
-/**
- * Route inside Project Editor. Simple Mode extends the existing route space
- * with `/simple/sprites/<sprite-name>`.
- */
-export type InEditorRoute = string;
+/** Route added to the existing Project Editor route space for Simple Mode. */
+export type SimpleModeInEditorRoute = `/simple/sprites/${string}`;
 
 /** Existing runtime owned by `EditorState`. */
 export interface Runtime {
@@ -45,11 +42,6 @@ export interface CodeEditor {
   insertText(text: string): Promise<void>;
 }
 
-export type ProjectEditorProps = {
-  /** Initial route; subsequent navigation is synchronized through EditorState. */
-  inEditorRoute: InEditorRoute;
-};
-
 export type StageViewerProps = {
   /** Whether the Ruler overlay is visible. */
   rulerVisible: boolean;
@@ -64,7 +56,7 @@ export type StageViewerEmits = {
  * Existing SPX Project Editor. It consumes Editor Context from
  * `EditorContextProvider` and handles Simple Mode composition internally.
  */
-export declare function ProjectEditor(props: ProjectEditorProps): UI;
+export declare function ProjectEditor(): UI;
 
 /** Stage Viewer component contract extended for Tutorial-controlled UI. */
 export declare function StageViewer(props: StageViewerProps): UI;
