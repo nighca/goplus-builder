@@ -47,7 +47,7 @@ export interface TutorialFrameworkHost {
   editor_ruler_hide(): void;
   /** Generates text without adding a Copilot conversation round. */
   copilot_generateText(message: string): Promise<string>;
-  /** Generates a JSON value conforming to the supplied schema. */
+  /** Generates a JSON value conforming to the framework-derived schema. */
   copilot_generateJSON(message: string, schema: JSONSchema): Promise<unknown>;
   /** Focuses the existing Spotlight on a UI target. */
   spotlight_reveal(target: string): Promise<void>;

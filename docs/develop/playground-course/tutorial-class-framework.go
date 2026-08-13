@@ -59,8 +59,9 @@ type Copilot interface {
 	onRoundFinish(callback func(round CopilotRound))
 	// generateText asks Copilot to generate text without adding a conversation round.
 	generateText(message string) string
-	// generateJSON asks Copilot to generate a JSON value conforming to the given schema.
-	generateJSON(message string, schema any) any
+	// generateJSON derives a JSON Schema from result's struct type and fills result with the generated value.
+	// result must be a non-nil pointer to a struct.
+	generateJSON(message string, result any)
 }
 
 type CopilotRound struct {
