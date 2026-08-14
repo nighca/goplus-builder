@@ -25,7 +25,7 @@ Stores both common fields and kind-specific content.
 | `thumbnail`  | `text`        | Not null, universal URL            |
 | `content`    | `jsonb`       | Not null                           |
 
-`kind` is immutable after creation. An index on `(kind, id)` supports kind-filtered administration queries.
+`kind` is immutable after creation. Current Course-listing paths filter by owner or resolve Course IDs from a Course Series, so they do not require a new `kind` index. Existing indexes, including the index on `owner_id`, remain unchanged.
 
 For a Guided Course, `content` contains the Guided Course data exposed by `GuidedCourse.content` in the HTTP contract.
 
@@ -47,6 +47,8 @@ The existing table keeps its metadata and ordered `course_ids` collection, with 
 | Column | Type   | Constraint                         |
 | ------ | ------ | ---------------------------------- |
 | `kind` | `text` | Not null, `guided` or `playground` |
+
+Kind-filtered Course Series lists retain the existing default ordering by `order` and `id`. Add an index on `(kind, order, id)` for this new query path. Existing indexes, including `(owner_id, order, id)`, remain unchanged.
 
 ## Write transactions and invariants
 
@@ -72,7 +74,8 @@ All existing courses are Guided Courses, so migration can be deterministic:
 3. Backfill `content` from each row's existing `entrypoint` and `prompt`.
 4. Make `content` non-null.
 5. Add `course_series.kind` as non-null with temporary default `guided`.
-6. Remove `course.entrypoint` and `course.prompt` after the application reads Guided Course data from `content`.
-7. Remove the temporary defaults if Course creation must always provide kind explicitly.
+6. Add the `course_series (kind, order, id)` index.
+7. Remove `course.entrypoint` and `course.prompt` after the application reads Guided Course data from `content`.
+8. Remove the temporary defaults if Course creation must always provide kind explicitly.
 
 No Course IDs or Course Series ordering changes during migration.
