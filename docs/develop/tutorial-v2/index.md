@@ -1,4 +1,6 @@
-# Tech design for [Playground Courses](https://github.com/goplus/builder/issues/3403)
+# Tech design for [User Tutorial v2](../../product/tutorial-v2.md)
+
+Implementation issue: [#3403](https://github.com/goplus/builder/issues/3403).
 
 ## Scope
 
