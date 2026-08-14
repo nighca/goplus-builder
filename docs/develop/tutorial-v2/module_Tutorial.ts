@@ -1,10 +1,10 @@
 import type { Course, CourseSeries } from "./module_CourseApis";
 
-/** Coordinates course selection and delegates behavior to the matching driver. */
+/** Owns Course lifecycle; kind-specific behavior remains internal. */
 export interface Tutorial {
   readonly currentCourse: Course | null;
   readonly currentSeries: CourseSeries | null;
-  /** Starts one Course, loading opaque Playground content through the framework contract. */
+  /** Starts one loaded Course. Playground editor composition remains caller-owned. */
   startCourse(course: Course, series: CourseSeries | null): Promise<void>;
   /** Walks a Course Series using the supplied Course snapshots. */
   startCourseSeries(series: CourseSeries, courses: Course[]): Promise<void>;

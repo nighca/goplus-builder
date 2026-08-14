@@ -4,7 +4,7 @@ Implementation issue: [#3403](https://github.com/goplus/builder/issues/3403).
 
 ## Scope
 
-XBuilder keeps two independent Course models:
+XBuilder supports two Course kinds with separate runtime behavior:
 
 - A **Guided Course** is driven by Copilot and may guide the learner across Builder routes.
 - A **Playground Course** embeds an SPX project and an XGo Tutorial program. The learner edits a session-local project model while the Tutorial program controls the course flow and completion.
@@ -15,7 +15,7 @@ This design introduces neither Course draft/published revisions nor persisted ru
 
 ### Course APIs
 
-Course APIs own the persistent Course and Course Series contracts. A Course is a discriminated union of `guided` and `playground`; a Course Series contains exactly one Course kind. Playground Course content crosses this boundary as an opaque `FileCollection`. Course APIs also provide LLM-assisted generation of an editable Copilot context from the author's current in-memory file collection.
+Course APIs own the persistent Course and Course Series contracts. A Course is a discriminated union of `guided` and `playground`; all Courses in a Course Series have the same kind as the Series. Playground Course content crosses this boundary as an opaque `FileCollection`. Course APIs also provide LLM-assisted generation of an editable Copilot context from the author's current in-memory file collection.
 
 The TypeScript module describes the frontend/backend HTTP contract. Course storage uses one table with common columns and opaque `content jsonb`; the database does not depend on the internal format of a Tutorial project. Database constraints and migration are documented separately because they are backend implementation details that are not visible in that interface.
 
@@ -23,9 +23,9 @@ See [Course APIs](./module_CourseApis.ts) and [Course storage](./course-storage.
 
 ### Tutorial
 
-Tutorial owns course lifecycle and dispatches each Course to a Guided Course Driver or Playground Course Driver. It owns course dialogs and completion UI, but it does not implement the project editor, Copilot or XGo execution.
+Tutorial owns the active Course lifecycle. Its public boundary starts and stops a Course or Course Series and exposes the current selection. The differences between Guided and Playground Courses remain internal branches of this implementation rather than part of the module boundary. Tutorial owns Course dialogs and completion UI, but it does not compose the SPX Project Editor UI; it delegates assistant and program-execution work to the generic Copilot and XGo Executor modules.
 
-For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. It starts Tutorial with the loaded Course and editor capabilities. Tutorial starts a Copilot Topic, registers the editor and Copilot capabilities in the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main.gox`. Stopping or completing the Course tears these resources down together.
+For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. Once that surrounding UI composition is ready, it starts Tutorial with the loaded Course. Tutorial starts a Copilot Topic, combines its own presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main.gox`. Stopping or completing the Course tears these runtime resources down together.
 
 See [Tutorial](./module_Tutorial.ts).
 
@@ -49,24 +49,25 @@ course
 ├── editor
 │   ├── project
 │   ├── runtime
-│   └── codeEditor
+│   ├── codeEditor
+│   └── ruler
 ├── copilot
 └── spotlight
 ```
 
-The initial interface includes course start/message/video/completion with optional feedback, runtime start/exit/log, code reading, API filtering, workspace formatting, Ruler control, Copilot round completion, text and structured JSON generation, and spotlight reveal. For structured generation, Course code passes a non-null struct pointer; the framework derives its JSON Schema, invokes the frontend capability and decodes the result back into that value. `editor.project` is reserved until concrete project capabilities are required.
+The initial interface includes course start/message/video/completion with optional feedback, runtime start/exit/log, code reading, API filtering, workspace formatting, Ruler control, Copilot round completion, text and structured JSON generation, and spotlight reveal. For structured generation, Course code passes a non-nil struct pointer; the framework derives its JSON Schema, invokes the frontend capability and decodes the result back into that value. `editor.project` is reserved until concrete project capabilities are required.
 
 See [Tutorial Class Framework](./module_TutorialFramework.ts), its [Go contract](./tutorial-class-framework.go) and an [example Tutorial Course project](./example-tutorial-course/).
 
 ### SPX Project Editor
 
-SPX Project Editor comprises the existing `ProjectEditor`, `EditorContextProvider`, `EditorState`, Runtime, Code Editor and Stage Viewer. It receives an already constructed model `SpxProject` and `EditorState`; loading remains the caller's responsibility.
+SPX Project Editor comprises the existing `ProjectEditor`, `EditorContextProvider`, `EditorState`, Runtime, Code Editor and Stage Viewer. `ProjectEditor` is mounted under `EditorContextProvider`, which receives an externally constructed model `SpxProject` and `EditorState`; loading and UI composition remain the caller's responsibility.
 
-Course projects omit owner and cloud-project identity, so the existing ownership rule naturally selects effect-free editing. Course learning does not call the normal route's `editing.loadProject`, avoiding cloud and local-cache loading. Project Editor nevertheless offers `saveAsProject`, which creates an owned regular Project from the learner's current session-local state through its existing project persistence dependencies.
+Course projects omit owner and cloud-project identity, so the existing ownership rule naturally selects effect-free editing. Course learning does not call the normal route's `editing.loadProject`, avoiding cloud and local-cache loading. The Project Editor module implements the learner-facing "Save as my project" action through its existing project persistence dependencies, creating an owned regular Project from the current session-local state.
 
-The Course's `inEditorRoute` selects the initial editor mode and selection, for example `/sprites/Bird/code` or `/simple/sprites/Lita`. This is the sole declarative presentation configuration: runtime tools such as API filtering and the Ruler remain controlled by the Tutorial program.
+Course playground, or Course Editor during Preview, initializes the existing in-editor route from the Course's `inEditorRoute`, for example `/sprites/Bird/code` or `/simple/sprites/Lita`. The route selects the initial editor mode and selection. This is the sole declarative presentation configuration: runtime tools such as API filtering and the Ruler remain controlled by the Tutorial program.
 
-Simple Mode is implemented inside the existing `ProjectEditor`, like Map Mode. `EditorState` recognizes `/simple/sprites/<sprite-name>`, stores Simple as the current edit mode and renders the reduced composition for the selected sprite. No separate `SimpleProjectEditor` component or dynamic mode API is introduced.
+Simple Mode is implemented inside the existing `ProjectEditor`, like Map Mode. `EditorState` recognizes `/simple/sprites/<sprite-name>` and stores Simple as the current edit mode; `ProjectEditor` renders the reduced composition for the selected sprite. No separate `SimpleProjectEditor` component or dynamic mode API is introduced.
 
 Stage Viewer exposes sprite-name clicks as a Vue event and Ruler visibility as a prop. `ProjectEditor` handles the click by asking the existing `CodeEditor` to insert the sprite name at the current selection. Runtime remains on `EditorState`; Code Editor and Spotlight keep their existing module/provider ownership rather than becoming fields of Editor Context.
 
@@ -76,7 +77,7 @@ See [SPX Project Editor](./module_SpxProjectEditor.ts).
 
 Copilot supplies generic sessions, Topics, response generation, round events and Topic-level behavior controls. It has no Course or Tutorial concepts.
 
-The Playground Driver puts private Course context in the existing Topic description and disables proactive event reactions. Project, code and runtime context continue to come from normal Editor context providers. The Topic's `allowCodeHelper: false` hides both code-block Copy and code-change Apply for that session.
+While running a Playground Course, Tutorial puts private Course context in the existing Topic description and disables proactive event reactions. Project, code and runtime context continue to come from normal Editor context providers. The Topic's `allowCodeHelper: false` hides both code-block Copy and code-change Apply for that session.
 
 See [Copilot](./module_Copilot.ts).
 
@@ -84,7 +85,7 @@ See [Copilot](./module_Copilot.ts).
 
 Course Editor receives a Course Series ID and Course ID, then uses Course APIs internally to load and save Course metadata and a typed, in-memory view of the Tutorial-project file collection. It loads and writes the Tutorial Class Framework's project format; keeping these models valid is the Course Editor's responsibility rather than the Course APIs' or database's. It owns the Tutorial Language Server integration needed for program diagnostics, completion and hover; that Language Server is not designed separately here.
 
-Preview snapshots the current unsaved Tutorial-project file collection, then invokes the real Tutorial course flow. It never saves first and never passes the author's mutable project instance into the preview. Course Series Preview snapshots every Course in the author's current in-memory series and uses the real series flow to walk them in order.
+Preview snapshots the current unsaved Tutorial-project file collection, composes the SPX Project Editor preview UI directly and starts the same Tutorial lifecycle used for learning. It never saves first and never passes the author's mutable project instance into the preview. Course Series Preview snapshots every Course in the author's current in-memory series and uses the real series lifecycle to walk them in order.
 
 The Course Editor calls Course APIs to generate or rewrite the private Copilot context, then lets the author review and edit the result before saving. Package import/export and Course linting remain internal features of this module and require no external module interface.
 
@@ -96,13 +97,14 @@ See [Course Editor](./module_CourseEditor.ts).
 flowchart LR
     CoursePlayground["Course playground"] -->|load Course and Series| CourseApis["Course APIs"]
     CoursePlayground -->|compose learning UI| ProjectEditor["SPX Project Editor"]
-    CoursePlayground -->|start Course with editor capabilities| Tutorial
+    CoursePlayground -->|start loaded Course| Tutorial
 
     CourseEditor["Course Editor"] -->|load and save| CourseApis
     CourseEditor -->|compose authoring and preview UI| ProjectEditor
-    CourseEditor -->|preview snapshot with editor capabilities| Tutorial
+    CourseEditor -->|start Preview snapshot| Tutorial
 
-    Tutorial -->|manage session and register capabilities| Copilot
+    Tutorial -->|use and register editor capabilities| ProjectEditor
+    Tutorial -->|manage session and use generic capabilities| Copilot
     Tutorial -->|create with registered capabilities| Framework["Tutorial Class Framework"]
     Tutorial -->|run and stop| Executor["XGo Executor"]
 
