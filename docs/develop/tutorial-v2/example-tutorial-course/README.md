@@ -24,7 +24,7 @@ example-tutorial-course/
     └── step-to.mp4
 ```
 
-`index.json` is the Tutorial Class Framework configuration. It locates the embedded SPX project, supplies private Copilot context and selects the initial in-editor route.
+`index.json` is the Tutorial Class Framework configuration. It locates the embedded SPX project, supplies Course-author-provided Copilot instructions that are not shown in the learner UI and selects the initial in-editor route.
 
 `main.gox` is the conventional entry file for the Course-author-written XGo program. `project/` is an ordinary serialized SPX project that becomes an ownerless in-memory project while the learner works. The root `assets/` contains Course-local material addressed by the Tutorial program; the empty MP4 is only a format placeholder. It is independent of `project/assets/`, which belongs to the embedded SPX project.
 

@@ -1,5 +1,5 @@
-import type { FileCollection, JSONSchema } from "./base";
-import type { XGoExecutor, XGoFramework } from "./module_XGoExecutor";
+import type { FileCollection, JSONSchema, ProjectType } from "./base";
+import type { XGoFramework } from "./module_XGoExecutor";
 
 /**
  * Schema of the root `index.json` in a Tutorial project.
@@ -9,13 +9,13 @@ export type TutorialProjectIndex = {
   /** Directory containing the serialized learner project. */
   project: {
     /** Project model used to load the directory. */
-    type: "spx";
+    type: ProjectType;
     /** Course-relative path to the project root. */
     root: string;
   };
   /** Initial route inside Project Editor, including mode and selection. */
   inEditorRoute: string;
-  /** Private instructions appended to the Playground Course Copilot Topic. */
+  /** Course-author-provided instructions not shown in the learner UI. */
   copilotContext: string;
 };
 
@@ -57,10 +57,3 @@ export interface TutorialFrameworkHost {
 export declare function createTutorialFramework(
   host: TutorialFrameworkHost,
 ): XGoFramework;
-
-/** Dispatches a Tutorial-framework event to the running program. */
-export declare function dispatchTutorialEvent(
-  executor: XGoExecutor,
-  name: string,
-  payload: unknown,
-): Promise<void>;

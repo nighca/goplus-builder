@@ -39,7 +39,7 @@ See [XGo Executor](./module_XGoExecutor.ts).
 
 ### Tutorial Class Framework
 
-The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, private Copilot context and initial in-editor route; root `main.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
+The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, Course-author-provided Copilot instructions that are not shown in the learner UI, and the initial in-editor route; root `main.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
 
 Its Course-author-facing Go contract is included in this design:
 
@@ -77,7 +77,7 @@ See [SPX Project Editor](./module_SpxProjectEditor.ts).
 
 Copilot supplies generic sessions, Topics, response generation, round events and Topic-level behavior controls. It has no Course or Tutorial concepts.
 
-While running a Playground Course, Tutorial puts private Course context in the existing Topic description and disables proactive event reactions. Project, code and runtime context continue to come from normal Editor context providers. The Topic's `allowCodeHelper: false` hides both code-block Copy and code-change Apply for that session.
+While running a Playground Course, Tutorial puts Course-author-provided instructions that are not shown in the learner UI in the existing Topic description and disables proactive event reactions. Project, code and runtime context continue to come from normal Editor context providers. The Topic's `allowCodeHelper: false` hides both code-block Copy and code-change Apply for that session.
 
 See [Copilot](./module_Copilot.ts).
 
@@ -87,7 +87,7 @@ Course Editor receives a Course Series ID and Course ID, then uses Course APIs i
 
 Preview snapshots the current unsaved Tutorial-project file collection, composes the SPX Project Editor preview UI directly and starts the same Tutorial lifecycle used for learning. It never saves first and never passes the author's mutable project instance into the preview. Course Series Preview snapshots every Course in the author's current in-memory series and uses the real series lifecycle to walk them in order.
 
-The Course Editor calls Course APIs to generate or rewrite the private Copilot context, then lets the author review and edit the result before saving. Package import/export and Course linting remain internal features of this module and require no external module interface.
+The Course Editor calls Course APIs to generate or rewrite the Course-author-provided Copilot instructions, then lets the author review and edit the result before saving. These instructions are not shown in the learner UI. Package import/export and Course linting remain internal features of this module and require no external module interface.
 
 See [Course Editor](./module_CourseEditor.ts).
 
@@ -106,8 +106,8 @@ flowchart LR
     Tutorial -->|use and register editor capabilities| ProjectEditor
     Tutorial -->|manage session and use generic capabilities| Copilot
     Tutorial -->|create with registered capabilities| Framework["Tutorial Class Framework"]
-    Tutorial -->|run and stop| Executor["XGo Executor"]
+    Tutorial -->|run, dispatch events and stop| Executor["XGo Executor"]
 
-    Framework -->|provide XGoFramework and dispatch events| Executor
+    Framework -->|provide XGoFramework| Executor
     Executor -->|invoke framework capabilities| Framework
 ```
