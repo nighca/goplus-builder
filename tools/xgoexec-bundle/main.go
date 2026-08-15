@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"syscall/js"
 
-	tutorialbinding "github.com/goplus/builder/tools/tutorial/binding"
 	"github.com/goplus/builder/tools/xgoexec"
 )
 
 var runtime = xgoexec.NewRuntime(
-	map[string]xgoexec.Framework{tutorialbinding.Name: tutorialbinding.Binding{}},
+	map[string]xgoexec.Framework{tutorialFrameworkName: tutorialFramework{}},
 	xgoexec.RuntimeHooks{
 		Error: func(phase, message string) { js.Global().Call("xbuilder_xgoexec_error", phase, message) },
 		Exit:  func(reason string) { js.Global().Call("xbuilder_xgoexec_exit", reason) },

@@ -9,4 +9,5 @@ capabilities and host-originated events.
 builds the `xgoexec.wasm` asset consumed by `spx-gui/build-wasm.sh`.
 
 To add a framework, keep its implementation in its own `tools/` module, then
-register its binding and add its qexp export to `tools/xgoexec-bundle`.
+register its project configuration and add its qexp export to
+`tools/xgoexec-bundle`.
