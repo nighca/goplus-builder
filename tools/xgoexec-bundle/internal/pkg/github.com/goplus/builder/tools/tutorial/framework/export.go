@@ -5,10 +5,9 @@ package tutorial
 import (
 	q "github.com/goplus/builder/tools/tutorial/framework"
 
+	"github.com/goplus/ixgo"
 	"go/constant"
 	"reflect"
-
-	"github.com/goplus/ixgo"
 )
 
 func init() {

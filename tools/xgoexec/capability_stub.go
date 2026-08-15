@@ -1,6 +1,6 @@
 //go:build !js || !wasm
 
-package core
+package xgoexec
 
 import "fmt"
 

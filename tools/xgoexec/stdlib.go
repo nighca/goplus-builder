@@ -1,4 +1,4 @@
-package core
+package xgoexec
 
 // StandardPackages lists the packages available to every executor runtime.
 // The WASM entry module must blank-import matching ixgo packages.

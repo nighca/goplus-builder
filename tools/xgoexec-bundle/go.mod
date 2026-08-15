@@ -1,8 +1,12 @@
-module github.com/goplus/builder/tools/xgoexec
+module github.com/goplus/builder/tools/xgoexec-bundle
 
 go 1.25.0
 
-require github.com/goplus/ixgo v1.1.3
+require (
+	github.com/goplus/builder/tools/tutorial v0.0.0
+	github.com/goplus/builder/tools/xgoexec v0.0.0
+	github.com/goplus/ixgo v1.1.3
+)
 
 require (
 	github.com/goplus/gogen v1.23.5 // indirect
@@ -17,3 +21,9 @@ require (
 	golang.org/x/mod v0.32.0 // indirect
 	golang.org/x/tools v0.41.0 // indirect
 )
+
+tool github.com/goplus/ixgo/cmd/qexp
+
+replace github.com/goplus/builder/tools/tutorial => ../tutorial
+
+replace github.com/goplus/builder/tools/xgoexec => ../xgoexec

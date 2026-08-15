@@ -1,4 +1,4 @@
-package core
+package xgoexec
 
 import (
 	"encoding/json"
