@@ -3,7 +3,7 @@
 package tutorial
 
 import (
-	q "github.com/goplus/builder/tools/tutorial/framework"
+	q "github.com/goplus/builder/tools/tutorial"
 
 	"github.com/goplus/ixgo"
 	"go/constant"
@@ -13,7 +13,7 @@ import (
 func init() {
 	ixgo.RegisterPackage(&ixgo.Package{
 		Name: "tutorial",
-		Path: "github.com/goplus/builder/tools/tutorial/framework",
+		Path: "github.com/goplus/builder/tools/tutorial",
 		Deps: map[string]string{},
 		Interfaces: map[string]reflect.Type{
 			"CourseProto": reflect.TypeOf((*q.CourseProto)(nil)).Elem(),

@@ -1,9 +1,9 @@
 package main
 
-//go:generate go tool qexp -outdir internal/pkg github.com/goplus/builder/tools/tutorial/framework
+//go:generate go tool qexp -outdir internal/pkg github.com/goplus/builder/tools/tutorial
 
 import (
-	_ "github.com/goplus/builder/tools/xgoexec-bundle/internal/pkg/github.com/goplus/builder/tools/tutorial/framework"
+	_ "github.com/goplus/builder/tools/xgoexec-bundle/internal/pkg/github.com/goplus/builder/tools/tutorial"
 	_ "github.com/goplus/ixgo/pkg/bytes"
 	_ "github.com/goplus/ixgo/pkg/encoding/json"
 	_ "github.com/goplus/ixgo/pkg/errors"

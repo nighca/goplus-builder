@@ -16,7 +16,7 @@ func (tutorialFramework) Register() error {
 	xgobuild.RegisterProject(&modfile.Project{
 		Ext:      "_course.gox",
 		Class:    "Course",
-		PkgPaths: []string{"github.com/goplus/builder/tools/tutorial/framework"},
+		PkgPaths: []string{"github.com/goplus/builder/tools/tutorial"},
 	})
 	return nil
 }
