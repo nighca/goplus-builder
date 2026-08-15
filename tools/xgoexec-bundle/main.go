@@ -21,7 +21,6 @@ func init() {
 	js.Global().Set("xbuilder_xgoexec_configure", js.FuncOf(configure))
 	js.Global().Set("xbuilder_xgoexec_build", js.FuncOf(build))
 	js.Global().Set("xbuilder_xgoexec_run", js.FuncOf(run))
-	js.Global().Set("xbuilder_xgoexec_stop", js.FuncOf(stop))
 	js.Global().Set("xbuilder_xgoexec_dispatch_event", js.FuncOf(dispatchEvent))
 	js.Global().Set("xbuilder_xgoexec_resolve_capability_call", js.FuncOf(resolveCapabilityCall))
 	js.Global().Call("xbuilder_xgoexec_ready")
@@ -54,9 +53,6 @@ func build(this js.Value, args []js.Value) any {
 	})
 }
 func run(this js.Value, args []js.Value) any { return newPromise(runtime.Run) }
-func stop(this js.Value, args []js.Value) any {
-	return newPromise(func() error { runtime.Stop(); return nil })
-}
 func dispatchEvent(this js.Value, args []js.Value) any {
 	return newPromise(func() error {
 		if len(args) < 2 {
@@ -67,7 +63,7 @@ func dispatchEvent(this js.Value, args []js.Value) any {
 }
 func resolveCapabilityCall(this js.Value, args []js.Value) any {
 	if len(args) >= 3 {
-		xgoexec.ResolveCapabilityCall(uint64(args[0].Int()), args[1].String(), args[2].String())
+		xgoexec.ResolveCapabilityCall(uint32(args[0].Int()), args[1].String(), args[2].String())
 	}
 	return nil
 }

@@ -19,7 +19,6 @@ const bridge = globalThis as unknown as {
   xbuilder_xgoexec_configure(framework: string): Promise<void>
   xbuilder_xgoexec_build(files: Record<string, Uint8Array>): Promise<void>
   xbuilder_xgoexec_run(): Promise<void>
-  xbuilder_xgoexec_stop(): Promise<void>
   xbuilder_xgoexec_dispatch_event(name: string, payload: string): Promise<void>
   xbuilder_xgoexec_resolve_capability_call(id: number, result: string, error: string): void
   xbuilder_xgoexec_ready(): void
@@ -69,14 +68,6 @@ async function runProject(message: Extract<MainMessage, { type: 'run' }>) {
     fail('runtime', error)
   }
 }
-async function stopProject() {
-  try {
-    await bridge.xbuilder_xgoexec_stop()
-    emitExit('stopped')
-  } catch (error) {
-    fail('runtime', error)
-  }
-}
 async function dispatchEvent(message: Extract<MainMessage, { type: 'event' }>) {
   try {
     await bridge.xbuilder_xgoexec_dispatch_event(message.name, JSON.stringify(message.payload ?? null))
@@ -115,9 +106,6 @@ scope.addEventListener('message', (event) => {
   switch (message.type) {
     case 'run':
       void runProject(message)
-      break
-    case 'stop':
-      void stopProject()
       break
     case 'capabilityCallResult':
       resolveCapabilityCall(message)

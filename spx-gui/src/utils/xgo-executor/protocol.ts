@@ -3,7 +3,6 @@ export type XGoExitReason = 'completed' | 'stopped' | 'error'
 
 export type MainMessage =
   | { type: 'run'; framework: string; files: Record<string, Uint8Array> }
-  | { type: 'stop' }
   | { type: 'capabilityCallResult'; id: number; result: unknown; error: string | null }
   | { type: 'event'; id: number; name: string; payload: unknown }
 

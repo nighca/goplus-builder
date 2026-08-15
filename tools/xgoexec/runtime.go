@@ -17,7 +17,7 @@ type Runtime struct {
 	sync.Mutex
 	ctx        *ixgo.Context
 	interp     *ixgo.Interp
-	cancel     context.CancelFunc
+	running    bool
 	frameworks map[string]Framework
 	hooks      RuntimeHooks
 }
@@ -56,7 +56,7 @@ func (p *Runtime) Build(files map[string][]byte) error {
 	if p.ctx == nil {
 		return fmt.Errorf("not configured")
 	}
-	if p.cancel != nil {
+	if p.running {
 		return fmt.Errorf("executor is running")
 	}
 	source, err := xgobuild.BuildFSDir(p.ctx, MapFS(files), ".")
@@ -80,37 +80,27 @@ func (p *Runtime) Run() error {
 		p.Unlock()
 		return fmt.Errorf("not built")
 	}
-	if p.cancel != nil {
+	if p.running {
 		p.Unlock()
 		return fmt.Errorf("executor is running")
 	}
 	ctx, interp := p.ctx, p.interp
-	runCtx, cancel := context.WithCancel(context.Background())
+	runCtx := context.Background()
 	setCurrentRunContext(runCtx)
-	p.cancel = cancel
+	p.running = true
 	p.Unlock()
 	go func() {
 		ctx.RunContext = runCtx
 		_, err := ctx.RunInterp(interp, "main.go", nil)
 		reason := "completed"
-		if runCtx.Err() != nil {
-			reason = "stopped"
-		} else if err != nil {
+		if err != nil {
 			reason = "error"
 			p.hooks.Error("runtime", err.Error())
 		}
 		p.Lock()
-		p.cancel = nil
+		p.running = false
 		p.Unlock()
 		p.hooks.Exit(reason)
 	}()
 	return nil
-}
-func (p *Runtime) Stop() {
-	p.Lock()
-	defer p.Unlock()
-	if p.cancel != nil {
-		p.cancel()
-		RejectPendingCapabilityCalls("executor stopped")
-	}
 }

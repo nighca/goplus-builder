@@ -12,7 +12,7 @@ type capabilityCallResponse struct {
 	err    error
 }
 
-var nextCapabilityCallID atomic.Uint64
+var nextCapabilityCallID atomic.Uint32
 var pendingCapabilityCalls sync.Map
 
 // CallCapability blocks the XGo program until the host resolves the call.
@@ -41,7 +41,7 @@ func CallCapability(name string, request, result any) error {
 	return nil
 }
 
-func ResolveCapabilityCall(id uint64, result, errorMessage string) {
+func ResolveCapabilityCall(id uint32, result, errorMessage string) {
 	value, ok := pendingCapabilityCalls.LoadAndDelete(id)
 	if !ok {
 		return
@@ -51,13 +51,4 @@ func ResolveCapabilityCall(id uint64, result, errorMessage string) {
 		response.err = fmt.Errorf("capability failed: %s", errorMessage)
 	}
 	value.(chan capabilityCallResponse) <- response
-}
-
-func RejectPendingCapabilityCalls(errorMessage string) {
-	pendingCapabilityCalls.Range(func(key, value any) bool {
-		if _, loaded := pendingCapabilityCalls.LoadAndDelete(key); loaded {
-			value.(chan capabilityCallResponse) <- capabilityCallResponse{err: fmt.Errorf("capability failed: %s", errorMessage)}
-		}
-		return true
-	})
 }

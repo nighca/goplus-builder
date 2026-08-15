@@ -15,7 +15,8 @@ type Deferred<T> = { promise: Promise<T>; resolve: (value: T) => void; reject: (
 export class XGoExecutor {
   private worker: WorkerHandler | null = null
   private state: 'idle' | 'starting' | 'running' = 'idle'
-  private exitDeferred: Deferred<void> | null = null
+  private readyDeferred: Deferred<void> | null = null
+  private startedDeferred: Deferred<void> | null = null
   private nextEventCallId = 0
   private pendingEventCalls = new Map<number, Deferred<void>>()
 
@@ -27,16 +28,13 @@ export class XGoExecutor {
     const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' })
     const ready = deferred<void>()
     const started = deferred<void>()
-    this.exitDeferred = deferred<void>()
+    void started.promise.catch(() => {})
+    this.readyDeferred = ready
+    this.startedDeferred = started
     this.worker = worker
-    worker.addEventListener('message', (event: MessageEvent<WorkerMessage>) =>
-      this.handleMessage(worker, event.data, ready, started)
-    )
+    worker.addEventListener('message', (event: MessageEvent<WorkerMessage>) => this.handleMessage(worker, event.data))
     worker.addEventListener('error', (event) => {
-      const error = new Error(event.message)
-      this.options.onError('initialization', error.message)
-      ready.reject(error)
-      started.reject(error)
+      this.options.onError('initialization', event.message)
       this.finish(worker, 'error')
     })
     await ready.promise
@@ -50,14 +48,7 @@ export class XGoExecutor {
 
   async stop(): Promise<void> {
     const worker = this.worker
-    const exit = this.exitDeferred
-    if (worker == null || exit == null) return
-    if (this.state === 'starting') {
-      this.finish(worker, 'stopped')
-      return
-    }
-    worker.postMessage({ type: 'stop' } satisfies MainMessage)
-    await exit.promise
+    if (worker != null) this.finish(worker, 'stopped')
   }
   async dispatchEvent(name: string, payload: unknown): Promise<void> {
     if (this.worker == null || this.state !== 'running') throw new Error('XGo executor is not running')
@@ -67,21 +58,19 @@ export class XGoExecutor {
     this.worker.postMessage({ type: 'event', id, name, payload } satisfies MainMessage)
     await call.promise
   }
-  private handleMessage(worker: WorkerHandler, message: WorkerMessage, ready: Deferred<void>, started: Deferred<void>) {
+  private handleMessage(worker: WorkerHandler, message: WorkerMessage) {
     if (worker !== this.worker) return
     switch (message.type) {
       case 'ready':
-        ready.resolve()
+        this.readyDeferred?.resolve()
         break
       case 'started':
         this.state = 'running'
-        started.resolve()
+        this.startedDeferred?.resolve()
         break
       case 'error': {
-        const error = new Error(`${message.phase}: ${message.message}`)
         this.options.onError(message.phase, message.message)
-        if (message.phase === 'initialization') ready.reject(error)
-        else if (this.state === 'starting') started.reject(error)
+        this.finish(worker, 'error')
         break
       }
       case 'exit':
@@ -108,7 +97,8 @@ export class XGoExecutor {
     message: Extract<WorkerMessage, { type: 'capabilityCall' }>
   ) {
     try {
-      const capability = this.options.framework?.capabilities[message.name]
+      const capabilities = this.options.framework?.capabilities
+      const capability = capabilities != null && Object.hasOwn(capabilities, message.name) ? capabilities[message.name] : null
       if (capability == null) throw new Error(`unsupported capability: ${message.name}`)
       const result = await capability(message.request)
       if (worker === this.worker)
@@ -128,14 +118,17 @@ export class XGoExecutor {
   }
   private finish(worker: WorkerHandler, reason: XGoExitReason) {
     if (worker !== this.worker) return
+    const error = new Error(`XGo executor exited: ${reason}`)
     worker.terminate()
     this.worker = null
     this.state = 'idle'
+    this.readyDeferred?.reject(error)
+    this.startedDeferred?.reject(error)
+    this.readyDeferred = null
+    this.startedDeferred = null
     for (const call of this.pendingEventCalls.values()) call.reject(new Error(`XGo executor exited: ${reason}`))
     this.pendingEventCalls.clear()
     this.options.onExit(reason)
-    this.exitDeferred?.resolve()
-    this.exitDeferred = null
   }
 }
 function deferred<T>(): Deferred<T> {
