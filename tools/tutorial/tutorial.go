@@ -7,7 +7,6 @@ package tutorial
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/goplus/builder/tools/xgoexec"
 )
@@ -24,8 +23,6 @@ type Editor struct {
 }
 
 type Runtime struct {
-	onLog func(string)
-	logs  chan string
 }
 
 type CourseProto interface {
@@ -43,20 +40,14 @@ type runtimeLogEvent struct {
 
 func (p *Course) OnStart(handler func()) { p.onStart = handler }
 
-func (p *Runtime) OnLog(handler func(string)) {
-	p.onLog = handler
-	p.logs = make(chan string, 1)
+func (*Runtime) OnLog(handler func(string)) {
 	xgoexec.RegisterEventHandler("editor.runtime.log", func(payload json.RawMessage) error {
 		var event runtimeLogEvent
 		if err := json.Unmarshal(payload, &event); err != nil {
 			return err
 		}
-		select {
-		case p.logs <- event.Log:
-			return nil
-		default:
-			return fmt.Errorf("runtime log event queue is full")
-		}
+		handler(event.Log)
+		return nil
 	})
 }
 
@@ -68,13 +59,7 @@ func (p *Course) Start() {
 	if p.onStart != nil {
 		p.onStart()
 	}
-	runtime := &p.Editor.Runtime
-	if runtime.onLog == nil {
-		return
-	}
-	for {
-		runtime.onLog(<-runtime.logs)
-	}
+	select {}
 }
 
 func Gopt_Course_Main(course CourseProto) {

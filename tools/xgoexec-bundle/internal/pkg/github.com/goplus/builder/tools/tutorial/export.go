@@ -16,7 +16,6 @@ func init() {
 		Path: "github.com/goplus/builder/tools/tutorial",
 		Deps: map[string]string{
 			"encoding/json": "json",
-			"fmt":           "fmt",
 			"github.com/goplus/builder/tools/xgoexec": "xgoexec",
 		},
 		Interfaces: map[string]reflect.Type{
