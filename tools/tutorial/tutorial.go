@@ -4,7 +4,7 @@
 // APIs and host interactions are deliberately deferred to follow-up issues.
 package tutorial
 
-const GopPackage = true
+const XGoPackage = true
 
 type Course struct{}
 
