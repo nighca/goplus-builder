@@ -25,11 +25,32 @@ export type TutorialProjectIndex = {
  */
 export type TutorialProjectFiles = FileCollection;
 
+/** Controls how the spotlight presents a UI target. */
+export type SpotlightRevealOptions = {
+  /**
+   * Dims everything except the revealed target with a translucent overlay.
+   * The overlay never blocks pointer events; it only directs the learner's
+   * attention.
+   */
+  mask: boolean;
+  /**
+   * Keeps the spotlight visible until the learner clicks anywhere, instead of
+   * auto-concealing after a short delay.
+   */
+  persist: boolean;
+};
+
 /** Flat capabilities passed to the Tutorial framework implementation. */
 export interface TutorialFrameworkHost {
-  /** Displays a message dialog. */
+  /**
+   * Displays a message dialog. Resolves after the learner dismisses it;
+   * presentation never advances automatically.
+   */
   course_showMessage(message: string): Promise<void>;
-  /** Displays a Course-local video. */
+  /**
+   * Displays a Course-local video. Resolves after the learner finishes
+   * watching or closes it; presentation never advances automatically.
+   */
   course_showVideo(videoPath: string): Promise<void>;
   /** Completes the Course without feedback. */
   course_complete(): Promise<void>;
@@ -49,8 +70,17 @@ export interface TutorialFrameworkHost {
   copilot_generateText(message: string): Promise<string>;
   /** Generates a JSON value conforming to the framework-derived schema. */
   copilot_generateJSON(message: string, schema: JSONSchema): Promise<unknown>;
-  /** Focuses the existing Spotlight on a UI target. */
-  spotlight_reveal(target: string): Promise<void>;
+  /**
+   * Focuses the existing Spotlight on a UI target and shows a short tip
+   * beside it. Spotlight presentation never blocks the Course flow.
+   * `target` is a stable UI-target ID owned and published by the SPX Project
+   * Editor; session-local Radar node IDs are not valid targets.
+   */
+  spotlight_reveal(
+    target: string,
+    tip: string,
+    options: SpotlightRevealOptions,
+  ): Promise<void>;
 }
 
 /** Creates the framework passed to `XGoExecutorOptions.framework`. */
