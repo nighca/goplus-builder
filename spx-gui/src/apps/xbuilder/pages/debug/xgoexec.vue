@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref } from 'vue'
-import { UIButton, UICard } from '@/components/ui'
+import { UIButton, UICard, UITextInput } from '@/components/ui'
 import { XGoExecutor, type XGoFramework } from '@/utils/xgoexec'
 
 const PLAIN_XGO_SOURCE = `
@@ -13,17 +13,26 @@ for {
 `
 
 const TUTORIAL_XGO_SOURCE = `
-echo "Tutorial course started"
+onStart => {
+	showMessage "Tutorial course started"
+}
+
+Editor.Runtime.onLog log => {
+	showMessage "Tutorial received log: " + log
+}
 `
 
 const tutorialFramework: XGoFramework = {
   name: 'tutorial',
-  capabilities: {}
+  capabilities: {
+    course_showMessage: (request) => addOutput(`Tutorial message: ${(request as { content: string }).content}`)
+  }
 }
 
 const plainStatus = ref('idle')
 const tutorialStatus = ref('idle')
 const output = ref<string[]>([])
+const runtimeLog = ref('reached-target')
 let plainExecutor: XGoExecutor | null = null
 let tutorialExecutor: XGoExecutor | null = null
 
@@ -37,6 +46,7 @@ async function runPlain() {
     framework: null,
     onError: (phase, message) => {
       plainStatus.value = `${phase}: ${message}`
+      addOutput(`XGo ${phase}: ${message}`)
     },
     onOutput: (message) => addOutput(`XGo: ${message}`),
     onExit: (reason) => {
@@ -58,6 +68,7 @@ async function runTutorial() {
     framework: tutorialFramework,
     onError: (phase, message) => {
       tutorialStatus.value = `${phase}: ${message}`
+      addOutput(`Tutorial ${phase}: ${message}`)
     },
     onOutput: (message) => addOutput(`Tutorial: ${message}`),
     onExit: (reason) => {
@@ -75,6 +86,16 @@ async function runTutorial() {
 
 async function stopAll() {
   await Promise.all([plainExecutor?.stop(), tutorialExecutor?.stop()])
+}
+
+async function dispatchRuntimeLog() {
+  if (tutorialExecutor == null) return
+  try {
+    await tutorialExecutor.dispatchEvent('editor.runtime.log', { log: runtimeLog.value })
+    addOutput(`Runtime log: ${runtimeLog.value}`)
+  } catch (error) {
+    tutorialStatus.value = String(error)
+  }
 }
 
 onBeforeUnmount(() => {
@@ -105,6 +126,13 @@ onBeforeUnmount(() => {
       <div class="grid grid-cols-2 gap-4 text-sm">
         <div>XGo: {{ plainStatus }}</div>
         <div>Tutorial: {{ tutorialStatus }}</div>
+      </div>
+
+      <div class="flex gap-3">
+        <UITextInput v-model:value="runtimeLog" class="flex-1" />
+        <UIButton type="secondary" :disabled="tutorialStatus !== 'running'" @click="dispatchRuntimeLog">
+          Dispatch runtime log
+        </UIButton>
       </div>
 
       <pre v-if="output.length > 0" class="whitespace-pre-wrap rounded bg-grey-100 p-4 text-sm">{{

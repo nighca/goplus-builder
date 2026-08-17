@@ -25,7 +25,7 @@ See [Course APIs](./module_CourseApis.ts) and [Course storage](./course-storage.
 
 Tutorial owns the active Course lifecycle. Its public boundary starts and stops a Course or Course Series and exposes the current selection. The differences between Guided and Playground Courses remain internal branches of this implementation rather than part of the module boundary. Tutorial owns Course dialogs and completion UI, but it does not compose the SPX Project Editor UI; it delegates assistant and program-execution work to the generic Copilot and XGo Executor modules.
 
-For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. Once that surrounding UI composition is ready, it starts Tutorial with the loaded Course. Tutorial starts a Copilot Topic, combines its own presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main.gox`. Stopping or completing the Course tears these runtime resources down together.
+For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. Once that surrounding UI composition is ready, it starts Tutorial with the loaded Course. Tutorial starts a Copilot Topic, combines its own presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these runtime resources down together.
 
 See [Tutorial](./module_Tutorial.ts).
 
@@ -39,7 +39,7 @@ See [XGo Executor](./module_XGoExecutor.ts).
 
 ### Tutorial Class Framework
 
-The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, Course-author-provided Copilot instructions that are not shown in the learner UI, and the initial in-editor route; root `main.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
+The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, Course-author-provided Copilot instructions that are not shown in the learner UI, and the initial in-editor route; root `main_course.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
 
 Its Course-author-facing Go contract is included in this design:
 

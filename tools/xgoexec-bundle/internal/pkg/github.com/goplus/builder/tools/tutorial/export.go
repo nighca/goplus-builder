@@ -14,12 +14,18 @@ func init() {
 	ixgo.RegisterPackage(&ixgo.Package{
 		Name: "tutorial",
 		Path: "github.com/goplus/builder/tools/tutorial",
-		Deps: map[string]string{},
+		Deps: map[string]string{
+			"encoding/json": "json",
+			"fmt":           "fmt",
+			"github.com/goplus/builder/tools/xgoexec": "xgoexec",
+		},
 		Interfaces: map[string]reflect.Type{
 			"CourseProto": reflect.TypeOf((*q.CourseProto)(nil)).Elem(),
 		},
 		NamedTypes: map[string]reflect.Type{
-			"Course": reflect.TypeOf((*q.Course)(nil)).Elem(),
+			"Course":  reflect.TypeOf((*q.Course)(nil)).Elem(),
+			"Editor":  reflect.TypeOf((*q.Editor)(nil)).Elem(),
+			"Runtime": reflect.TypeOf((*q.Runtime)(nil)).Elem(),
 		},
 		AliasTypes: map[string]reflect.Type{},
 		Vars:       map[string]reflect.Value{},
