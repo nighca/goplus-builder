@@ -142,6 +142,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('./pages/sign-in/token.vue')
   },
   {
+    path: '/debug/xgoexec',
+    component: () => import('./pages/debug/xgoexec.vue')
+  },
+  {
     path: '/share/:owner/:name',
     redirect: (to) => getProjectPageRoute(to.params.owner as string, to.params.name as string)
   },
