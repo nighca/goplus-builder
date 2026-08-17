@@ -7,7 +7,7 @@ allowed frontend capabilities.
 ## Usage
 
 ```ts
-import { XGoExecutor } from '@/utils/xgo-executor'
+import { XGoExecutor } from '@/utils/xgoexec'
 
 const executor = new XGoExecutor({
   framework: null,

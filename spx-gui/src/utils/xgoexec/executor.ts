@@ -98,7 +98,8 @@ export class XGoExecutor {
   ) {
     try {
       const capabilities = this.options.framework?.capabilities
-      const capability = capabilities != null && Object.hasOwn(capabilities, message.name) ? capabilities[message.name] : null
+      const capability =
+        capabilities != null && Object.hasOwn(capabilities, message.name) ? capabilities[message.name] : null
       if (capability == null) throw new Error(`unsupported capability: ${message.name}`)
       const result = await capability(message.request)
       if (worker === this.worker)
