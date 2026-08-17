@@ -46,7 +46,7 @@ func (*Runtime) OnLog(handler func(string)) {
 		if err := json.Unmarshal(payload, &event); err != nil {
 			return err
 		}
-		handler(event.Log)
+		go handler(event.Log)
 		return nil
 	})
 }
