@@ -10,9 +10,18 @@ type Course struct {
 type CourseAbilities interface {
 	// onStart registers a callback that is called when the course starts.
 	onStart(callback func())
-	// showMessage displays a dialog with the given message.
+	// showPrelude displays the Course opening guide with the given message and
+	// returns after the learner dismisses it. Unlike showMessage, the host
+	// presents it as the opening task guide. Presentation never advances
+	// automatically.
+	showPrelude(preludeMessage string)
+	// showMessage displays a dialog with the given message and returns after the
+	// learner dismisses it. Presentation never advances automatically: the Course
+	// flow always waits for the learner to finish reading.
 	showMessage(message string)
-	// showVideo displays the video at the given course-local path.
+	// showVideo displays the video at the given course-local path and returns
+	// after the learner finishes watching or closes it. Presentation never
+	// advances automatically.
 	showVideo(videoPath string)
 	// complete marks the course as completed.
 	complete()
@@ -69,7 +78,24 @@ type CopilotRound struct {
 	resultMessages []string
 }
 
+// SpotlightOptions controls how the spotlight presents a UI target.
+type SpotlightOptions struct {
+	// mask dims everything except the revealed target with a translucent
+	// overlay. The overlay never blocks pointer events; it only directs
+	// the learner's attention.
+	mask bool
+	// persist keeps the spotlight visible until the learner clicks anywhere,
+	// instead of auto-concealing after a short delay.
+	persist bool
+}
+
 type Spotlight interface {
-	// reveal focuses the spotlight on the given UI target.
-	reveal(target string)
+	// reveal focuses the spotlight on the given UI target and shows the given
+	// tip beside it, with Course-guidance defaults (mask and persist enabled).
+	// Spotlight presentation never blocks the Course flow.
+	// target is a stable UI-target ID owned and published by the SPX Project
+	// Editor; session-local Radar node IDs are not valid targets.
+	reveal(target, tip string)
+	// revealWith is reveal with explicit presentation options.
+	revealWith(target, tip string, options SpotlightOptions)
 }
