@@ -57,6 +57,8 @@ course
 
 The initial interface includes course start/prelude/message/video/completion with optional feedback, runtime start/exit/log, code reading, API filtering, workspace formatting, Ruler control, Copilot round completion, text and structured JSON generation, and spotlight reveal. For structured generation, Course code passes a non-nil struct pointer; the framework derives its JSON Schema, invokes the frontend capability and decodes the result back into that value. `editor.project` is reserved until concrete project capabilities are required.
 
+Course-local videos are declared resources, following the SPX `sound` layout. Each video named `<name>` has its media file and `index.json` under `assets/videos/<name>/`; the JSON contains a `path` relative to that directory. Course code calls `showVideo "<name>"`. The Tutorial language service resolves that name against the declared video directories, so a missing or renamed video is reported by static checking instead of failing only when the course runs.
+
 See [Tutorial Class Framework](./module_TutorialFramework.ts), its [Go contract](./tutorial-class-framework.go) and an [example Tutorial Course project](./example-tutorial-course/).
 
 ### SPX Project Editor

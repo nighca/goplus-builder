@@ -25,6 +25,19 @@ export type TutorialProjectIndex = {
  */
 export type TutorialProjectFiles = FileCollection;
 
+/** A Course-local video resource stored under `assets/videos/<name>`. */
+export type TutorialVideoConfig = {
+  /** Media file path relative to the video's own directory. */
+  path: string;
+};
+
+/** The resource layout used by a Course-local video. */
+export type TutorialVideoResource = {
+  name: string;
+  config: TutorialVideoConfig;
+  file: string;
+};
+
 /** Controls how the spotlight presents a UI target. */
 export type SpotlightRevealOptions = {
   /**
@@ -53,10 +66,12 @@ export interface TutorialFrameworkHost {
    */
   course_showMessage(message: string): Promise<void>;
   /**
-   * Displays a Course-local video. Resolves after the learner finishes
-   * watching or closes it; presentation never advances automatically.
+   * Displays a Course-local video resource by name. The name is resolved
+   * against `assets/videos/<name>/index.json`; Course code never passes a
+   * relative media path, so the Tutorial language service can validate the
+   * reference against the project's declared resources.
    */
-  course_showVideo(videoPath: string): Promise<void>;
+  course_showVideo(videoName: string): Promise<void>;
   /** Completes the Course without feedback. */
   course_complete(): Promise<void>;
   /** Completes the Course and displays feedback. */
