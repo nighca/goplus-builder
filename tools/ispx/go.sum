@@ -16,8 +16,8 @@ github.com/goplus/reflectx v1.7.5 h1:CFZgoYO23rafGMmHY/nJVYpcqFeY4zMhWdfLm48lloA
 github.com/goplus/reflectx v1.7.5/go.mod h1:EXX8KSPTmnb2W1PfyVkDC0Qwet0lYX2h2/S06Vhwrhw=
 github.com/goplus/spbase v0.1.0 h1:JNZ0D/65DerYyv9/9IfrXHZZbd0WNK0jHiVvgCtZhwY=
 github.com/goplus/spbase v0.1.0/go.mod h1:brnD3OJnHtipqob2IsJ3/QzGBf+eOnqXNnHGKpv1irQ=
-github.com/goplus/spx/v3 v3.2.0 h1:wpiEQNuAN8Ulz6sRlXge9MesZP1OyAxGhqDLJJ+e4Io=
-github.com/goplus/spx/v3 v3.2.0/go.mod h1:V0MxLPWgI/s36APu8KD9buuk9JDSXoxYgkKtCxHRI5M=
+github.com/goplus/spx/v3 v3.2.1 h1:ILBYuHbF5M7hl93VjZDLb7hsa7hNsSov1/EScO0ha/E=
+github.com/goplus/spx/v3 v3.2.1/go.mod h1:V0MxLPWgI/s36APu8KD9buuk9JDSXoxYgkKtCxHRI5M=
 github.com/goplus/xgo v1.7.5 h1:biSNkiyWe3e+YmOmDRSs1Z6K4RLkLpzN6mTp1WbryAw=
 github.com/goplus/xgo v1.7.5/go.mod h1:TRIPQ1bRVkq1x0+Ve/gWGS+qcb3ACPIZHNcmuiKzYkE=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
