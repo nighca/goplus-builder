@@ -19,10 +19,9 @@ type CourseAbilities interface {
 	// learner dismisses it. Presentation never advances automatically: the Course
 	// flow always waits for the learner to finish reading.
 	showMessage(message string)
-	// showVideo displays the Course-local video resource with the given name.
-	// The name is resolved from assets/videos/<name>/index.json, whose path
-	// points to the media file relative to that resource directory. Course
-	// code must not pass a relative media path.
+	// showVideo displays the video at the given course-local path and returns
+	// after the learner finishes watching or closes it. Presentation never
+	// advances automatically.
 	showVideo(videoName string)
 	// complete marks the course as completed.
 	complete()
