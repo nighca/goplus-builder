@@ -261,3 +261,27 @@ export function listAllFiles(
   }
   return fileList
 }
+
+export function extractFiles(files: Files, dirname: string) {
+  const prefix = dirname + '/'
+  const extracted: Files = {}
+  for (const [path, file] of Object.entries(files)) {
+    if (path.startsWith(prefix)) extracted[path.slice(prefix.length)] = file
+  }
+  return extracted
+}
+
+export function prefixFiles(files: Files, dirname: string) {
+  const prefixed: Files = {}
+  for (const [path, file] of Object.entries(files)) {
+    prefixed[`${dirname}/${path}`] = file
+  }
+  return prefixed
+}
+
+export function removeFiles(files: Files, dirname: string) {
+  const prefix = dirname + '/'
+  for (const path of Object.keys(files)) {
+    if (path.startsWith(prefix)) delete files[path]
+  }
+}

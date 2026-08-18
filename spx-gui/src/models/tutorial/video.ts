@@ -1,122 +1,82 @@
 import { nanoid } from 'nanoid'
 import { reactive } from 'vue'
 
-import { join } from '@/utils/path'
+import { extname, join, resolve } from '@/utils/path'
 import { File, fromConfig, listDirs, toConfig, type Files } from '@/models/common/file'
 
-import { TutorialProjectLoadError } from './common'
 import type { TutorialProject } from './project'
 
-export type RawTutorialVideoConfig = {
-  path: string
-  builder_id?: string
+export type VideoInits = {
+  id?: string
 }
 
-export const tutorialVideoAssetPath = 'assets/videos'
+export type RawVideoConfig = Omit<VideoInits, 'id'> & {
+  builder_id?: string
+  path?: string
+}
+
+export const videoAssetPath = 'assets/videos'
 const videoConfigFileName = 'index.json'
 
-export class TutorialVideo {
+export type VideoExportLoadOptions = {
+  includeId?: boolean
+}
+
+export class Video {
   id: string
-  project: TutorialProject | null = null
-  name: string
-  path: string
-  file: File
 
-  constructor(name: string, path: string, file: File, id?: string) {
-    this.id = id ?? nanoid()
-    this.name = name
-    this.path = path
-    this.file = file
-    return reactive(this) as this
-  }
-
+  _project: TutorialProject | null = null
   setProject(project: TutorialProject | null) {
-    this.project = project
+    this._project = project
   }
 
+  name: string
   setName(name: string) {
-    if (!isPathSegment(name)) throw new Error(`invalid video name: ${name}`)
-    if (this.project?.videos.some((video) => video !== this && video.name === name)) {
+    if (this._project?.videos.some((video) => video !== this && video.name === name)) {
       throw new Error(`video ${name} already exists`)
     }
     this.name = name
   }
 
+  file: File
   setFile(file: File) {
     this.file = file
   }
 
-  static async load(name: string, files: Files) {
-    if (!isPathSegment(name)) throw new TutorialProjectLoadError(`invalid video name: ${name}`)
-    const directory = join(tutorialVideoAssetPath, name)
-    const configFile = files[join(directory, videoConfigFileName)]
-    if (configFile == null) throw new TutorialProjectLoadError(`missing video configuration: ${name}`)
-
-    const config = await loadConfig(configFile, name)
-    if (!isRelativePath(config.path)) {
-      throw new TutorialProjectLoadError(`video ${name} path must be a relative file path`)
-    }
-    const file = files[join(directory, config.path)]
-    if (file == null) throw new TutorialProjectLoadError(`missing video file: ${name}/${config.path}`)
-    return new TutorialVideo(name, config.path, file, config.builder_id)
+  constructor(name: string, file: File, inits?: VideoInits) {
+    this.id = inits?.id ?? nanoid()
+    this.name = name
+    this.file = file
+    return reactive(this) as this
   }
 
-  static async loadAll(files: Files) {
-    return Promise.all(listDirs(files, tutorialVideoAssetPath).map((name) => TutorialVideo.load(name, files)))
+  static async load(name: string, files: Files, { includeId = true }: VideoExportLoadOptions = {}) {
+    const pathPrefix = join(videoAssetPath, name)
+    const configFile = files[join(pathPrefix, videoConfigFileName)]
+    if (configFile == null) return null
+    const { builder_id: id, path } = (await toConfig(configFile)) as RawVideoConfig
+    if (path == null) throw new Error(`path expected for video ${name}`)
+    const file = files[resolve(pathPrefix, path)]
+    if (file == null) throw new Error(`file ${path} for video ${name} not found`)
+    return new Video(name, file, { id: includeId ? id : undefined })
   }
 
-  clone(preserveId = false) {
-    const file = this.file
-    return new TutorialVideo(
-      this.name,
-      this.path,
-      new File(file.name, (signal) => file.arrayBuffer(signal), {
-        type: file.type,
-        lastModified: file.lastModified,
-        meta: { ...file.meta }
-      }),
-      preserveId ? this.id : undefined
+  static async loadAll(files: Files, options?: VideoExportLoadOptions) {
+    const names = listDirs(files, videoAssetPath)
+    const videos = (await Promise.all(names.map((name) => Video.load(name, files, options)))).filter(
+      (video) => video != null
     )
+    return videos as Video[]
   }
 
-  export(): Files {
-    const directory = join(tutorialVideoAssetPath, this.name)
+  export({ includeId = true }: VideoExportLoadOptions = {}): Files {
+    const filename = this.name + extname(this.file.name)
+    const config: RawVideoConfig = { path: filename }
+    if (includeId) config.builder_id = this.id
+    const assetPath = join(videoAssetPath, this.name)
     return {
-      [join(directory, videoConfigFileName)]: fromConfig(videoConfigFileName, {
-        path: this.path,
-        builder_id: this.id
-      }),
-      [join(directory, this.path)]: this.file
+      [join(assetPath, videoConfigFileName)]: fromConfig(videoConfigFileName, config),
+      [join(assetPath, filename)]: this.file
     }
   }
-}
-
-async function loadConfig(file: File, name: string): Promise<RawTutorialVideoConfig> {
-  let config: unknown
-  try {
-    config = await toConfig(file)
-  } catch (error) {
-    throw new TutorialProjectLoadError(
-      `invalid video configuration for ${name}: ${error instanceof Error ? error.message : String(error)}`
-    )
-  }
-  if (config == null || typeof config !== 'object' || Array.isArray(config)) {
-    throw new TutorialProjectLoadError(`invalid video configuration for ${name}`)
-  }
-  if (!('path' in config) || !isRelativePath(config.path)) {
-    throw new TutorialProjectLoadError(`invalid video configuration for ${name}`)
-  }
-  const id = 'builder_id' in config ? config.builder_id : undefined
-  if (id != null && typeof id !== 'string') {
-    throw new TutorialProjectLoadError(`invalid video configuration for ${name}`)
-  }
-  return { path: config.path, builder_id: typeof id === 'string' ? id : undefined }
-}
-
-function isPathSegment(value: string) {
-  return value !== '' && value !== '.' && value !== '..' && !value.includes('/')
-}
-
-function isRelativePath(value: unknown): value is string {
-  return typeof value === 'string' && value.split('/').every(isPathSegment)
 }

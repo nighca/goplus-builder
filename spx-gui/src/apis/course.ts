@@ -1,4 +1,4 @@
-import { client, type ByPage, type PaginationParams } from './common'
+import { client, type ByPage, type FileCollection, type PaginationParams } from './common'
 
 export const courseTitleMaxLength = 200
 /**
@@ -60,4 +60,15 @@ export function listCourses(params?: ListCoursesParams, signal?: AbortSignal) {
 
 export function listSignedInUserCourses(params?: ListCoursesParams, signal?: AbortSignal) {
   return client.get('/user/courses', params, { signal }) as Promise<ByPage<Course>>
+}
+
+export type CourseKind = 'guided' | 'playground'
+
+export type PlaygroundCourseData = {
+  id: string
+  owner: string
+  kind: 'playground'
+  title: string
+  thumbnail: string
+  content: FileCollection
 }
