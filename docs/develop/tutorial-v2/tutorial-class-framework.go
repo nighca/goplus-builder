@@ -10,6 +10,11 @@ type Course struct {
 type CourseAbilities interface {
 	// onStart registers a callback that is called when the course starts.
 	onStart(callback func())
+	// showPrelude displays the Course opening guide with the given message and
+	// returns after the learner dismisses it. Unlike showMessage, the host
+	// presents it as the opening task guide. Presentation never advances
+	// automatically.
+	showPrelude(preludeMessage string)
 	// showMessage displays a dialog with the given message and returns after the
 	// learner dismisses it. Presentation never advances automatically: the Course
 	// flow always waits for the learner to finish reading.

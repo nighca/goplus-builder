@@ -43,6 +43,11 @@ export type SpotlightRevealOptions = {
 /** Flat capabilities passed to the Tutorial framework implementation. */
 export interface TutorialFrameworkHost {
   /**
+   * Displays the Course opening guide with the given message. Resolves after
+   * the learner dismisses it; presentation never advances automatically.
+   */
+  course_showPrelude(preludeMessage: string): Promise<void>;
+  /**
    * Displays a message dialog. Resolves after the learner dismisses it;
    * presentation never advances automatically.
    */
