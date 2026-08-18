@@ -32,9 +32,8 @@ export class Video {
 
   name: string
   setName(name: string) {
-    if (this._project?.videos.some((video) => video !== this && video.name === name)) {
-      throw new Error(`video ${name} already exists`)
-    }
+    const error = validateVideoName(name, this, this._project)
+    if (error != null) throw new Error(`invalid video name ${name}: ${error}`)
     this.name = name
   }
 
@@ -79,4 +78,10 @@ export class Video {
       [join(assetPath, filename)]: this.file
     }
   }
+}
+
+function validateVideoName(name: string, video: Video, project: TutorialProject | null) {
+  if (name === '') return 'must not be blank'
+  if (name.includes('/')) return 'must not contain /'
+  if (project?.videos.some((item) => item !== video && item.name === name)) return 'already exists'
 }

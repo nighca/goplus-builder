@@ -33,4 +33,10 @@ describe('Video', () => {
 
     expect((await Video.loadAll(files)).map((video) => video.name)).toEqual(['step-to', 'another'])
   })
+
+  it('rejects names that cannot identify a video directory', () => {
+    const video = new Video('step-to', fromText('step-to.mp4', 'video'))
+
+    expect(() => video.setName('assets/step-to')).toThrow('must not contain /')
+  })
 })

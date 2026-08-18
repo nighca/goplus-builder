@@ -61,6 +61,24 @@ describe('TutorialProject', () => {
     expect(reloaded.project.sprites.map((sprite) => sprite.name)).toEqual(['Lita'])
   })
 
+  it('keeps the embedded SPX project while reloading files', async () => {
+    const tutorial = await loadProject()
+    const project = tutorial.project
+
+    await tutorial.loadFiles(makeFiles())
+
+    expect(tutorial.project).toBe(project)
+  })
+
+  it('loads and exports metadata with files', async () => {
+    const tutorial = await loadProject()
+    tutorial.setMetadata({ title: 'Updated title' })
+
+    const serialized = tutorial.export()
+    expect(serialized.metadata.title).toBe('Updated title')
+    expect(await toText(serialized.files['main.gox']!)).toBe('onStart => {}')
+  })
+
   it('adds and removes videos using the resource ID', async () => {
     const tutorial = await loadProject()
     const video = new Video('another', fromText('another.mp4', 'another'))

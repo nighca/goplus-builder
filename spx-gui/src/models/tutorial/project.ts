@@ -30,6 +30,11 @@ export type TutorialProjectIndex = {
 
 export type TutorialProjectMetadata = Omit<PlaygroundCourseData, 'content'>
 
+export type TutorialProjectSerialized = {
+  metadata: TutorialProjectMetadata
+  files: Files
+}
+
 export { Video } from './video'
 
 export class TutorialProject {
@@ -56,8 +61,17 @@ export class TutorialProject {
 
   static async load(course: PlaygroundCourseData) {
     const project = new TutorialProject(course)
-    await project.loadFiles(getFiles(course.content))
+    await project.load({ metadata: course, files: getFiles(course.content) })
     return project
+  }
+
+  setMetadata(metadata: Partial<TutorialProjectMetadata>) {
+    Object.assign(this, metadata)
+  }
+
+  async load({ metadata, files }: TutorialProjectSerialized) {
+    this.setMetadata(metadata)
+    await this.loadFiles(files)
   }
 
   async loadFiles(files: Files) {
@@ -67,12 +81,10 @@ export class TutorialProject {
     const courseCodeFile = files[courseCodeFilePath]
     if (courseCodeFile == null) throw new Error(`file ${courseCodeFilePath} not found`)
 
-    const project = new SpxProject()
-    await project.loadFiles(extractFiles(files, index.project.root))
+    await this.project.loadFiles(extractFiles(files, index.project.root))
     const videos = await Video.loadAll(files)
 
     this.index = index
-    this.project = project
     this.courseCode = await toText(courseCodeFile)
     this.videos.splice(0).forEach((video) => video.setProject(null))
     videos.forEach((video) => this.addVideo(video))
@@ -84,9 +96,14 @@ export class TutorialProject {
   }
 
   addVideo(video: Video) {
-    if (this.videos.some((item) => item.name === video.name)) throw new Error(`video ${video.name} already exists`)
     video.setProject(this)
-    this.videos.push(video)
+    try {
+      video.setName(video.name)
+      this.videos.push(video)
+    } catch (error) {
+      video.setProject(null)
+      throw error
+    }
   }
 
   removeVideo(id: string) {
@@ -109,5 +126,18 @@ export class TutorialProject {
       ...this.videos.map((video) => video.export())
     )
     return files
+  }
+
+  export(): TutorialProjectSerialized {
+    return {
+      metadata: {
+        id: this.id,
+        owner: this.owner,
+        kind: this.kind,
+        title: this.title,
+        thumbnail: this.thumbnail
+      },
+      files: this.exportFiles()
+    }
   }
 }
