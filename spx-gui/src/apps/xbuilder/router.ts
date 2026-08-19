@@ -141,6 +141,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/sign-in/token',
     component: () => import('./pages/sign-in/token.vue')
   },
+  // TODO: Remove this temporary Tutorial v2 development page before merging to dev.
+  {
+    path: '/debug/xgoexec',
+    component: () => import('./pages/debug/xgoexec.vue')
+  },
   {
     path: '/share/:owner/:name',
     redirect: (to) => getProjectPageRoute(to.params.owner as string, to.params.name as string)
