@@ -22,14 +22,6 @@ export type VideoExportLoadOptions = {
   includeId?: boolean
 }
 
-export interface VideoLike {
-  name: string
-}
-
-export interface VideoLikeProject {
-  videos: VideoLike[]
-}
-
 export class Video {
   id: string
 
@@ -88,13 +80,13 @@ export class Video {
   }
 }
 
-export function validateVideoName(name: string, project: VideoLikeProject | null) {
+export function validateVideoName(name: string, project: TutorialProject | null) {
   if (name === '') return 'must not be blank'
   if (name.includes('/')) return 'must not contain /'
   if (project?.videos.some((video) => video.name === name)) return 'already exists'
 }
 
-export function ensureValidVideoName(name: string, project: VideoLikeProject | null) {
+export function ensureValidVideoName(name: string, project: TutorialProject | null) {
   const error = validateVideoName(name, project)
   if (error == null) return name
   if (error !== 'already exists') throw new Error(`invalid video name ${name}: ${error}`)
