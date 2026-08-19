@@ -262,7 +262,7 @@ export function listAllFiles(
   return fileList
 }
 
-export function extractFiles(files: Files, dirname: string) {
+export function unprefixFiles(files: Files, dirname: string) {
   const prefix = dirname + '/'
   const extracted: Files = {}
   for (const [path, file] of Object.entries(files)) {
@@ -277,11 +277,4 @@ export function prefixFiles(files: Files, dirname: string) {
     prefixed[`${dirname}/${path}`] = file
   }
   return prefixed
-}
-
-export function removeFiles(files: Files, dirname: string) {
-  const prefix = dirname + '/'
-  for (const path of Object.keys(files)) {
-    if (path.startsWith(prefix)) delete files[path]
-  }
 }

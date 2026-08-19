@@ -32,7 +32,7 @@ export class Video {
 
   name: string
   setName(name: string) {
-    const error = validateVideoName(name, this, this._project)
+    const error = validateVideoName(name, this._project)
     if (error != null) throw new Error(`invalid video name ${name}: ${error}`)
     this.name = name
   }
@@ -80,8 +80,8 @@ export class Video {
   }
 }
 
-function validateVideoName(name: string, video: Video, project: TutorialProject | null) {
+function validateVideoName(name: string, project: TutorialProject | null) {
   if (name === '') return 'must not be blank'
   if (name.includes('/')) return 'must not contain /'
-  if (project?.videos.some((item) => item !== video && item.name === name)) return 'already exists'
+  if (project?.videos.some((video) => video.name === name)) return 'already exists'
 }

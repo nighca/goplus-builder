@@ -31,8 +31,8 @@ function makeFiles(): Files {
 }
 
 async function loadProject() {
-  const project = new TutorialProject(makeMetadata())
-  await project.loadFiles(makeFiles())
+  const project = new TutorialProject()
+  await project.load({ metadata: makeMetadata(), files: makeFiles() })
   return project
 }
 
@@ -42,21 +42,21 @@ describe('TutorialProject', () => {
 
     expect(tutorial.id).toBe('course-id')
     expect(tutorial.project.owner).toBeUndefined()
-    expect(tutorial.courseCode).toBe('onStart => {}')
+    expect(tutorial.mainCourse.code).toBe('onStart => {}')
     expect(tutorial.videos.map((video) => video.name)).toEqual(['step-to'])
     expect(tutorial.videos[0]._project).toBe(tutorial)
   })
 
   it('writes course code and owned SPX project state', async () => {
     const tutorial = await loadProject()
-    tutorial.setCourseCode('onStart => { showVideo "step-to" }')
+    tutorial.mainCourse.setCode('onStart => { showVideo "step-to" }')
     tutorial.project.addSprite(new Sprite('Lita'))
 
     const files = tutorial.exportFiles()
     expect(await toText(files['main.gox']!)).toBe('onStart => { showVideo "step-to" }')
     expect(await toConfig(files['project/assets/index.json']!)).toBeDefined()
 
-    const reloaded = new TutorialProject(makeMetadata())
+    const reloaded = new TutorialProject()
     await reloaded.loadFiles(files)
     expect(reloaded.project.sprites.map((sprite) => sprite.name)).toEqual(['Lita'])
   })
@@ -87,5 +87,14 @@ describe('TutorialProject', () => {
 
     tutorial.removeVideo(video.id)
     expect(video._project).toBeNull()
+  })
+
+  it('gives an added video a non-conflicting name', async () => {
+    const tutorial = await loadProject()
+    const video = new Video('step-to', fromText('step-to.mp4', 'another'))
+
+    tutorial.addVideo(video)
+
+    expect(video.name).toBe('step-to2')
   })
 })
