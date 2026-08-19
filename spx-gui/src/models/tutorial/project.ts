@@ -7,7 +7,7 @@ import { fromConfig, prefixFiles, toConfig, unprefixFiles, type Files } from '@/
 import { SpxProject } from '@/models/spx/project'
 
 import { Course } from './course'
-import { Video } from './video'
+import { ensureValidVideoName, Video } from './video'
 
 const indexFilePath = 'index.json'
 
@@ -118,21 +118,5 @@ export class TutorialProject {
       },
       files: this.exportFiles()
     }
-  }
-}
-
-function validateVideoName(name: string, project: TutorialProject) {
-  if (name === '') return 'must not be blank'
-  if (name.includes('/')) return 'must not contain /'
-  if (project.videos.some((video) => video.name === name)) return 'already exists'
-}
-
-function ensureValidVideoName(name: string, project: TutorialProject) {
-  const error = validateVideoName(name, project)
-  if (error == null) return name
-  if (error !== 'already exists') throw new Error(`invalid video name ${name}: ${error}`)
-  for (let i = 2; ; i++) {
-    const candidate = `${name}${i}`
-    if (validateVideoName(candidate, project) == null) return candidate
   }
 }

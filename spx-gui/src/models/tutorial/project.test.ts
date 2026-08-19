@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { TutorialProjectMetadata } from './project'
 import { fromConfig, fromText, toConfig, toText, type Files } from '@/models/common/file'
 import { Sprite } from '@/models/spx/sprite'
+import { mainCourseFilePath } from './course'
 import { TutorialProject } from './project'
 import { Video } from './video'
 
@@ -23,7 +24,7 @@ function makeFiles(): Files {
       inEditorRoute: '/simple/sprites/Lita',
       copilotContext: 'Help the learner.'
     }),
-    'main.gox': fromText('main.gox', 'onStart => {}'),
+    [mainCourseFilePath]: fromText(mainCourseFilePath, 'onStart => {}'),
     'project/assets/index.json': fromConfig('index.json', {}),
     'assets/videos/step-to/index.json': fromConfig('index.json', { path: 'step-to.mp4', builder_id: 'video-id' }),
     'assets/videos/step-to/step-to.mp4': fromText('step-to.mp4', 'video')
@@ -53,7 +54,7 @@ describe('TutorialProject', () => {
     tutorial.project.addSprite(new Sprite('Lita'))
 
     const files = tutorial.exportFiles()
-    expect(await toText(files['main.gox']!)).toBe('onStart => { showVideo "step-to" }')
+    expect(await toText(files[mainCourseFilePath]!)).toBe('onStart => { showVideo "step-to" }')
     expect(await toConfig(files['project/assets/index.json']!)).toBeDefined()
 
     const reloaded = new TutorialProject()
@@ -76,7 +77,7 @@ describe('TutorialProject', () => {
 
     const serialized = tutorial.export()
     expect(serialized.metadata.title).toBe('Updated title')
-    expect(await toText(serialized.files['main.gox']!)).toBe('onStart => {}')
+    expect(await toText(serialized.files[mainCourseFilePath]!)).toBe('onStart => {}')
   })
 
   it('adds and removes videos using the resource ID', async () => {

@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 
 import { fromText, toText, type Files } from '@/models/common/file'
 
-export const mainCourseFilePath = 'main.gox'
+export const mainCourseFilePath = 'main_course.gox'
 
 export class Course {
   code: string
