@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { fromConfig, fromText, toConfig, toText, type Files } from '@/models/common/file'
-import { Video } from './video'
+import { validateVideoName, Video } from './video'
 
 function makeFiles(): Files {
   return {
@@ -37,6 +37,10 @@ describe('Video', () => {
   it('rejects names that cannot identify a video directory', () => {
     const video = new Video('step-to', fromText('step-to.mp4', 'video'))
 
-    expect(() => video.setName('assets/step-to')).toThrow('must not contain /')
+    expect(() => video.setName('assets/step-to')).toThrow('The name must not contain /')
+  })
+
+  it('limits names to 100 code points', () => {
+    expect(validateVideoName('a'.repeat(101), null)?.en).toContain('maximum is 100 characters')
   })
 })

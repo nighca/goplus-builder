@@ -9,14 +9,17 @@ import { SpxProject } from '@/models/spx/project'
 import { Course } from './course'
 import { ensureValidVideoName, Video } from './video'
 
-const indexFilePath = 'index.json'
+const configFilePath = 'index.json'
 
-export type TutorialProjectIndex = {
+export type TutorialProjectConfig = {
+  /** The embedded learner project. */
   project: {
     type: 'spx'
     root: string
   }
+  /** The route initially displayed in the editor. */
   inEditorRoute: string
+  /** Copilot instructions supplied by the course author. */
   copilotContext: string
 }
 
@@ -37,9 +40,13 @@ export class TutorialProject {
   title = ''
   thumbnail = ''
 
-  index: TutorialProjectIndex | null = null
+  /** Tutorial-project configuration. */
+  config: TutorialProjectConfig | null = null
+  /** The embedded learner project. */
   project: SpxProject
+  /** The course author's main program. */
   mainCourse: Course
+  /** Course-local video resources. */
   videos: Video[] = []
 
   constructor() {
@@ -64,14 +71,14 @@ export class TutorialProject {
   }
 
   async loadFiles(files: Files) {
-    const indexFile = files[indexFilePath]
-    if (indexFile == null) throw new Error(`file ${indexFilePath} not found`)
-    const index = (await toConfig(indexFile)) as TutorialProjectIndex
-    await this.project.loadFiles(unprefixFiles(files, index.project.root))
+    const configFile = files[configFilePath]
+    if (configFile == null) throw new Error(`file ${configFilePath} not found`)
+    const config = (await toConfig(configFile)) as TutorialProjectConfig
+    await this.project.loadFiles(unprefixFiles(files, config.project.root))
     await this.mainCourse.loadFiles(files)
     const videos = await Video.loadAll(files)
 
-    this.index = index
+    this.config = config
     this.videos.splice(0).forEach((video) => video.setProject(null))
     videos.forEach((video) => this.addVideo(video))
   }
@@ -95,12 +102,12 @@ export class TutorialProject {
   }
 
   exportFiles() {
-    if (this.index == null) throw new Error('Tutorial project has not been loaded')
+    if (this.config == null) throw new Error('Tutorial project has not been loaded')
     const files: Files = {}
-    files[indexFilePath] = fromConfig(indexFilePath, this.index)
+    files[configFilePath] = fromConfig(configFilePath, this.config)
     Object.assign(
       files,
-      prefixFiles(this.project.exportFiles(), this.index.project.root),
+      prefixFiles(this.project.exportFiles(), this.config.project.root),
       this.mainCourse.export(),
       ...this.videos.map((video) => video.export())
     )

@@ -2,6 +2,8 @@ import { nanoid } from 'nanoid'
 import { reactive } from 'vue'
 
 import { extname, join, resolve } from '@/utils/path'
+import type { LocaleMessage } from '@/utils/i18n'
+import { getStringLengthInCodePoints } from '@/utils/utils'
 import { File, fromConfig, listDirs, toConfig, type Files } from '@/models/common/file'
 
 import type { TutorialProject } from './project'
@@ -17,6 +19,7 @@ export type RawVideoConfig = Omit<VideoInits, 'id'> & {
 
 export const videoAssetPath = 'assets/videos'
 const videoConfigFileName = 'index.json'
+const videoNameMaxLength = 100
 
 export type VideoExportLoadOptions = {
   includeId?: boolean
@@ -33,7 +36,7 @@ export class Video {
   name: string
   setName(name: string) {
     const error = validateVideoName(name, this._project)
-    if (error != null) throw new Error(`invalid video name ${name}: ${error}`)
+    if (error != null) throw new Error(`invalid video name ${name}: ${error.en}`)
     this.name = name
   }
 
@@ -80,18 +83,36 @@ export class Video {
   }
 }
 
-export function validateVideoName(name: string, project: TutorialProject | null) {
-  if (name === '') return 'must not be blank'
-  if (name.includes('/')) return 'must not contain /'
-  if (project?.videos.some((video) => video.name === name)) return 'already exists'
+export function validateVideoName(name: string, project: TutorialProject | null): LocaleMessage | null {
+  if (name === '') return { en: 'The name must not be blank', zh: '名字不可为空' }
+  if (getStringLengthInCodePoints(name) > videoNameMaxLength) {
+    return {
+      en: `The name is too long (maximum is ${videoNameMaxLength} characters)`,
+      zh: `名字长度超出限制（最多 ${videoNameMaxLength} 个字符）`
+    }
+  }
+  if (name.includes('/')) return { en: 'The name must not contain /', zh: '名字不可包含 /' }
+  if (project?.videos.some((video) => video.name === name)) {
+    return { en: `Video with name ${name} already exists`, zh: '存在同名的视频' }
+  }
+  return null
 }
 
 export function ensureValidVideoName(name: string, project: TutorialProject | null) {
-  const error = validateVideoName(name, project)
-  if (error == null) return name
-  if (error !== 'already exists') throw new Error(`invalid video name ${name}: ${error}`)
-  for (let i = 2; ; i++) {
-    const candidate = `${name}${i}`
-    if (validateVideoName(candidate, project) == null) return candidate
+  if (validateVideoName(name, project) == null) return name
+  return getVideoName(project, name)
+}
+
+export function getVideoName(project: TutorialProject | null, base: string) {
+  if (validateVideoName(base, null) != null) throw new Error(`invalid video name ${base}`)
+  const match = base.match(/^(.*?)(\d+)$/)
+  const nameBase = match?.[1] ?? base
+  const initialNumber = match == null ? 1 : parseInt(match[2], 10)
+  const numberWidth = match?.[2].length ?? 1
+  for (let i = initialNumber + 1; ; i++) {
+    const suffix = numberWidth > 1 ? String(i).padStart(numberWidth, '0') : String(i)
+    const name = nameBase + suffix
+    if (validateVideoName(name, project) == null) return name
+    if (i - initialNumber > 10000) throw new Error(`unexpected infinite loop with base ${base}`)
   }
 }

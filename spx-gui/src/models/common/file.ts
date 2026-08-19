@@ -262,6 +262,7 @@ export function listAllFiles(
   return fileList
 }
 
+/** Return files under dirname with that prefix removed from their paths. */
 export function unprefixFiles(files: Files, dirname: string) {
   const prefix = dirname + '/'
   const extracted: Files = {}
@@ -271,6 +272,7 @@ export function unprefixFiles(files: Files, dirname: string) {
   return extracted
 }
 
+/** Add dirname to every file path. This is the inverse of unprefixFiles. */
 export function prefixFiles(files: Files, dirname: string) {
   const prefixed: Files = {}
   for (const [path, file] of Object.entries(files)) {
