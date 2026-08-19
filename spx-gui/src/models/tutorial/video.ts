@@ -5,6 +5,7 @@ import { extname, join, resolve } from '@/utils/path'
 import type { LocaleMessage } from '@/utils/i18n'
 import { getStringLengthInCodePoints } from '@/utils/utils'
 import { File, fromConfig, listDirs, toConfig, type Files } from '@/models/common/file'
+import { getValidName } from '@/models/common/name'
 
 import type { TutorialProject } from './project'
 
@@ -105,14 +106,5 @@ export function ensureValidVideoName(name: string, project: TutorialProject | nu
 
 export function getVideoName(project: TutorialProject | null, base: string) {
   if (validateVideoName(base, null) != null) throw new Error(`invalid video name ${base}`)
-  const match = base.match(/^(.*?)(\d+)$/)
-  const nameBase = match?.[1] ?? base
-  const initialNumber = match == null ? 1 : parseInt(match[2], 10)
-  const numberWidth = match?.[2].length ?? 1
-  for (let i = initialNumber + 1; ; i++) {
-    const suffix = numberWidth > 1 ? String(i).padStart(numberWidth, '0') : String(i)
-    const name = nameBase + suffix
-    if (validateVideoName(name, project) == null) return name
-    if (i - initialNumber > 10000) throw new Error(`unexpected infinite loop with base ${base}`)
-  }
+  return getValidName(base, (name) => validateVideoName(name, project) == null)
 }
