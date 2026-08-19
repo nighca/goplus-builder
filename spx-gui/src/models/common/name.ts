@@ -15,6 +15,7 @@ function formatNumericSuffix(base: string, num: number, numWidth: number) {
   return base + suffix
 }
 
+/** Return initialName or its first available numeric-suffix variant. */
 export function getValidName(initialName: string, isValid: (name: string) => boolean) {
   if (initialName === '') throw new Error('name must not be blank')
   if (isValid(initialName)) return initialName
