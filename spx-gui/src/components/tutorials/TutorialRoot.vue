@@ -4,9 +4,11 @@ import { useRouter } from 'vue-router'
 import { useI18n } from '@/utils/i18n'
 import { useIsRouteLoaded } from '@/utils/route-loading'
 
-import { isTutorialTopic, provideTutorial, Tutorial } from './tutorial'
-
 import { useCopilot } from '@/components/copilot/context'
+
+import { GuidedTutorial, isGuidedTutorialTopic, provideGuidedTutorial } from './guided-tutorial'
+import { PlaygroundTutorial, providePlaygroundTutorial } from './playground-tutorial'
+import { provideTutorial, Tutorial } from './tutorial'
 import * as tutorialCourseSuccess from './TutorialCourseSuccess.vue'
 import * as tutorialCourseExitLink from './TutorialCourseExitLink'
 import * as tutorialStateIndicator from './TutorialStateIndicator.vue'
@@ -17,13 +19,15 @@ const copilot = useCopilot()
 const router = useRouter()
 const isRouteLoaded = useIsRouteLoaded()
 
-const tutorial = new Tutorial(copilot, router, isRouteLoaded)
+const guidedTutorial = new GuidedTutorial(copilot, router, isRouteLoaded)
+const playgroundTutorial = new PlaygroundTutorial(router)
+const tutorial = new Tutorial(guidedTutorial, playgroundTutorial)
 
 // TODO: ensure `RegExp.escape` available & use `RegExp.escape` instead
 const tutorialCourseSuccessPattern = new RegExp(`<${tutorialCourseSuccess.tagName.replace('-', '\\-')}\\b`)
 
 watch(
-  () => tutorial.currentCourse,
+  () => guidedTutorial.currentCourse,
   (currentCourse, _, onCleanup) => {
     if (currentCourse == null) return
 
@@ -47,7 +51,7 @@ watch(
       copilot.registerStateIndicatorComponent(tutorialStateIndicator.name, tutorialStateIndicator.default),
       copilot.registerQuickInputProvider({
         provideQuickInput(lastCopilotMessage, topic) {
-          if (topic == null || !isTutorialTopic(topic)) return []
+          if (topic == null || !isGuidedTutorialTopic(topic)) return []
           if (lastCopilotMessage?.content != null && tutorialCourseSuccessPattern.test(lastCopilotMessage.content)) {
             return []
           }
@@ -82,6 +86,8 @@ watch(
   }
 )
 
+provideGuidedTutorial(guidedTutorial)
+providePlaygroundTutorial(playgroundTutorial)
 provideTutorial(tutorial)
 </script>
 

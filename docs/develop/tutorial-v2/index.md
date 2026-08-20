@@ -23,9 +23,9 @@ See [Course APIs](./module_CourseApis.ts) and [Course storage](./course-storage.
 
 ### Tutorial
 
-Tutorial owns the active Course lifecycle. Its public boundary starts and stops a Course or Course Series and exposes the current selection. The differences between Guided and Playground Courses remain internal branches of this implementation rather than part of the module boundary. Tutorial owns Course dialogs and completion UI, but it does not compose the SPX Project Editor UI; it delegates assistant and program-execution work to the generic Copilot and XGo Executor modules.
+Tutorial is a thin application entry facade. Its public boundary accepts a Course Series ID and Course ID, loads their canonical data, and starts or ends the appropriate internal mechanism. It does not expose the current Course, Course Series, or a separate Series-start operation. Guided Courses use a global, session-storage-backed runtime because they span routes; Playground Courses use a memory-only entry and a route-local runtime.
 
-For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. Once that surrounding UI composition is ready, it starts Tutorial with the loaded Course. Tutorial starts a Copilot Topic, combines its own presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these runtime resources down together.
+For a Playground Course, the facade interprets the opaque Course content as one `TutorialProject` and navigates to Course playground. That route builds an `EditorState` from the embedded, ownerless `SpxProject`, applies `inEditorRoute`, and composes the SPX Project Editor UI. Its local runtime starts a Copilot Topic, combines presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions`, and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these route-local resources down together.
 
 Tutorial is also the event dispatcher for the running Tutorial program: it observes editor and Copilot activity and delivers the framework's events, and it interprets how a run ended.
 
@@ -97,18 +97,18 @@ See [Course Editor](./module_CourseEditor.ts).
 
 ```mermaid
 flowchart LR
-    CoursePlayground["Course playground"] -->|load Course and Series| CourseApis["Course APIs"]
+    Tutorial["Tutorial facade"] -->|load Course and Series by ID| CourseApis["Course APIs"]
+    Tutorial -->|enter Playground Course| CoursePlayground["Course playground"]
     CoursePlayground -->|compose learning UI| ProjectEditor["SPX Project Editor"]
-    CoursePlayground -->|start loaded Course| Tutorial
 
     CourseEditor["Course Editor"] -->|load and save| CourseApis
     CourseEditor -->|compose authoring and preview UI| ProjectEditor
-    CourseEditor -->|start Preview snapshot| Tutorial
+    CourseEditor -->|run Preview snapshot directly| CoursePlayground
 
-    Tutorial -->|use and register editor capabilities| ProjectEditor
-    Tutorial -->|manage session and use generic capabilities| Copilot
-    Tutorial -->|create with registered capabilities| Framework["Tutorial Class Framework"]
-    Tutorial -->|run, dispatch events and stop| Executor["XGo Executor"]
+    CoursePlayground -->|use editor capabilities| ProjectEditor
+    CoursePlayground -->|manage local session| Copilot
+    CoursePlayground -->|create with registered capabilities| Framework["Tutorial Class Framework"]
+    CoursePlayground -->|run, dispatch events and stop| Executor["XGo Executor"]
 
     Framework -->|provide XGoFramework| Executor
     Executor -->|invoke framework capabilities| Framework

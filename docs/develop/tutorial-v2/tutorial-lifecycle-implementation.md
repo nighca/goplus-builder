@@ -1,0 +1,311 @@
+# Tutorial lifecycle and Course playground implementation draft
+
+This document is an implementation draft for [#3419](https://github.com/goplus/builder/issues/3419). It refines the [Tutorial module contract](./module_Tutorial.ts) against the current frontend and the Tutorial-project models from [#3438](https://github.com/goplus/builder/pull/3438).
+
+## Conclusions
+
+- The public `Tutorial` module is an application-level entry facade, not the runtime shared by Guided and Playground Courses.
+- Its public operations are only `startCourse(courseSeriesID, courseID)` and `endCurrentCourse()`.
+- `startCourse` loads the Course Series and Course itself, then branches internally by Course kind. Callers do not pass a `GuidedCourse`, `TutorialProject`, or Course snapshot.
+- The current global `Tutorial` class is mostly the Guided Course runtime. It should become an internal `GuidedTutorial` because Guided Courses can run across routes and must restore their state from session storage.
+- A Playground Course is route-local. The facade constructs one memory-only `TutorialProject`, navigates to the Course playground, and lets that route compose and own the Playground runtime.
+- A Course Series needs no separate start operation. Starting a Series means starting one of its Courses, normally its first Course; moving to the next Course calls the same `startCourse` operation with the next Course ID.
+- The initial release has exactly one Course-program source file: `main_course.gox`.
+- Guided Course state remains in session storage. Playground Course project and runtime state remain in memory and are recreated from Course content after refresh.
+
+## Why the current global objects look Guided-specific
+
+The existing `Tutorial` class and `TutorialRoot.vue` solve requirements that belong specifically to Guided Courses:
+
+- the Course may navigate away from the Course-start route and continue across Builder;
+- the Copilot session drives the Course flow;
+- the active Course and Series survive navigation through session storage;
+- global Copilot custom elements, quick input, state indicator, and abandon handling remain registered while that Course is active.
+
+A Playground Course has a different natural lifetime:
+
+- it always runs inside its dedicated playground route;
+- leaving that route ends the Course;
+- its `TutorialProject`, ownerless `SpxProject`, `EditorState`, XGo executor, and Course-controlled UI are session-local;
+- refreshing the route starts again from the authored Course content.
+
+Making the existing global class own both runtimes would force the Playground editor and runtime into global state even though their lifetime is already represented by the route component. The common layer should therefore coordinate entry and exit only; the two runtimes remain different internal mechanisms.
+
+`TutorialRoot.vue` can still be application-global, but its role changes:
+
+- construct and provide the thin `Tutorial` facade;
+- construct the internal `GuidedTutorial` and restore its persisted state;
+- host the Guided-specific global Copilot integrations;
+- hold only the small memory-only Playground entry state needed to hand a loaded `TutorialProject` to the playground route.
+
+It does not own `EditorState` or `XGoExecutor` for a Playground Course.
+
+## Proposed public boundary
+
+```ts
+export interface Tutorial {
+  /** Loads and enters the identified Course. */
+  startCourse(courseSeriesID: string, courseID: string): Promise<void>;
+
+  /** Ends the active Course mechanism without choosing the next route. */
+  endCurrentCourse(): Promise<void>;
+}
+
+export function useTutorial(): Tutorial;
+export function provideTutorial(tutorial: Tutorial): void;
+```
+
+The IDs are unresolved external inputs. `Tutorial.startCourse` obtains canonical Course and Series data from Course APIs before using them.
+
+There is intentionally no public:
+
+- `startCourseSeries`: the caller starts the desired Course in the Series;
+- `GuidedCourse | TutorialProject` argument: Course kind and model construction are Tutorial internals;
+- `currentCourse` or `currentSeries`: branch-specific UI observes its owning internal state;
+- editor host/context argument: Playground editor composition remains route-owned;
+- Preview overload: Course Editor Preview uses the reusable Playground implementation directly with snapshots.
+
+`endCurrentCourse` performs cleanup only. The UI action that exits a Course decides where to navigate after cleanup, such as the current Course Series page or Course list. In particular, it does not navigate away from the Playground route.
+
+## Start flow
+
+Every learner entry uses the same call:
+
+```ts
+await tutorial.startCourse(courseSeriesID, courseID);
+```
+
+`startCourse` performs these steps:
+
+1. End any currently active Guided or Playground Course.
+2. Load the Course Series and Course through Course APIs.
+3. Verify that the Course belongs to the Series. The Course API contract guarantees their kinds are consistent.
+4. Branch by the loaded Course's `kind`.
+
+The facade may keep Course API and router dependencies in its private constructor. They are not part of the public interface.
+
+### Guided Course
+
+For `kind: "guided"`, `startCourse` delegates the loaded Course and Series to the internal `GuidedTutorial`:
+
+1. persist the canonical Course and Series in the existing user session storage;
+2. navigate to the Guided Course entrypoint and wait for the destination UI;
+3. create the existing proactive Tutorial Copilot Topic;
+4. register or activate the Guided-specific global Copilot UI;
+5. resolve after the Guided Course session has started.
+
+`GuidedTutorial.endCurrentCourse` closes the Copilot session and clears the persisted Guided state. The thin facade calls it when another Course starts or public `endCurrentCourse` is invoked.
+
+### Playground Course
+
+For `kind: "playground"`, `startCourse` stays inside the Tutorial module but delegates runtime ownership to the route:
+
+1. construct one `TutorialProject` from the loaded Course content;
+2. store an internal, memory-only Playground entry containing the canonical Course Series, Course, and `TutorialProject`;
+3. navigate to the Course playground route identified by the Series and Course IDs;
+4. let the route render the Course playground from that internal entry;
+5. resolve after the entry has been prepared and navigation has completed; it does not wait for XGo startup.
+
+The facade does not wait for the XGo program's whole lifetime. Startup and runtime failures after the route mounts belong to the Course playground UI.
+
+When the browser directly opens or refreshes a Course playground URL, the route calls the same public `startCourse(seriesID, courseID)`. Because no Playground entry survives refresh, Tutorial reloads the Course and constructs a fresh `TutorialProject`. Navigating to the already current route is a no-op.
+
+The internal entry is not part of the public `Tutorial` interface. It is an implementation contract between `TutorialRoot` and the Tutorial-owned playground route, for example:
+
+```ts
+type PlaygroundCourseEntry = {
+  series: CourseSeries;
+  course: PlaygroundCourse;
+  project: TutorialProject;
+};
+```
+
+The page and Playground runtime use this exact `TutorialProject` instance. There is no second load, so the editor and Course program always observe the same session `SpxProject`.
+
+## Course Series progression
+
+Course Series progression is ordinary Course start plus UI knowledge of the Series order.
+
+- Entering a Series starts its first Course with `startCourse(series.id, firstCourseID)`.
+- The completion UI reads the canonical Series already held by the active branch.
+- Choosing Next calls `startCourse(series.id, nextCourseID)`.
+- `startCourse` first cleans up the previous Course, so every Course receives a fresh Guided session or Playground route-local runtime.
+- Exiting calls `endCurrentCourse()`, then navigates to the selected destination.
+
+The facade does not preload every Course in a Series and does not own an array of Course snapshots.
+
+## Course Editor Preview
+
+The ID-based public facade is the learner entry and cannot represent unsaved Course Editor state. Preview therefore reuses the Playground implementation below the facade rather than adding another public start shape.
+
+The reusable `CoursePlayground` component/controller accepts an already-created Preview snapshot internally:
+
+- learner flow obtains the snapshot from `Tutorial.startCourse` and its memory-only Playground entry;
+- single-Course Preview obtains it from the Course Editor's current unsaved model;
+- Series Preview selects the first unsaved snapshot and replaces it with the next one after completion.
+
+This still runs the real Playground lifecycle. It only bypasses ID loading and learner-route navigation, which are entry concerns rather than runtime behavior.
+
+## Proposed file organization
+
+```text
+components/tutorials/
+├── tutorial.ts                 thin public facade and injection
+├── guided-tutorial.ts          current global Guided runtime and persisted state
+├── TutorialRoot.vue            facade wiring and Guided global integrations
+├── playground/
+│   ├── CoursePlayground.vue    route/Preview-owned editor composition
+│   └── runtime.ts              one Playground Course runtime
+└── ...                         existing Guided presentation components
+
+apps/xbuilder/pages/tutorials/
+├── course-start.vue            call Tutorial.startCourse with route IDs
+└── course-playground.vue       consume the internal Playground entry
+```
+
+This is not a general strategy framework. There are two concrete runtime implementations because their ownership and persistence are materially different.
+
+## Course playground composition
+
+`CoursePlayground` receives one `TutorialProject` and owns everything whose lifetime is bound to displaying that project:
+
+1. use `tutorialProject.project` as the ownerless, session-local model;
+2. construct `EditorState` without calling `editing.loadProject`;
+3. apply `tutorialProject.config.inEditorRoute` through the route-backed editor state from #3416;
+4. start effect-free editing;
+5. mount `EditorContextProvider`, `CodeEditorProvider`, and the existing `ProjectEditor`;
+6. create the Playground runtime after the matching editor context and Code Editor are available;
+7. dispose the runtime, `EditorState`, and session project when the component unmounts or its snapshot is replaced.
+
+Readiness is tied to object identity (`editorContext.project === tutorialProject.project`), not merely to a non-null global editor context, so a stale editor cannot serve capabilities during route transitions.
+
+## Playground runtime
+
+One route-local runtime owns:
+
+- the XGo executor;
+- the Playground Copilot session;
+- Runtime and Copilot event subscriptions;
+- Tutorial-owned presentation for this Course;
+- Course-controlled API filtering, Ruler, and Spotlight state;
+- the accepted completion result.
+
+It creates a Playground Copilot Topic with the Course title and `copilotContext`, proactive reactions disabled, and code Copy/Apply helpers disabled. Project, code, and runtime context still come from the normal editor context providers.
+
+It passes `createTutorialFramework(host)` to `XGoExecutor` and runs exactly:
+
+```ts
+{
+  [mainCourseFilePath]: tutorialProject.mainCourse.code,
+}
+```
+
+SPX files and video files are not executor input. Supporting additional Course-program source files is out of scope for the initial release.
+
+## Framework host mapping
+
+| Framework host area  | Concrete owner and behavior                                                                             |
+| -------------------- | ------------------------------------------------------------------------------------------------------- |
+| Prelude and message  | Route-local Tutorial presentation; resolves after learner dismissal                                     |
+| Named video          | Resolves `Video` by name from the same `TutorialProject`; resolves after playback finishes or is closed |
+| Completion           | Runtime records the first completion request; repeated requests are ignored                             |
+| Project code queries | Reads the active session `SpxProject`                                                                   |
+| Code Editor          | Delegates API filtering and formatting to the matching Code Editor from #3416                           |
+| Ruler                | Delegates visible state to the mounted Project Editor support from #3416                                |
+| Copilot generation   | Delegates text/JSON generation to generic Copilot APIs from #3421                                       |
+| Spotlight            | Delegates target resolution and presentation to Radar/Spotlight support from #3416                      |
+
+After completion has been accepted, later presentation capabilities are no-ops.
+
+## Event forwarding
+
+The route-local runtime forwards:
+
+| Source                    | Tutorial event                                          |
+| ------------------------- | ------------------------------------------------------- |
+| Runtime starts            | `editor.runtime.start` with `null`                      |
+| Runtime exits             | `editor.runtime.exit` with `{ code }`                   |
+| Newly appended log output | `editor.runtime.log` with `{ log }`                     |
+| Copilot round finishes    | `copilot.roundFinish` with its user and result messages |
+
+Runtime exposes cumulative output. The Playground runtime keeps the last forwarded output ID and sends every new `log` entry exactly once and in order. Error output is not part of the judging channel.
+
+Subscriptions are installed before executor startup and removed before route-local state is disposed. Events arriving during stop are ignored.
+
+## Completion and failure
+
+The first `course_complete` or `course_completeWith` stores the completion result and resolves when accepted. It does not open completion UI inside the capability call.
+
+| Executor result | Completion requested | Result                                                             |
+| --------------- | -------------------- | ------------------------------------------------------------------ |
+| `completed`     | yes                  | Dispose active runtime resources, then show completion UI          |
+| `completed`     | no                   | Report that the Course program fell through without completing     |
+| `stopped`       | irrelevant           | Expected route leave, replacement, or public end; no completion UI |
+| `error`         | irrelevant           | Dispose runtime resources and show a Course failure                |
+
+Choosing Next invokes the thin facade's `startCourse` with the next Course ID. Starting it clears the current Playground entry, which unmounts and disposes the old route-local runtime before the new entry is published.
+
+## End and cleanup
+
+Public `endCurrentCourse` is idempotent:
+
+- if Guided state is active, delegate to `GuidedTutorial.endCurrentCourse` and clear its session storage;
+- if a Playground entry is active, clear it so the Course playground disposes its local runtime and editor state;
+- if neither is active, do nothing.
+
+Route leave must also dispose the Playground component even if navigation did not originate from public `endCurrentCourse`. Clearing the facade entry and component unmount cleanup may both request disposal, so the local runtime's `dispose` is idempotent.
+
+Starting any Course calls `endCurrentCourse` first, preventing a restored Guided session and a new Playground session from being active together.
+
+## Dependencies
+
+#3419 owns the thin facade, Guided/Playground dispatch, Course playground composition, route-local runtime, presentation, and lifecycle tests. It consumes rather than duplicates:
+
+- #3435 / PR #3438: `TutorialProject`, `Course`, `Video`, and Playground Course frontend data;
+- #3418: generic XGo Executor;
+- #3417: Tutorial framework host binding and event contracts;
+- #3416: route-backed Simple Mode, Code Editor operations, Ruler, Spotlight, and Save as my project;
+- #3421: Playground Topic controls, generation, and round-finish events;
+- #3422: final discriminated Course and Course Series APIs.
+
+The branch remains temporarily based on PR #3438 and must be rebased onto `issue-3403-tutorial-v2` after that PR is merged.
+
+## Initial validation plan
+
+Facade tests:
+
+- `startCourse` loads canonical Course and Series by ID;
+- Guided data delegates only to `GuidedTutorial`;
+- Playground data constructs one `TutorialProject` and navigates to its route;
+- starting another Course ends the previous branch first;
+- `endCurrentCourse` is idempotent and clears the active branch without navigating;
+- starting the next Series Course uses the same public `startCourse` operation;
+- Guided state restores from session storage while Playground state does not.
+
+Playground tests:
+
+- editor and runtime receive the same `TutorialProject.project`;
+- no cloud project load or autosave occurs;
+- the configured in-editor route is applied;
+- only `main_course.gox` is passed to XGo Executor;
+- logs are forwarded once and in order;
+- completion disposes runtime resources before completion UI;
+- route leave and snapshot replacement dispose runtime and `EditorState` once;
+- Preview snapshots use the same Playground runtime without invoking the ID-based facade.
+
+## Findings from the first code prototype
+
+The current prototype validates the central boundary without requiring the public facade to expose a loaded Course or `TutorialProject`:
+
+- existing callers become simpler and pass only route IDs;
+- Guided-only UI can depend on an internal `GuidedTutorial`, leaving the public facade free of `currentCourse` and `currentSeries`;
+- the Playground controller can load exactly one `TutorialProject`, publish it to its route, and resolve `startCourse` after `router.push` without waiting for the future XGo runtime;
+- Course Series Next reuses `startCourse` and needs no Series-specific facade method;
+- a Playground page can construct the existing `EditorState` directly from the embedded `SpxProject` without cloud loading or autosave.
+
+The prototype also exposes implementation questions that do not change the public boundary:
+
+1. Concurrent `startCourse` calls need serialization or a generation/abort token so an older API response cannot replace a newer Course.
+2. The Playground entry owns the model before route mount, while the route owns the runtime after mount. Their disposal handoff must guarantee that the runtime and `EditorState` stop before the embedded project is disposed.
+3. Direct refresh intentionally reloads Course data. Guided restoration, by contrast, must remain isolated in `GuidedTutorial` session storage rather than serializing the unified facade state.
+4. The prototype stops at editor composition. XGo/Copilot runtime wiring depends on the final contracts from #3417, #3416, and #3421 and should remain route-local when added.
