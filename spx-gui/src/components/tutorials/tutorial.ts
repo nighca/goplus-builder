@@ -50,6 +50,6 @@ export class Tutorial {
 
   async endCurrentCourse(): Promise<void> {
     this.guidedTutorial.endCurrentCourse()
-    this.playgroundTutorial.endCurrentCourse()
+    await this.playgroundTutorial.endCurrentCourse()
   }
 }

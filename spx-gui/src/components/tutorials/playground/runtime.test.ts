@@ -1,0 +1,160 @@
+import { nextTick, reactive, shallowReactive } from 'vue'
+import { describe, expect, it, vi } from 'vitest'
+
+import type { XGoExecutorOptions } from '@/utils/xgoexec'
+import { mainCourseFilePath } from '@/models/tutorial/course'
+import { TutorialProject } from '@/models/tutorial/project'
+import { RoundState, type Round, type Topic } from '@/components/copilot/copilot'
+import { Runtime, RuntimeOutputKind } from '@/components/editor/runtime'
+
+import { PlaygroundCourseRuntime } from './runtime'
+
+function makeProject() {
+  const project = new TutorialProject()
+  project.title = 'Build a game'
+  project.config = {
+    project: { type: 'spx', root: 'project' },
+    inEditorRoute: '/sprites/Bird/code',
+    copilotContext: 'Help with this Course'
+  }
+  project.mainCourse.code = 'onStart => { complete }'
+  return project
+}
+
+function makeCopilot() {
+  const session = shallowReactive<{ currentRound: Round | null }>({ currentRound: null })
+  let currentSession: { currentRound: Round | null } | null = null
+  return {
+    session,
+    controller: {
+      get currentSession() {
+        return currentSession
+      },
+      startSession: vi.fn(async (_topic: Topic) => {
+        currentSession = session
+      }),
+      endCurrentSession: vi.fn(() => {
+        currentSession = null
+      })
+    }
+  }
+}
+
+function makeHarness() {
+  const project = makeProject()
+  const editorRuntime = new Runtime(project.project)
+  const { session, controller: copilot } = makeCopilot()
+  let executorOptions: XGoExecutorOptions | null = null
+  const executor = {
+    run: vi.fn().mockResolvedValue(undefined),
+    stop: vi.fn().mockResolvedValue(undefined),
+    dispatchEvent: vi.fn().mockResolvedValue(undefined)
+  }
+  const presentation = {
+    showMessage: vi.fn().mockResolvedValue(undefined),
+    dismiss: vi.fn()
+  }
+  const onComplete = vi.fn()
+  const onFailure = vi.fn()
+  const runtime = new PlaygroundCourseRuntime({
+    project,
+    editorRuntime,
+    copilot,
+    presentation,
+    onComplete,
+    onFailure,
+    createExecutor(options) {
+      executorOptions = options
+      return executor
+    }
+  })
+  return {
+    project,
+    editorRuntime,
+    session,
+    copilot,
+    executor,
+    presentation,
+    onComplete,
+    onFailure,
+    runtime,
+    getExecutorOptions: () => executorOptions!
+  }
+}
+
+describe('PlaygroundCourseRuntime', () => {
+  it('starts one Playground Copilot session and the main Course program', async () => {
+    const harness = makeHarness()
+
+    await harness.runtime.start()
+
+    expect(harness.copilot.startSession).toHaveBeenCalledWith({
+      title: { en: 'Build a game', zh: 'Build a game' },
+      description: 'Help with this Course',
+      reactToEvents: false,
+      endable: true
+    })
+    expect(harness.executor.run).toHaveBeenCalledWith({
+      [mainCourseFilePath]: 'onStart => { complete }'
+    })
+  })
+
+  it('forwards editor and Copilot events in source order', async () => {
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      queueMicrotask(() => callback(performance.now()))
+      return 1
+    })
+    vi.stubGlobal('cancelAnimationFrame', () => {})
+    const harness = makeHarness()
+    await harness.runtime.start()
+
+    harness.editorRuntime.setRunning({ mode: 'debug', initializing: false }, 'files-hash')
+    await nextTick()
+    await vi.waitFor(() => expect(harness.executor.dispatchEvent).toHaveBeenCalledTimes(1))
+
+    harness.editorRuntime.addOutput({ kind: RuntimeOutputKind.Log, time: 1, message: 'first' })
+    harness.editorRuntime.addOutput({ kind: RuntimeOutputKind.Error, time: 2, message: 'ignored' })
+    harness.editorRuntime.addOutput({ kind: RuntimeOutputKind.Log, time: 3, message: 'second' })
+    await vi.waitFor(() => expect(harness.executor.dispatchEvent).toHaveBeenCalledTimes(3))
+
+    harness.editorRuntime.emit('didExit', 0)
+    harness.session.currentRound = reactive({
+      state: RoundState.Completed,
+      userMessage: { type: 'text', role: 'user', content: 'help' },
+      resultMessages: [{ role: 'copilot', content: 'done' }]
+    }) as Round
+
+    await vi.waitFor(() => expect(harness.executor.dispatchEvent).toHaveBeenCalledTimes(5))
+    expect(harness.executor.dispatchEvent.mock.calls).toEqual([
+      ['editor.runtime.start', null],
+      ['editor.runtime.log', { log: 'first' }],
+      ['editor.runtime.log', { log: 'second' }],
+      ['editor.runtime.exit', { code: 0 }],
+      [
+        'copilot.roundFinish',
+        {
+          userMessage: { type: 'text', role: 'user', content: 'help' },
+          resultMessages: [{ role: 'copilot', content: 'done' }]
+        }
+      ]
+    ])
+    vi.unstubAllGlobals()
+  })
+
+  it('stops route-local resources before publishing completion', async () => {
+    const harness = makeHarness()
+    await harness.runtime.start()
+    const completeWith = harness.getExecutorOptions().framework?.capabilities.course_completeWith
+    if (completeWith == null) throw new Error('course_completeWith capability not found')
+
+    await completeWith({ feedback: 'Nice work' })
+
+    await vi.waitFor(() => expect(harness.onComplete).toHaveBeenCalledWith({ feedback: 'Nice work' }))
+    expect(harness.executor.stop).toHaveBeenCalledOnce()
+    expect(harness.presentation.dismiss).toHaveBeenCalledOnce()
+    expect(harness.copilot.endCurrentSession).toHaveBeenCalledOnce()
+    expect(harness.executor.stop.mock.invocationCallOrder[0]).toBeLessThan(
+      harness.onComplete.mock.invocationCallOrder[0]
+    )
+  })
+})

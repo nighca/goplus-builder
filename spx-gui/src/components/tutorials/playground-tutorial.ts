@@ -1,4 +1,4 @@
-import { inject, provide, shallowRef } from 'vue'
+import { inject, nextTick, provide, shallowRef } from 'vue'
 import type { InjectionKey } from 'vue'
 import type { Router } from 'vue-router'
 
@@ -58,9 +58,10 @@ export class PlaygroundTutorial {
     }
   }
 
-  endCurrentCourse() {
+  async endCurrentCourse() {
     const entry = this.entryRef.value
     this.entryRef.value = null
+    await nextTick()
     entry?.project.project.dispose()
   }
 }

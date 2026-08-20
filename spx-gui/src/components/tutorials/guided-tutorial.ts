@@ -111,7 +111,7 @@ You are assisting the user in learning the course: ${course.title}.
 
 ### Guidance
 
-First do some preparation: 
+First do some preparation:
 
 * Split the course into smaller steps.
 

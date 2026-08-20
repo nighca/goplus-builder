@@ -303,9 +303,29 @@ The current prototype validates the central boundary without requiring the publi
 - Course Series Next reuses `startCourse` and needs no Series-specific facade method;
 - a Playground page can construct the existing `EditorState` directly from the embedded `SpxProject` without cloud loading or autosave.
 
-The prototype also exposes implementation questions that do not change the public boundary:
+The second prototype adds a deliberately narrow end-to-end runtime example:
+
+- `CoursePlayground` waits until the editor providers are mounted, then creates one route-local `PlaygroundCourseRuntime`;
+- the runtime starts a non-proactive Copilot Topic, runs only `main_course.gox`, and owns all executor, Copilot, Runtime, and presentation subscriptions;
+- the current Runtime start, exit, and log signals plus Copilot round completion are serialized through one executor-event queue;
+- `showMessage` is represented by route-local blocking presentation, while `complete` and `completeWith` dispose the runtime before publishing completion to the page;
+- the page, rather than the runtime or facade, displays completion UI and chooses Next or exit based on the active Series;
+- clearing a Playground entry waits one Vue render turn before disposing its project, allowing the child runtime and `EditorState` to unmount first.
+
+This confirms that XGo/Copilot integration does not require broadening the facade. It also sharpens the internal responsibility split:
+
+```text
+Tutorial facade       load by ID, dispatch kind, clean active mechanism
+Playground controller load TutorialProject, publish route entry, dispose after unmount
+Playground page       failure UI, completion UI, Series Next/Exit policy
+CoursePlayground      EditorState, editor providers, route-local presentation
+Playground runtime    XGo, Copilot session, framework host, event bridge, runtime cleanup
+```
+
+The prototype still exposes implementation questions that do not change the public boundary:
 
 1. Concurrent `startCourse` calls need serialization or a generation/abort token so an older API response cannot replace a newer Course.
-2. The Playground entry owns the model before route mount, while the route owns the runtime after mount. Their disposal handoff must guarantee that the runtime and `EditorState` stop before the embedded project is disposed.
-3. Direct refresh intentionally reloads Course data. Guided restoration, by contrast, must remain isolated in `GuidedTutorial` session storage rather than serializing the unified facade state.
-4. The prototype stops at editor composition. XGo/Copilot runtime wiring depends on the final contracts from #3417, #3416, and #3421 and should remain route-local when added.
+2. The temporary framework host implements only `showMessage`, `complete`, and `completeWith`. It should be replaced by `createTutorialFramework` and the full capabilities from #3417 rather than expanded independently here.
+3. Copilot round completion is currently observed from reactive session state because #3421's explicit round-finish event is not present on this branch. The ownership stays route-local when that event replaces the prototype watch.
+4. The current Copilot Topic can disable proactive event reactions, but this branch does not yet expose #3421's code-helper controls.
+5. Direct refresh intentionally reloads Course data. Guided restoration, by contrast, remains isolated in `GuidedTutorial` session storage rather than serializing unified facade state.

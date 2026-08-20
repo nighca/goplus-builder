@@ -73,14 +73,16 @@ describe('PlaygroundTutorial', () => {
 
   it('clears the memory-only entry without navigating', async () => {
     const project = makeProject()
+    const dispose = vi.spyOn(project.project, 'dispose')
     const push = vi.fn().mockResolvedValue(undefined)
     const tutorial = new PlaygroundTutorial({ push }, vi.fn().mockResolvedValue(project))
     await tutorial.startCourse(makeCourse(), makeSeries())
 
-    tutorial.endCurrentCourse()
+    await tutorial.endCurrentCourse()
 
     expect(tutorial.currentEntry).toBeNull()
     expect(push).toHaveBeenCalledOnce()
+    expect(dispose).toHaveBeenCalledOnce()
   })
 
   it('disposes a loaded project when navigation fails', async () => {
