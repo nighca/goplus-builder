@@ -42,7 +42,9 @@ function decodeImaNibbles(data: Uint8Array, state: ImaState, samples: number[]) 
 }
 
 function decodeImaAdpcm(data: Uint8Array, format: ImaAdpcmFormat) {
-  const output: number[] = []
+  const blockCount = Math.ceil(data.length / format.blockAlign)
+  const output = new Int16Array(data.length * 2 + blockCount * format.channels)
+  let outputLength = 0
   for (let offset = 0; offset < data.length; offset += format.blockAlign) {
     const block = data.subarray(offset, Math.min(offset + format.blockAlign, data.length))
     if (block.length < format.channels * 4) throw new Error('truncated IMA ADPCM block')
@@ -75,14 +77,14 @@ function decodeImaAdpcm(data: Uint8Array, format: ImaAdpcmFormat) {
     const sampleCount = Math.min(format.samplesPerBlock, ...channelSamples.map((samples) => samples.length))
     for (let index = 0; index < sampleCount; index++) {
       for (let channel = 0; channel < format.channels; channel++) {
-        output.push(channelSamples[channel][index])
+        output[outputLength++] = channelSamples[channel][index]
       }
     }
   }
-  return output
+  return output.subarray(0, outputLength)
 }
 
-function makePcmWav(samples: number[], channels: number, sampleRate: number) {
+function makePcmWav(samples: Int16Array, channels: number, sampleRate: number) {
   const dataSize = samples.length * 2
   const output = new ArrayBuffer(44 + dataSize)
   const bytes = new Uint8Array(output)

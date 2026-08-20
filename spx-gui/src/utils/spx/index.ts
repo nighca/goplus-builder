@@ -8,7 +8,7 @@ import { mapKeys } from 'lodash'
 import { File, fromBlob, toNativeFile } from '@/models/common/file'
 import { getMimeFromExt } from '../file'
 import { parseMarkdownWithFrontmatter } from '../frontmatter'
-import { extname, stripExt } from '../path'
+import { stripExt } from '../path'
 import { toWav } from '../audio'
 import { toJpeg } from '../img'
 import type { LocaleMessage } from '../i18n'
@@ -38,9 +38,8 @@ export const packageSpx = 'github.com/goplus/spx/v3'
  * SPX supports PCM WAV only, so IMA ADPCM WAV files are converted to PCM.
  */
 export async function adaptAudio(file: File): Promise<File> {
-  const extension = extname(file.name).toLowerCase()
-  if (file.type === getMimeFromExt('mp3') || extension === '.mp3') return file
-  if (file.type === getMimeFromExt('wav') || extension === '.wav') {
+  if (file.type === getMimeFromExt('mp3')) return file
+  if (file.type === getMimeFromExt('wav')) {
     const source = await file.arrayBuffer()
     const normalized = normalizeWav(source)
     if (normalized === source) return file

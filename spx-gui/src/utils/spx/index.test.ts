@@ -35,12 +35,12 @@ describe('getSpxProjectKnowledge', () => {
 
 describe('adaptAudio', () => {
   it('keeps MP3 files unchanged', async () => {
-    const file = new File('sound.mp3', async () => new ArrayBuffer(0), { type: '' })
+    const file = new File('sound.mp3', async () => new ArrayBuffer(0))
     await expect(adaptAudio(file)).resolves.toBe(file)
   })
 
   it('converts IMA ADPCM WAV files to PCM WAV files', async () => {
-    const file = new File('sound.wav', async () => makeImaAdpcmWav(), { type: 'audio/x-wav' })
+    const file = new File('sound.wav', async () => makeImaAdpcmWav())
     const adapted = await adaptAudio(file)
     const content = await adapted.arrayBuffer()
 
