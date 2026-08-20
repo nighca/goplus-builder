@@ -35,7 +35,7 @@ export const packageSpx = 'github.com/goplus/spx/v3'
  * Currently spx supports `mp3` and `wav` only, and it seems that wav-encoding is simpler than mp3-encoding.
  * So we convert unsupported audio files to wav before added to project.
  *
- * SPX supports PCM WAV only, so IMA ADPCM WAV files are converted to PCM.
+ * SPX does not support IMA ADPCM WAV, so those files are converted to PCM.
  */
 export async function adaptAudio(file: File): Promise<File> {
   if (file.type === getMimeFromExt('mp3')) return file

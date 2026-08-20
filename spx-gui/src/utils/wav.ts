@@ -1,5 +1,6 @@
 const waveFormatPcm = 1
 const waveFormatImaAdpcm = 0x11
+const maxImaAdpcmChannels = 2
 
 type ImaAdpcmFormat = {
   channels: number
@@ -163,6 +164,7 @@ export function convertImaAdpcmWavToPcm(source: ArrayBuffer) {
   if (
     format == null ||
     format.channels === 0 ||
+    format.channels > maxImaAdpcmChannels ||
     format.blockAlign < format.channels * 4 ||
     format.sampleRate === 0 ||
     encodedData == null ||
@@ -170,11 +172,12 @@ export function convertImaAdpcmWavToPcm(source: ArrayBuffer) {
   ) {
     throw new Error('invalid IMA ADPCM WAV metadata')
   }
-  if (format.samplesPerBlock === 0) {
-    format.samplesPerBlock = 1 + Math.floor(((format.blockAlign - format.channels * 4) * 2) / format.channels)
-  }
+  const samplesPerBlock =
+    format.samplesPerBlock === 0
+      ? 1 + Math.floor(((format.blockAlign - format.channels * 4) * 2) / format.channels)
+      : format.samplesPerBlock
 
-  let samples = decodeImaAdpcm(encodedData, format)
+  let samples = decodeImaAdpcm(encodedData, { ...format, samplesPerBlock })
   const expectedSampleCount = factSampleCount * format.channels
   if (expectedSampleCount > 0 && samples.length > expectedSampleCount) {
     samples = samples.slice(0, expectedSampleCount)

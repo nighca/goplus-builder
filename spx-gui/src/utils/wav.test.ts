@@ -104,4 +104,9 @@ describe('convertImaAdpcmWavToPcm', () => {
     const invalid = makeImaAdpcmWav({ data: [0, 0, 89, 0], blockAlign: 4, samplesPerBlock: 1 })
     expect(() => convertImaAdpcmWavToPcm(invalid)).toThrow('invalid IMA ADPCM step index 89')
   })
+
+  it('rejects IMA ADPCM with more than two channels', () => {
+    const invalid = makeImaAdpcmWav({ channels: 3, data: new Array(12).fill(0), blockAlign: 12, samplesPerBlock: 1 })
+    expect(() => convertImaAdpcmWavToPcm(invalid)).toThrow('invalid IMA ADPCM WAV metadata')
+  })
 })
