@@ -19,10 +19,10 @@ type CourseAbilities interface {
 	// learner dismisses it. Presentation never advances automatically: the Course
 	// flow always waits for the learner to finish reading.
 	showMessage(message string)
-	// showVideo displays the video at the given course-local path and returns
-	// after the learner finishes watching or closes it. Presentation never
-	// advances automatically.
-	showVideo(videoPath string)
+	// showVideo displays the Course-local video with the given declared resource
+	// name and returns after the learner finishes watching or closes it.
+	// Presentation never advances automatically.
+	showVideo(videoName string)
 	// complete marks the course as completed.
 	complete()
 	// completeWith marks the course as completed and displays the given feedback.

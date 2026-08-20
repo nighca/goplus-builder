@@ -55,7 +55,7 @@ export interface TutorialFrameworkHost {
    * Displays a Course-local video. Resolves after the learner finishes
    * watching or closes it; presentation never advances automatically.
    */
-  course_showVideo(videoPath: string): Promise<void>;
+  course_showVideo(videoName: string): Promise<void>;
   /** Completes the Course without feedback. */
   course_complete(): Promise<void>;
   /** Completes the Course and displays feedback. */

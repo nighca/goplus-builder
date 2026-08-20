@@ -1,7 +1,7 @@
 onStart => {
 	editor.codeEditor.filterAPIs ["stepTo"]
 	showPrelude "Move Lita to Mushroom. Click Mushroom's name to insert it into your code."
-	showVideo "assets/step-to.mp4"
+	showVideo "step-to"
 }
 
 editor.runtime.onLog log => {
