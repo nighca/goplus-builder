@@ -2,9 +2,9 @@ package tutorial
 
 type Course struct {
 	CourseAbilities
-	editor    Editor
-	copilot   Copilot
-	spotlight Spotlight
+	Editor    Editor
+	Copilot   Copilot
+	Spotlight Spotlight
 }
 
 type CourseAbilities interface {
@@ -23,37 +23,56 @@ type CourseAbilities interface {
 	// name and returns after the learner finishes watching or closes it.
 	// Presentation never advances automatically.
 	showVideo(videoName string)
-	// complete marks the course as completed.
+	// complete marks the course as completed and ends the Course program: after
+	// the current callback returns, no further events are processed and the
+	// program exits. Remaining statements in the same callback still run, but
+	// presentation calls after a completion are ignored by the host. Calling
+	// complete or completeWith again has no effect.
 	complete()
-	// completeWith marks the course as completed and displays the given feedback.
+	// completeWith is complete with the given feedback displayed to the learner.
 	completeWith(message string)
 }
 
 type Editor struct {
-	project    Project
-	runtime    Runtime
-	codeEditor CodeEditor
-	ruler      Ruler
+	Project    Project
+	Runtime    Runtime
+	CodeEditor CodeEditor
+	Ruler      Ruler
 }
 
-type Project struct{}
+type Project interface {
+	// getCode returns the given sprite's code as it currently stands in the
+	// session project. sprite is a sprite name (e.g. "Lita"), matching how the
+	// project models its contents; addressing a sprite the project does not
+	// contain fails the Course program. This reads the project rather than a
+	// Code Editor UI buffer, and reading whichever code the learner happens to
+	// be editing is deliberately not offered yet: it depends on how the Code
+	// Editor exposes its attached UIs and their active documents.
+	getCode(sprite string) string
+	// listSprites lists the session project's sprites by name. A Course whose
+	// goal is for the learner to create a sprite cannot know the name they
+	// will choose, so it discovers it here.
+	listSprites() []string
+}
 
 type Runtime interface {
 	// onStart registers a callback that is called when the project runtime starts.
 	onStart(callback func())
 	// onExit registers a callback that is called when the project runtime exits.
 	onExit(callback func(code int))
-	// onLog registers a callback that is called when the project runtime emits a log.
+	// onLog registers a callback that is called once for every newly appended
+	// runtime log, in append order. Error output is not part of this channel.
 	onLog(callback func(log string))
 }
 
 type CodeEditor interface {
-	// filterAPIs limits the APIs available in the Code Editor.
+	// filterAPIs limits the APIs available in the Code Editor. Each entry is a
+	// definition identifier ("xgo:<package>?<name>#<overloadId>"), the same
+	// identifiers the Code Editor uses elsewhere; omitting "#<overloadId>"
+	// addresses every overload of the name.
 	filterAPIs(apis []string)
 	// formatWorkspace formats the current code workspace.
 	formatWorkspace()
-	// getCode returns the learner's current code.
-	getCode() string
 }
 
 type Ruler interface {
@@ -92,9 +111,15 @@ type Spotlight interface {
 	// reveal focuses the spotlight on the given UI target and shows the given
 	// tip beside it, with Course-guidance defaults: mask enabled and no
 	// auto-conceal (the spotlight stays until the learner clicks anywhere).
-	// Spotlight presentation never blocks the Course flow.
-	// target is a stable UI-target ID owned and published by the SPX Project
-	// Editor; session-local Radar node IDs are not valid targets.
+	// reveal returns once the spotlight is shown; it does not wait for the
+	// spotlight to be dismissed, so it never blocks the Course flow.
+	// target is a Radar selector addressing the UI elements to reveal; see the
+	// Radar module design for its syntax. A selector matching several elements
+	// reveals them together as one group.
+	// A malformed selector fails the Course program, so mistakes surface
+	// during Preview. A well-formed selector that currently matches nothing
+	// (for example an API filtered out by filterAPIs) is not an error: the
+	// host retries briefly, then skips the highlight and logs a warning.
 	reveal(target, tip string)
 	// revealWith is reveal with explicit presentation options.
 	revealWith(target, tip string, options SpotlightOptions)

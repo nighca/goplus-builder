@@ -27,6 +27,8 @@ Tutorial owns the active Course lifecycle. Its public boundary starts and stops 
 
 For a Playground Course, Course playground interprets the opaque Course content using the Tutorial-project contract, creates a model `SpxProject` without cloud-project identity, builds an `EditorState` from `inEditorRoute` and composes the SPX Project Editor UI. Once that surrounding UI composition is ready, it starts Tutorial with the loaded Course. Tutorial starts a Copilot Topic, combines its own presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions` and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these runtime resources down together.
 
+Tutorial is also the event dispatcher for the running Tutorial program: it observes editor and Copilot activity and delivers the framework's events, and it interprets how a run ended.
+
 See [Tutorial](./module_Tutorial.ts).
 
 ### XGo Executor
@@ -44,18 +46,18 @@ The Tutorial Class Framework defines both the Tutorial-project format and the Co
 Its Course-author-facing Go contract is included in this design:
 
 ```text
-course
+Course
 ├── CourseAbilities
-├── editor
-│   ├── project
-│   ├── runtime
-│   ├── codeEditor
-│   └── ruler
-├── copilot
-└── spotlight
+├── Editor
+│   ├── Project
+│   ├── Runtime
+│   ├── CodeEditor
+│   └── Ruler
+├── Copilot
+└── Spotlight
 ```
 
-The initial interface includes course start/prelude/message/video/completion with optional feedback, runtime start/exit/log, code reading, API filtering, workspace formatting, Ruler control, Copilot round completion, text and structured JSON generation, and spotlight reveal. For structured generation, Course code passes a non-nil struct pointer; the framework derives its JSON Schema, invokes the frontend capability and decodes the result back into that value. `editor.project` is reserved until concrete project capabilities are required.
+The interface covers Course presentation and completion, observation of the learner's runtime and Copilot activity, reading and constraining the learner's code, Editor tools such as the Ruler and the spotlight, and text or structured generation. Course code drives the Course flow with it and ends the Course from within; the framework owns that program lifecycle, while the surrounding session belongs to Tutorial.
 
 See [Tutorial Class Framework](./module_TutorialFramework.ts), its [Go contract](./tutorial-class-framework.go) and an [example Tutorial Course project](./example-tutorial-course/).
 
