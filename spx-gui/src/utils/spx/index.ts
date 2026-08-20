@@ -12,7 +12,7 @@ import { stripExt } from '../path'
 import { toWav } from '../audio'
 import { toJpeg } from '../img'
 import type { LocaleMessage } from '../i18n'
-import { normalizeWav } from '../wav'
+import { convertImaAdpcmWavToPcm, isImaAdpcmWav } from '../wav'
 import {
   builderRGB2CSSColorString,
   builderRGBA2CSSColorString,
@@ -41,9 +41,9 @@ export async function adaptAudio(file: File): Promise<File> {
   if (file.type === getMimeFromExt('mp3')) return file
   if (file.type === getMimeFromExt('wav')) {
     const source = await file.arrayBuffer()
-    const normalized = normalizeWav(source)
-    if (normalized === source) return file
-    return new File(file.name, async () => normalized)
+    if (!isImaAdpcmWav(source)) return file
+    const pcm = convertImaAdpcmWavToPcm(source)
+    return new File(file.name, async () => pcm)
   }
   const wavAb = await toWav(await file.arrayBuffer())
   const wavFileName = stripExt(file.name) + '.wav'

@@ -13,6 +13,13 @@ type ImaState = {
   index: number
 }
 
+type ParsedWav = {
+  encoding: number
+  format: ImaAdpcmFormat | null
+  encodedData: Uint8Array | null
+  factSampleCount: number
+}
+
 const imaIndexTable = [-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8]
 const imaStepTable = [
   7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118,
@@ -107,11 +114,10 @@ function makePcmWav(samples: Int16Array, channels: number, sampleRate: number) {
   return output
 }
 
-/** Convert an IMA ADPCM WAV to a 16-bit PCM WAV. Other WAV encodings are returned unchanged. */
-export function normalizeWav(source: ArrayBuffer) {
+function parseWav(source: ArrayBuffer): ParsedWav | null {
   const data = new Uint8Array(source)
   if (data.length < 12 || readString(data, 0, 4) !== 'RIFF' || readString(data, 8, 4) !== 'WAVE') {
-    return source
+    return null
   }
 
   const view = new DataView(source)
@@ -142,7 +148,18 @@ export function normalizeWav(source: ArrayBuffer) {
     offset = end + (chunkSize % 2)
   }
 
-  if (encoding !== waveFormatImaAdpcm) return source
+  return { encoding, format, encodedData, factSampleCount }
+}
+
+export function isImaAdpcmWav(source: ArrayBuffer) {
+  return parseWav(source)?.encoding === waveFormatImaAdpcm
+}
+
+/** Convert an IMA ADPCM WAV to a 16-bit PCM WAV. */
+export function convertImaAdpcmWavToPcm(source: ArrayBuffer) {
+  const wav = parseWav(source)
+  if (wav == null || wav.encoding !== waveFormatImaAdpcm) throw new Error('IMA ADPCM WAV expected')
+  const { format, encodedData, factSampleCount } = wav
   if (
     format == null ||
     format.channels === 0 ||

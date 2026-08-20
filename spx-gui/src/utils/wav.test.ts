@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { normalizeWav } from './wav'
+import { convertImaAdpcmWavToPcm, isImaAdpcmWav } from './wav'
 
 function appendChunk(wav: number[], type: string, content: number[]) {
   const size = content.length
@@ -59,9 +59,17 @@ function makePcmWav() {
   return output
 }
 
-describe('normalizeWav', () => {
+describe('isImaAdpcmWav', () => {
+  it('identifies IMA ADPCM WAV files', () => {
+    expect(isImaAdpcmWav(makeImaAdpcmWav())).toBe(true)
+    expect(isImaAdpcmWav(makePcmWav())).toBe(false)
+    expect(isImaAdpcmWav(new ArrayBuffer(0))).toBe(false)
+  })
+})
+
+describe('convertImaAdpcmWavToPcm', () => {
   it('converts IMA ADPCM WAV to 16-bit PCM WAV', () => {
-    const normalized = normalizeWav(makeImaAdpcmWav())
+    const normalized = convertImaAdpcmWavToPcm(makeImaAdpcmWav())
     const view = new DataView(normalized)
 
     expect(view.getUint16(20, true)).toBe(1)
@@ -72,31 +80,28 @@ describe('normalizeWav', () => {
   })
 
   it('uses fact sample count to trim decoded samples', () => {
-    const normalized = normalizeWav(makeImaAdpcmWav({ factSampleCount: 1 }))
+    const normalized = convertImaAdpcmWavToPcm(makeImaAdpcmWav({ factSampleCount: 1 }))
     expect(normalized.byteLength).toBe(46)
   })
 
   it('derives a missing samples-per-block value', () => {
-    const normalized = normalizeWav(makeImaAdpcmWav({ samplesPerBlock: 0 }))
+    const normalized = convertImaAdpcmWavToPcm(makeImaAdpcmWav({ samplesPerBlock: 0 }))
     expect(new DataView(normalized).getUint32(40, true)).toBe(6)
   })
 
   it('decodes multichannel and partial blocks', () => {
     const data = [0, 0, 0, 0, 10, 0, 0, 0, 0x11, 0x11, 0x11, 0x11, 0x22]
-    const normalized = normalizeWav(makeImaAdpcmWav({ channels: 2, blockAlign: data.length, samplesPerBlock: 9, data }))
+    const normalized = convertImaAdpcmWavToPcm(
+      makeImaAdpcmWav({ channels: 2, blockAlign: data.length, samplesPerBlock: 9, data })
+    )
     const view = new DataView(normalized)
 
     expect(view.getUint16(22, true)).toBe(2)
     expect(view.getUint32(40, true)).toBe(12)
   })
 
-  it('returns PCM WAV unchanged', () => {
-    const pcm = makePcmWav()
-    expect(normalizeWav(pcm)).toBe(pcm)
-  })
-
   it('rejects invalid IMA ADPCM metadata', () => {
     const invalid = makeImaAdpcmWav({ data: [0, 0, 89, 0], blockAlign: 4, samplesPerBlock: 1 })
-    expect(() => normalizeWav(invalid)).toThrow('invalid IMA ADPCM step index 89')
+    expect(() => convertImaAdpcmWavToPcm(invalid)).toThrow('invalid IMA ADPCM step index 89')
   })
 })
