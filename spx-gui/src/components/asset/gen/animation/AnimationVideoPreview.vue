@@ -160,7 +160,7 @@ const cutStartRef = ref(0)
 const cutEndRef = ref(0)
 
 /** Interval in ms between extracted animation frames */
-const frameInterval = 200
+const frameInterval = 100
 
 function notifyFramesConfigChanged() {
   emit('update:framesConfig', {
