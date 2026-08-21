@@ -4,7 +4,7 @@ import type { Router } from 'vue-router'
 
 import { timeout, until } from '@/utils/utils'
 import { userSessionStorageRef } from '@/utils/user-storage'
-import type { Course } from '@/apis/course'
+import type { GuidedCourse } from '@/apis/course'
 import type { CourseSeries } from '@/apis/course-series'
 import type { Copilot, Topic } from '@/components/copilot/copilot'
 import { tagName as highlightLinkTagName } from '@/components/copilot/markdown-elements/HighlightLink.vue'
@@ -34,7 +34,7 @@ export function isGuidedTutorialTopic(topic: Topic): topic is GuidedTutorialTopi
 }
 
 export class GuidedTutorial {
-  private course = userSessionStorageRef<Course | null>('spx-gui-tutorial-course', null)
+  private course = userSessionStorageRef<GuidedCourse | null>('spx-gui-tutorial-course', null)
   private series = userSessionStorageRef<CourseSeries | null>('spx-gui-tutorial-series', null)
 
   constructor(
@@ -43,7 +43,7 @@ export class GuidedTutorial {
     private isRouteLoaded: Ref<boolean>
   ) {}
 
-  get currentCourse(): Course | null {
+  get currentCourse(): GuidedCourse | null {
     return this.course.value
   }
 
@@ -59,14 +59,14 @@ export class GuidedTutorial {
     this.abandonPredictionCountRef.value = 0
   }
 
-  async startCourse(course: Course, series: CourseSeries): Promise<void> {
+  async startCourse(course: GuidedCourse, series: CourseSeries): Promise<void> {
     try {
       this.copilot.endCurrentSession()
       this.course.value = course
       this.series.value = series
       this.abandonPredictionCountRef.value = 0
 
-      const { entrypoint } = course
+      const { entrypoint } = course.content
 
       if (entrypoint) {
         await this.router.push(entrypoint)
@@ -90,8 +90,9 @@ export class GuidedTutorial {
     }
   }
 
-  protected generateTopic(course: Course): GuidedTutorialTopic {
-    const { id, title, prompt, entrypoint } = course
+  protected generateTopic(course: GuidedCourse): GuidedTutorialTopic {
+    const { id, title } = course
+    const { prompt, entrypoint } = course.content
     return {
       isTutorialTopic: true,
       title: { en: title, zh: title },

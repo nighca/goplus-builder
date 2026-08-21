@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { PlaygroundCourseData } from '@/apis/course'
+import type { PlaygroundCourse } from '@/apis/course'
 import type { CourseSeries } from '@/apis/course-series'
 import { TutorialProject } from '@/models/tutorial/project'
 
 import { PlaygroundTutorial } from './playground-tutorial'
 
-function makeCourse(): PlaygroundCourseData {
+function makeCourse(): PlaygroundCourse {
   return {
     id: 'course / 1',
     owner: 'owner',
@@ -21,13 +21,12 @@ function makeSeries(): CourseSeries {
   return {
     id: 'series / 1',
     owner: 'owner',
+    kind: 'playground',
     title: 'Series',
     thumbnail: '',
     description: '',
     courseIDs: ['course / 1'],
-    order: 1,
-    createdAt: '',
-    updatedAt: ''
+    order: 1
   }
 }
 

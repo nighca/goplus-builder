@@ -8,19 +8,33 @@ export const courseTitleMaxLength = 200
  */
 export const coursePromptMaxLength = 12000
 
-export type Course = {
-  /** Unique identifier */
+export type CourseKind = 'guided' | 'playground'
+
+export type CourseBase = {
   id: string
-  /** Username of the course's owner */
   owner: string
-  /** Title of the course */
+  kind: CourseKind
   title: string
-  /** Universal URL of the course's thumbnail image */
   thumbnail: string
-  /** Starting URL of the course */
-  entrypoint: string
-  /** Prompt (for copilot) of the course */
-  prompt: string
+}
+
+export type GuidedCourse = CourseBase & {
+  kind: 'guided'
+  content: {
+    entrypoint: string
+    prompt: string
+  }
+}
+
+export type PlaygroundCourse = CourseBase & {
+  kind: 'playground'
+  content: FileCollection
+}
+
+export type Course = GuidedCourse | PlaygroundCourse
+
+export function isGuidedCourse(course: Course): course is GuidedCourse {
+  return course.kind === 'guided'
 }
 
 /** Get a course by ID */
@@ -28,15 +42,37 @@ export function getCourse(id: string, signal?: AbortSignal) {
   return client.get(`/courses/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<Course>
 }
 
-export type AddUpdateCourseParams = Pick<Course, 'title' | 'thumbnail' | 'entrypoint' | 'prompt'>
+export type GuidedCourseInput = Omit<GuidedCourse, 'id' | 'owner'>
+export type PlaygroundCourseInput = Omit<PlaygroundCourse, 'id' | 'owner'>
+export type CourseInput = GuidedCourseInput | PlaygroundCourseInput
+export type CourseUpdate = Omit<GuidedCourseInput, 'kind'> | Omit<PlaygroundCourseInput, 'kind'>
+
+export type GeneratePlaygroundCourseCopilotContextInput = {
+  title: string
+  thumbnail: string
+  /** Current unsaved Course content. */
+  content: FileCollection
+}
+
+export type GeneratePlaygroundCourseCopilotContextResult = {
+  copilotContext: string
+}
+
+/** Generates an editable Copilot context for an unsaved Playground Course. */
+export function generatePlaygroundCourseCopilotContext(
+  params: GeneratePlaygroundCourseCopilotContextInput,
+  signal?: AbortSignal
+) {
+  return client.post('/user/courses/playground/copilot-context', params, { signal }) as Promise<GeneratePlaygroundCourseCopilotContextResult>
+}
 
 /** Add a new course */
-export function addCourse(params: AddUpdateCourseParams, signal?: AbortSignal) {
+export function addCourse(params: CourseInput, signal?: AbortSignal) {
   return client.post('/user/courses', params, { signal }) as Promise<Course>
 }
 
 /** Update an existing course */
-export function updateCourse(id: string, params: AddUpdateCourseParams, signal?: AbortSignal) {
+export function updateCourse(id: string, params: CourseUpdate, signal?: AbortSignal) {
   return client.patch(`/courses/${encodeURIComponent(id)}`, params, { signal }) as Promise<Course>
 }
 
@@ -47,28 +83,13 @@ export function deleteCourse(id: string) {
 
 export type ListCoursesParams = PaginationParams & {
   /** Filter courses by the course series ID */
-  courseSeriesID?: string
-  /** Field by which to order the results */
-  orderBy?: 'createdAt' | 'updatedAt' | 'sequenceInCourseSeries'
-  /** Order in which to sort the results */
-  sortOrder?: 'asc' | 'desc'
+  courseSeriesID: string | null
 }
 
-export function listCourses(params?: ListCoursesParams, signal?: AbortSignal) {
+export function listCourses(params: ListCoursesParams, signal?: AbortSignal) {
   return client.get('/courses', params, { signal }) as Promise<ByPage<Course>>
 }
 
-export function listSignedInUserCourses(params?: ListCoursesParams, signal?: AbortSignal) {
+export function listSignedInUserCourses(params: ListCoursesParams, signal?: AbortSignal) {
   return client.get('/user/courses', params, { signal }) as Promise<ByPage<Course>>
-}
-
-export type CourseKind = 'guided' | 'playground'
-
-export type PlaygroundCourseData = {
-  id: string
-  owner: string
-  kind: 'playground'
-  title: string
-  thumbnail: string
-  content: FileCollection
 }

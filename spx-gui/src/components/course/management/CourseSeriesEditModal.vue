@@ -10,9 +10,9 @@ import {
   courseSeriesTitleMaxLength,
   updateCourseSeries,
   type CourseSeries,
-  type AddUpdateCourseSeriesParams
+  type CourseSeriesInput
 } from '@/apis/course-series'
-import { listSignedInUserCourses, type Course } from '@/apis/course'
+import { isGuidedCourse, listSignedInUserCourses, type GuidedCourse } from '@/apis/course'
 import { useSignedInUser } from '@/stores/user'
 import {
   exportCourseSeriesFile,
@@ -98,7 +98,7 @@ const form = useForm({
   ]
 })
 
-const allCourses = ref<Course[]>([])
+const allCourses = ref<GuidedCourse[]>([])
 const coursesLoading = ref(false)
 
 const loadCourses = useMessageHandle(
@@ -110,10 +110,10 @@ const loadCourses = useMessageHandle(
       // TODO: Consider implementing pagination or infinite scroll when there are more than 100 courses.
       const result = await listSignedInUserCourses({
         pageSize: 100,
-        orderBy: 'updatedAt',
-        sortOrder: 'desc'
+        pageIndex: 1,
+        courseSeriesID: null
       })
-      allCourses.value = result.data
+      allCourses.value = result.data.filter(isGuidedCourse)
     } finally {
       coursesLoading.value = false
     }
@@ -150,7 +150,8 @@ watch(
 
 const handleSubmit = useMessageHandle(
   async () => {
-    const formData: AddUpdateCourseSeriesParams = {
+    const formData: CourseSeriesInput = {
+      kind: props.courseSeries?.kind ?? 'guided',
       title: form.value.title,
       thumbnail: form.value.thumbnail,
       description: form.value.description,

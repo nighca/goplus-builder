@@ -69,8 +69,7 @@ const courseQuery = useQuery(
       {
         courseSeriesID: props.courseSeriesIdInput,
         pageIndex: page.value,
-        pageSize: pageSize.value,
-        orderBy: 'sequenceInCourseSeries'
+        pageSize: pageSize.value
       },
       ctx.signal
     )

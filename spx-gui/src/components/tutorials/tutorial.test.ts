@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import type { Course, PlaygroundCourseData } from '@/apis/course'
+import type { GuidedCourse, PlaygroundCourse } from '@/apis/course'
 import type { CourseSeries } from '@/apis/course-series'
 
 import { Tutorial } from './tutorial'
@@ -9,28 +9,27 @@ function makeSeries(courseIDs = ['course-1']): CourseSeries {
   return {
     id: 'series-1',
     owner: 'owner',
+    kind: 'guided',
     title: 'Series',
     thumbnail: '',
     description: '',
     courseIDs,
-    order: 1,
-    createdAt: '',
-    updatedAt: ''
+    order: 1
   }
 }
 
-function makeGuidedCourse(): Course {
+function makeGuidedCourse(): GuidedCourse {
   return {
     id: 'course-1',
     owner: 'owner',
+    kind: 'guided',
     title: 'Guided',
     thumbnail: '',
-    entrypoint: '/tutorials',
-    prompt: 'Learn Builder'
+    content: { entrypoint: '/tutorials', prompt: 'Learn Builder' }
   }
 }
 
-function makePlaygroundCourse(): PlaygroundCourseData {
+function makePlaygroundCourse(): PlaygroundCourse {
   return {
     id: 'course-1',
     owner: 'owner',

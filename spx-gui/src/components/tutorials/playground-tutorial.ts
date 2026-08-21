@@ -2,14 +2,14 @@ import { inject, nextTick, provide, shallowRef } from 'vue'
 import type { InjectionKey } from 'vue'
 import type { Router } from 'vue-router'
 
-import type { PlaygroundCourseData } from '@/apis/course'
+import type { PlaygroundCourse } from '@/apis/course'
 import type { CourseSeries } from '@/apis/course-series'
 import { TutorialProject } from '@/models/tutorial/project'
 
 export type PlaygroundCourseEntry = {
   key: number
   series: CourseSeries
-  course: PlaygroundCourseData
+  course: PlaygroundCourse
   project: TutorialProject
 }
 
@@ -37,14 +37,14 @@ export class PlaygroundTutorial {
 
   constructor(
     private router: Pick<Router, 'push'>,
-    private loadProject: (course: PlaygroundCourseData) => Promise<TutorialProject> = TutorialProject.load
+    private loadProject: (course: PlaygroundCourse) => Promise<TutorialProject> = TutorialProject.load
   ) {}
 
   get currentEntry() {
     return this.entryRef.value
   }
 
-  async startCourse(course: PlaygroundCourseData, series: CourseSeries) {
+  async startCourse(course: PlaygroundCourse, series: CourseSeries) {
     const project = await this.loadProject(course)
     const entry = { key: ++this.nextEntryKey, course, series, project }
     this.entryRef.value = entry

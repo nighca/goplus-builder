@@ -1,4 +1,5 @@
 import { client, type ByPage, type PaginationParams } from './common'
+import type { CourseKind } from './course'
 
 export const courseSeriesTitleMaxLength = 200
 export const courseSeriesDescriptionMaxLength = 400
@@ -8,6 +9,7 @@ export type CourseSeries = {
   id: string
   /** Username of the course series's owner */
   owner: string
+  kind: CourseKind
   /** Title of the course series */
   title: string
   /** Universal URL of the course series's thumbnail image */
@@ -18,8 +20,6 @@ export type CourseSeries = {
   courseIDs: string[]
   /** Order/priority of the course series for sorting */
   order: number
-  createdAt: string
-  updatedAt: string
 }
 
 /** Get a course series by ID */
@@ -27,18 +27,15 @@ export function getCourseSeries(id: string, signal?: AbortSignal) {
   return client.get(`/course-series/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<CourseSeries>
 }
 
-export type AddUpdateCourseSeriesParams = Pick<
-  CourseSeries,
-  'title' | 'thumbnail' | 'description' | 'courseIDs' | 'order'
->
+export type CourseSeriesInput = Omit<CourseSeries, 'id' | 'owner'>
 
 /** Add a new course series */
-export function addCourseSeries(params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
+export function addCourseSeries(params: CourseSeriesInput, signal?: AbortSignal) {
   return client.post('/user/course-series', params, { signal }) as Promise<CourseSeries>
 }
 
 /** Update an existing course series */
-export function updateCourseSeries(id: string, params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
+export function updateCourseSeries(id: string, params: CourseSeriesInput, signal?: AbortSignal) {
   return client.patch(`/course-series/${encodeURIComponent(id)}`, params, { signal }) as Promise<CourseSeries>
 }
 
@@ -47,17 +44,12 @@ export function deleteCourseSeries(id: string) {
   return client.delete(`/course-series/${encodeURIComponent(id)}`) as Promise<void>
 }
 
-export type ListCourseSeriesParams = PaginationParams & {
-  /** Field by which to order the results */
-  orderBy?: 'createdAt' | 'updatedAt' | 'order'
-  /** Order in which to sort the results */
-  sortOrder?: 'asc' | 'desc'
-}
+export type ListCourseSeriesParams = PaginationParams & { kind: CourseKind | null }
 
-export function listCourseSeries(params?: ListCourseSeriesParams, signal?: AbortSignal) {
+export function listCourseSeries(params: ListCourseSeriesParams, signal?: AbortSignal) {
   return client.get('/course-series', params, { signal }) as Promise<ByPage<CourseSeries>>
 }
 
-export function listSignedInUserCourseSeries(params?: ListCourseSeriesParams, signal?: AbortSignal) {
+export function listSignedInUserCourseSeries(params: ListCourseSeriesParams, signal?: AbortSignal) {
   return client.get('/user/course-series', params, { signal }) as Promise<ByPage<CourseSeries>>
 }

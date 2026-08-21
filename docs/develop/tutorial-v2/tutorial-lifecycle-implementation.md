@@ -266,9 +266,9 @@ Starting any Course calls `endCurrentCourse` first, preventing a restored Guided
 - #3417: Tutorial framework host binding and event contracts;
 - #3416: route-backed Simple Mode, Code Editor operations, Ruler, Spotlight, and Save as my project;
 - #3421: Playground Topic controls, generation, and round-finish events;
-- #3422: final discriminated Course and Course Series APIs.
+- #3422: builder-backend implementation of the discriminated Course and Course Series API contract.
 
-The branch remains temporarily based on PR #3438 and must be rebased onto `issue-3403-tutorial-v2` after that PR is merged.
+The frontend Course API surface in this branch follows `module_CourseApis.ts`: Course data is discriminated by `kind`, kind-specific fields live in `content`, and Course Series carries its homogeneous `kind`.
 
 ## Initial validation plan
 
