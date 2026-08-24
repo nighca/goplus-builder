@@ -1,8 +1,9 @@
 import { reactive, computed } from 'vue'
 import { composeQuery, useQuery, useQueryCache, useQueryWithCache } from '@/utils/query'
 import { capture, useAction } from '@/utils/exception'
-import { OAuthFlow, type OAuthTokenResponse } from '@/utils/oauth'
+import { OAuthErrorCode, OAuthFlow, type OAuthTokenResponse } from '@/utils/oauth'
 import { normalizeLang, useI18n } from '@/utils/i18n'
+import { OAuthException } from '@/apis/common/exception'
 import * as userApis from '@/apis/user'
 import { accountOAuthApisForXBuilder as oauthApis } from '@/apis/account/oauth'
 import { getUserQueryKey } from './query-keys'
@@ -117,6 +118,12 @@ export async function signOut() {
   ).catch((e) => capture(e, 'Failed to revoke tokens during sign out'))
 }
 
+/**
+ * Returns a valid access token, or null when the user is not signed in.
+ *
+ * Clears state and resolves null when the refresh token is invalid; preserves state and rejects
+ * for other refresh failures.
+ */
 export async function ensureAccessToken(): Promise<string | null> {
   if (isAccessTokenValid()) return userState.accessToken
 
@@ -135,7 +142,11 @@ export async function ensureAccessToken(): Promise<string | null> {
       await handleTokenResponse(token)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
-      clearUserState()
+      if (e instanceof OAuthException && e.error === OAuthErrorCode.InvalidGrant) {
+        clearUserState()
+        return
+      }
+      throw e
     }
   })
   return userState.accessToken
