@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { OAuthException } from '@/apis/common/exception'
 import { accountOAuthApisForXBuilder } from '@/apis/account/oauth'
+import * as userApis from '@/apis/user'
 import { OAuthErrorCode } from '@/utils/oauth'
 import { ensureAccessToken, initUserState } from './signed-in'
 
@@ -77,6 +78,42 @@ describe('ensureAccessToken', () => {
 
     await expect(ensureAccessToken()).resolves.toBe('access-token')
     expect(request).not.toHaveBeenCalled()
+  })
+
+  it('keeps the cached username without fetching it after refresh', async () => {
+    localStorage.setItem(
+      userStateStorageKey,
+      JSON.stringify({
+        accessToken: 'expired-access-token',
+        accessTokenExpiresAt: Date.now(),
+        refreshToken: 'refresh-token',
+        username: 'alice'
+      })
+    )
+    Object.defineProperty(navigator, 'locks', {
+      configurable: true,
+      value: {
+        request: vi.fn(async (_name: string, callback: () => Promise<void>) => callback())
+      }
+    })
+    vi.spyOn(accountOAuthApisForXBuilder, 'refreshToken').mockResolvedValue({
+      access_token: 'new-access-token',
+      expires_in: 3600,
+      refresh_token: 'new-refresh-token',
+      token_type: 'Bearer'
+    })
+    const getSignedInUser = vi.spyOn(userApis, 'getSignedInUser')
+
+    initUserState('client-id')
+
+    await expect(ensureAccessToken()).resolves.toBe('new-access-token')
+    expect(getSignedInUser).not.toHaveBeenCalled()
+    expect(JSON.parse(localStorage.getItem(userStateStorageKey)!)).toEqual({
+      accessToken: 'new-access-token',
+      accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+      refreshToken: 'new-refresh-token',
+      username: 'alice'
+    })
   })
 
   it.each([

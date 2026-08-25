@@ -69,8 +69,8 @@ async function getSignedInUsernameByAccessToken(accessToken: string) {
   return user.username
 }
 
-async function handleTokenResponse(resp: OAuthTokenResponse) {
-  const username = await getSignedInUsernameByAccessToken(resp.access_token)
+async function handleTokenResponse(resp: OAuthTokenResponse, username: string | null = null) {
+  username ??= await getSignedInUsernameByAccessToken(resp.access_token)
   setUserState({
     accessToken: resp.access_token,
     accessTokenExpiresAt: resp.expires_in != null ? Date.now() + resp.expires_in * 1000 : null,
@@ -139,7 +139,7 @@ export async function ensureAccessToken(): Promise<string | null> {
     const refreshTokenBeforeRefresh = userState.refreshToken
     try {
       const token = await ensureOAuthFlow().refreshToken(refreshTokenBeforeRefresh)
-      await handleTokenResponse(token)
+      await handleTokenResponse(token, userState.username)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
       if (e instanceof OAuthException && e.error === OAuthErrorCode.InvalidGrant) {
