@@ -3,7 +3,7 @@ import { extname, join, resolve } from '@/utils/path'
 import { adaptAudio } from '@/utils/spx'
 import { Disposable } from '@/utils/disposable'
 import { File, fromConfig, type Files, listDirs, toConfig } from '../common/file'
-import { getSoundName, validateSoundName } from './common/asset-name'
+import { getAssetFilename, getSoundName, validateSoundName } from './common/asset-name'
 import type { AssetMetadata } from './common/asset'
 import type { SpxProject } from './project'
 import { nanoid } from 'nanoid'
@@ -146,7 +146,7 @@ export class Sound extends Disposable {
 
   // config is included in files
   export({ includeId = true, includeAssetMetadata = true }: SoundExportLoadOptions = {}): Files {
-    const filename = this.name + extname(this.file.name)
+    const filename = getAssetFilename('sound', this.name, extname(this.file.name))
     const config: RawSoundConfig = {
       rate: this.rate,
       sampleCount: this.sampleCount,

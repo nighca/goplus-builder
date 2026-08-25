@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   UniversalUrlScheme,
   getUniversalUrlScheme,
+  getUniversalUrlFilename,
   parseUniversalUrl,
   stringifyDataUrl,
   stringifyKodoUrl,
@@ -40,6 +41,16 @@ describe('getUniversalUrlScheme', () => {
     expect(() => getUniversalUrlScheme('ftp://example.com')).toThrow('unsupported universal url scheme: ftp')
     expect(() => getUniversalUrlScheme('file:///path/to/file')).toThrow('unsupported universal url scheme: file')
     expect(() => getUniversalUrlScheme('custom://something')).toThrow('unsupported universal url scheme: custom')
+  })
+})
+
+describe('getUniversalUrlFilename', () => {
+  it('extracts the POSIX path before reading HTTP URL filenames', () => {
+    expect(getUniversalUrlFilename('https://example.com/path/file.png?version=1')).toBe('file.png')
+  })
+
+  it('gets Kodo object filenames from their keys', () => {
+    expect(getUniversalUrlFilename('kodo://bucket/path/to/file.png')).toBe('file.png')
   })
 })
 

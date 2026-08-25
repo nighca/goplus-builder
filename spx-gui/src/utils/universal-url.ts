@@ -5,6 +5,8 @@
  * Check https://github.com/goplus/builder/issues/369#issuecomment-2167100296 for details.
  */
 
+import { filename } from './path'
+
 /** Universal URL schemes */
 export const enum UniversalUrlScheme {
   /** Standard HTTP URLs, for resources stored in third-party services */
@@ -61,6 +63,20 @@ export function parseUniversalUrl(urlStr: string): UniversalUrlParsed {
     }
     default:
       throw new Error(`unsupported universal url scheme: ${scheme} in url: ${urlStr.slice(0, 200)}`)
+  }
+}
+
+/** Get the filename from the POSIX-style path contained in a universal URL. */
+export function getUniversalUrlFilename(urlStr: string) {
+  const parsed = parseUniversalUrl(urlStr)
+  switch (parsed.scheme) {
+    case UniversalUrlScheme.Http:
+    case UniversalUrlScheme.Https:
+      return filename(new URL(parsed.url).pathname)
+    case UniversalUrlScheme.Kodo:
+      return filename(parsed.key)
+    case UniversalUrlScheme.Data:
+      return ''
   }
 }
 

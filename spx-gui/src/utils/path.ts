@@ -1,37 +1,47 @@
-import resolveUri from '@jridgewell/resolve-uri'
+// Utilities for POSIX-style paths.
 
+/** Concatenate path components without normalizing them. */
 export function join(base: string, ...paths: string[]) {
-  // TODO
   return [base, ...paths].join('/')
 }
 
+/** Resolve path components and normalize `.` and `..` segments. */
 export function resolve(base: string, ...paths: string[]) {
-  return resolveUri([base, ...paths].join('/'), undefined)
+  const path = [base, ...paths].join('/')
+  const absolute = path.startsWith('/')
+  const segments: string[] = []
+  for (const segment of path.split('/')) {
+    if (segment === '' || segment === '.') continue
+    if (segment === '..') {
+      if (segments.length > 0 && segments[segments.length - 1] !== '..') segments.pop()
+      else if (!absolute) segments.push(segment)
+      continue
+    }
+    segments.push(segment)
+  }
+  return (absolute ? '/' : '') + segments.join('/')
 }
 
-export function stripSearch(urlOrPath: string) {
-  const searchIdx = urlOrPath.lastIndexOf('?')
-  if (searchIdx >= 0) return urlOrPath.slice(0, searchIdx)
-  return urlOrPath
+/** Return the final path segment. */
+export function filename(path: string) {
+  const slashPos = path.lastIndexOf('/')
+  return slashPos >= 0 ? path.slice(slashPos + 1) : path
 }
 
-export function filename(urlOrPath: string) {
-  urlOrPath = stripSearch(urlOrPath)
-  const slashPos = urlOrPath.lastIndexOf('/')
-  if (slashPos >= 0) urlOrPath = urlOrPath.slice(slashPos + 1)
-  return urlOrPath
+/** Remove the final extension from the final path segment. */
+export function stripExt(path: string) {
+  const slashPos = path.lastIndexOf('/')
+  const dotPos = path.lastIndexOf('.')
+  if (dotPos > slashPos + 1) return path.slice(0, dotPos)
+  return path
 }
 
-export function stripExt(urlOrPath: string) {
-  urlOrPath = stripSearch(urlOrPath)
-  const slashPos = urlOrPath.lastIndexOf('/')
-  const dotPos = urlOrPath.lastIndexOf('.')
-  if (dotPos > slashPos + 1) return urlOrPath.slice(0, dotPos)
-  return urlOrPath
+/** Return the final filename extension, including the dot. e.g. `.txt` */
+export function extname(path: string) {
+  return path.slice(stripExt(path).length)
 }
 
-/** get extname, with dot. e.g. `.txt` */
-export function extname(urlOrPath: string) {
-  urlOrPath = stripSearch(urlOrPath)
-  return urlOrPath.slice(stripExt(urlOrPath).length)
+/** Whether a value can be used directly as one POSIX-style path segment. */
+export function isSafePathSegment(value: string) {
+  return value !== '' && value !== '.' && value !== '..' && !value.includes('/') && !value.includes('\0')
 }

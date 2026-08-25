@@ -4,7 +4,7 @@ import { isSvgMimeType } from '@/utils/file'
 import { extname, resolve } from '@/utils/path'
 import { adaptImg } from '@/utils/spx'
 import { getImageSize, type File, type Files } from '../common/file'
-import { getBackdropName, validateBackdropName } from './common/asset-name'
+import { getAssetFilename, getBackdropName, validateBackdropName } from './common/asset-name'
 import type { AssetMetadata } from './common/asset'
 import type { Pivot } from './costume'
 import type { Stage } from './stage'
@@ -198,7 +198,7 @@ export class Backdrop {
     includeAssetMetadata = true,
     assetPath = backdropAssetPath
   }: BackdropExportLoadOptions = {}): [RawBackdropConfig, Files] {
-    const filename = this.name + extname(this.img.name)
+    const filename = getAssetFilename('backdrop', this.name, extname(this.img.name))
     const config: RawBackdropConfig = {
       x: this.pivot.x * this.bitmapResolution,
       y: this.pivot.y * this.bitmapResolution,

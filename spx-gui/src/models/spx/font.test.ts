@@ -5,7 +5,7 @@ import { FontFamily } from './font'
 
 describe('FontFamily', () => {
   it('rejects empty family names', () => {
-    expect(() => new FontFamily('', fromText('font.otf', 'font'))).toThrow('font family name must not be empty')
+    expect(() => new FontFamily('', fromText('font.otf', 'font'))).toThrow('The name must not be blank')
   })
 
   it('loads and exports a project font', async () => {
@@ -18,8 +18,12 @@ describe('FontFamily', () => {
     expect(fontFamily.name).toBe('basic-chinese')
     expect(fontFamily.file.name).toBe('font.otf')
     expect(await toConfig(fontFamily.export()['assets/fonts/basic-chinese/index.json']!)).toEqual({
-      faces: [{ path: 'font.otf' }]
+      faces: [{ path: 'font-basic-chinese.otf' }]
     })
+  })
+
+  it('rejects unsafe family names', () => {
+    expect(() => new FontFamily('a/b', fromText('font.ttf', 'font'))).toThrow('safe path segment')
   })
 
   it('rejects the reserved default family', async () => {

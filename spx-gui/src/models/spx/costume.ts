@@ -5,7 +5,7 @@ import { isSvgMimeType } from '@/utils/file'
 import { extname, resolve } from '@/utils/path'
 import { adaptImg } from '@/utils/spx'
 import { File, type Files, getImageSize } from '../common/file'
-import { getCostumeName, validateCostumeName } from './common/asset-name'
+import { getAssetFilename, getCostumeName, validateCostumeName } from './common/asset-name'
 import type { Sprite } from './sprite'
 import type { Animation } from './animation'
 
@@ -190,7 +190,7 @@ export class Costume {
 
   export({ basePath, includeId = true, namePrefix = '' }: CostumeExportLoadOptions): [RawCostumeConfig, Files] {
     const name = namePrefix + this.name
-    const filename = name + extname(this.img.name)
+    const filename = getAssetFilename('costume', name, extname(this.img.name))
     const config: RawCostumeConfig = {
       x: this.pivot.x * this.bitmapResolution,
       y: this.pivot.y * this.bitmapResolution,

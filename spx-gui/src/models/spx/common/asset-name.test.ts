@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { getSoundName, getSpriteName, normalizeAssetName } from './asset-name'
+import { isSafePathSegment } from '@/utils/path'
+import {
+  getAssetFilename,
+  getSoundName,
+  getSpriteName,
+  normalizeAssetName,
+  validateFontName,
+  validateSoundName
+} from './asset-name'
 import { SpxProject } from '../project'
 import { Sprite } from '../sprite'
 import { Sound } from '../sound'
@@ -91,6 +99,41 @@ describe('getSoundName', () => {
     expect(getSoundName(project, '')).toBe('sound1')
     project.addSound(new Sound('sound1', mockFile()))
     expect(getSoundName(project, '')).toBe('sound2')
+  })
+})
+
+describe('validateSoundName', () => {
+  it('rejects names that cannot be sound resource directories', () => {
+    expect(validateSoundName('a/b', null)).toMatchObject({ en: 'The name must be a safe path segment' })
+    expect(validateSoundName('CON', null)).toBeUndefined()
+    expect(validateSoundName('sound', null)).toBeUndefined()
+  })
+})
+
+describe('isSafePathSegment', () => {
+  it.each(['', '.', '..', 'a/b', 'a\0b'])('rejects %j', (value) => {
+    expect(isSafePathSegment(value)).toBe(false)
+  })
+
+  it('accepts ordinary names', () => {
+    expect(isSafePathSegment('中文 😀')).toBe(true)
+    expect(isSafePathSegment('CON')).toBe(true)
+    expect(isSafePathSegment('a\\b')).toBe(true)
+  })
+})
+
+describe('validateFontName', () => {
+  it('shares the path segment requirement with sound names', () => {
+    expect(validateFontName('a/b')).toMatchObject({ en: 'font family name must be a safe path segment' })
+    expect(validateFontName('default')).toMatchObject({ en: 'font family default is reserved' })
+    expect(validateFontName('font')).toBeUndefined()
+  })
+})
+
+describe('getAssetFilename', () => {
+  it('preserves the resource prefix and extension', () => {
+    expect(getAssetFilename('costume', '=/', '.svg')).toBe('costume-%3D%2F.svg')
+    expect(getAssetFilename('backdrop', '中文 😀', '.png')).toBe('backdrop-%E4%B8%AD%E6%96%87%20%F0%9F%98%80.png')
   })
 })
 
