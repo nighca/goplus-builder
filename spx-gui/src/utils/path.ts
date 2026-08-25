@@ -43,10 +43,10 @@ export function extname(path: string) {
 
 /** Return a user-facing validation error when a value is not one POSIX-style path segment. */
 export function validatePathSegment(value: string) {
-  if (value === '') return { en: 'Must not be blank', zh: '不可为空' }
-  if (value === '.' || value === '..') return { en: 'Cannot be . or ..', zh: '不可为 . 或 ..' }
-  if (value.includes('/')) return { en: 'Must not contain /', zh: '不可包含 /' }
-  if (value.includes('\0')) return { en: 'Contains an unsupported character', zh: '包含不支持的字符' }
+  if (value === '') return { en: 'Blank content is not allowed', zh: '不可为空' }
+  if (value === '.' || value === '..') return { en: '`.` and `..` are not allowed', zh: '不可为 . 或 ..' }
+  if (value.includes('/')) return { en: '`/` is not allowed', zh: '不可包含 /' }
+  if (value.includes('\0')) return { en: 'Unsupported characters are not allowed', zh: '包含不支持的字符' }
 }
 
 /** Encode a non-empty value as one POSIX-style path segment. */
