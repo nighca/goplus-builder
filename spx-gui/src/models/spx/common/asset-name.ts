@@ -1,5 +1,5 @@
 import type { LocaleMessage } from '@/utils/i18n'
-import { isSafePathSegment } from '@/utils/path'
+import { validatePathSegment } from '@/utils/path'
 import { assetDisplayNameMaxLength } from '@/apis/asset'
 import { getStringLengthInCodePoints, lowFirst, unicodeSafeSlice, upFirst } from '@/utils/utils'
 import { getXGoIdentifierNameTip, normalizeXGoIdentifierAssetName, validateXGoIdentifierName } from '@/utils/xgo'
@@ -124,7 +124,8 @@ export interface SoundLikeParent {
 export function validateSoundName(name: string, parent: SoundLikeParent | null) {
   const err = validateAssetName(name)
   if (err != null) return err
-  if (!isSafePathSegment(name)) return { en: 'The name must be a safe path segment', zh: '名称必须是安全的单一路径段' }
+  const pathErr = validatePathSegment(name)
+  if (pathErr != null) return pathErr
   if (parent != null && parent.sounds.find((s) => s.name === name))
     return { en: `Sound with name ${name} already exists`, zh: '存在同名的声音' }
 }
@@ -133,8 +134,8 @@ export function validateFontName(name: string) {
   const err = validateAssetName(name)
   if (err != null) return err
   if (name === 'default') return { en: 'font family default is reserved', zh: '字体名称 default 已被保留' }
-  if (!isSafePathSegment(name))
-    return { en: 'font family name must be a safe path segment', zh: '字体名称必须是安全的单一路径段' }
+  const pathErr = validatePathSegment(name)
+  if (pathErr != null) return pathErr
 }
 
 export const backdropNameTip = getAssetNameTip(resourceBackdropName)

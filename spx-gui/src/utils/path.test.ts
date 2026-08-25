@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { encodeFilename, encodePathSegment, resolve, filename, stripExt, extname, isSafePathSegment } from './path'
+import { encodeFilename, encodePathSegment, resolve, filename, stripExt, extname, validatePathSegment } from './path'
 
 describe('resolve', () => {
   it('should work well with path', () => {
@@ -94,15 +94,20 @@ describe('extname', () => {
   })
 })
 
-describe('isSafePathSegment', () => {
-  it.each(['', '.', '..', 'a/b', 'a\0b'])('rejects %j', (value) => {
-    expect(isSafePathSegment(value)).toBe(false)
+describe('validatePathSegment', () => {
+  it.each([
+    ['.', 'The name cannot be . or ..'],
+    ['..', 'The name cannot be . or ..'],
+    ['a/b', 'The name must not contain /'],
+    ['a\0b', 'The name contains an unsupported character']
+  ])('explains why %j is rejected', (value, message) => {
+    expect(validatePathSegment(value)).toMatchObject({ en: message })
   })
 
   it('accepts ordinary names', () => {
-    expect(isSafePathSegment('中文 😀')).toBe(true)
-    expect(isSafePathSegment('CON')).toBe(true)
-    expect(isSafePathSegment('a\\b')).toBe(true)
+    expect(validatePathSegment('中文 😀')).toBeUndefined()
+    expect(validatePathSegment('CON')).toBeUndefined()
+    expect(validatePathSegment('a\\b')).toBeUndefined()
   })
 })
 

@@ -41,9 +41,12 @@ export function extname(path: string) {
   return path.slice(stripExt(path).length)
 }
 
-/** Whether a value can be used directly as one POSIX-style path segment. */
-export function isSafePathSegment(value: string) {
-  return value !== '' && value !== '.' && value !== '..' && !value.includes('/') && !value.includes('\0')
+/** Return a user-facing validation error when a value is not one POSIX-style path segment. */
+export function validatePathSegment(value: string) {
+  if (value === '') return { en: 'The name must not be blank', zh: '名字不可为空' }
+  if (value === '.' || value === '..') return { en: 'The name cannot be . or ..', zh: '名称不可为 . 或 ..' }
+  if (value.includes('/')) return { en: 'The name must not contain /', zh: '名称不可包含 /' }
+  if (value.includes('\0')) return { en: 'The name contains an unsupported character', zh: '名称包含不支持的字符' }
 }
 
 /** Encode a non-empty value as one POSIX-style path segment. */
