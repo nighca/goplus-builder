@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-import { encodePathSegment, extname, join } from '@/utils/path'
+import { encodeFilename, extname, join } from '@/utils/path'
 import { createFileWithWebUrl } from '../common/cloud'
 import { File, fromConfig, listDirs, toConfig, type Files } from '../common/file'
 import { validateFontName } from './common/asset-name'
@@ -46,7 +46,7 @@ export class FontFamily {
 
   export(): Files {
     const prefix = join(fontAssetPath, this.name)
-    const filename = encodePathSegment(this.name) + extname(this.file.name)
+    const filename = encodeFilename(this.name + extname(this.file.name))
     const config: RawFontConfig = { faces: [{ path: filename }] }
     return {
       [join(prefix, fontConfigFileName)]: fromConfig(fontConfigFileName, config),

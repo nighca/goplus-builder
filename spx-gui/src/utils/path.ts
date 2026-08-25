@@ -52,3 +52,8 @@ export function encodePathSegment(value: string) {
   if (value === '..') return '%2E%2E'
   return value.replaceAll('%', '%25').replaceAll('/', '%2F').replaceAll('\0', '%00')
 }
+
+/** Encode a filename as one POSIX-style path segment. */
+export function encodeFilename(filename: string) {
+  return encodePathSegment(filename)
+}

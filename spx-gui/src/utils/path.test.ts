@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { encodePathSegment, resolve, filename, stripExt, extname, isSafePathSegment } from './path'
+import { encodeFilename, encodePathSegment, resolve, filename, stripExt, extname, isSafePathSegment } from './path'
 
 describe('resolve', () => {
   it('should work well with path', () => {
@@ -113,5 +113,11 @@ describe('encodePathSegment', () => {
     expect(encodePathSegment('%2F')).toBe('%252F')
     expect(encodePathSegment('.')).toBe('%2E')
     expect(encodePathSegment('..')).toBe('%2E%2E')
+  })
+})
+
+describe('encodeFilename', () => {
+  it('uses path segment encoding after the extension is appended', () => {
+    expect(encodeFilename('=/.svg')).toBe('=%2F.svg')
   })
 })
