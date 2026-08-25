@@ -144,7 +144,8 @@ export function validateFontName(name: string) {
   const err = validateAssetName(name)
   if (err != null) return err
   if (name === 'default') return { en: 'font family default is reserved', zh: '字体名称 default 已被保留' }
-  if (!isSafePathSegment(name)) return { en: 'font family name must be a safe path segment', zh: '字体名称必须是安全的单一路径段' }
+  if (!isSafePathSegment(name))
+    return { en: 'font family name must be a safe path segment', zh: '字体名称必须是安全的单一路径段' }
 }
 
 export const backdropNameTip = getAssetNameTip(resourceBackdropName)
