@@ -7,7 +7,6 @@ import { useIsRouteLoaded } from '@/utils/route-loading'
 import { useCopilot } from '@/components/copilot/context'
 
 import { GuidedTutorial, isGuidedTutorialTopic, provideGuidedTutorial } from './guided-tutorial'
-import { PlaygroundTutorial, providePlaygroundTutorial } from './playground-tutorial'
 import { provideTutorial, Tutorial } from './tutorial'
 import * as tutorialCourseSuccess from './TutorialCourseSuccess.vue'
 import * as tutorialCourseExitLink from './TutorialCourseExitLink'
@@ -20,8 +19,7 @@ const router = useRouter()
 const isRouteLoaded = useIsRouteLoaded()
 
 const guidedTutorial = new GuidedTutorial(copilot, router, isRouteLoaded)
-const playgroundTutorial = new PlaygroundTutorial(router)
-const tutorial = new Tutorial(guidedTutorial, playgroundTutorial)
+const tutorial = new Tutorial(guidedTutorial, router)
 
 // TODO: ensure `RegExp.escape` available & use `RegExp.escape` instead
 const tutorialCourseSuccessPattern = new RegExp(`<${tutorialCourseSuccess.tagName.replace('-', '\\-')}\\b`)
@@ -87,7 +85,6 @@ watch(
 )
 
 provideGuidedTutorial(guidedTutorial)
-providePlaygroundTutorial(playgroundTutorial)
 provideTutorial(tutorial)
 </script>
 
