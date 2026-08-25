@@ -69,6 +69,9 @@ async function getSignedInUsernameByAccessToken(accessToken: string) {
   return user.username
 }
 
+/**
+ * Persists OAuth tokens, retrieving the username only when one was not already available.
+ */
 async function handleTokenResponse(resp: OAuthTokenResponse, username: string | null = null) {
   username ??= await getSignedInUsernameByAccessToken(resp.access_token)
   setUserState({
@@ -139,6 +142,7 @@ export async function ensureAccessToken(): Promise<string | null> {
     const refreshTokenBeforeRefresh = userState.refreshToken
     try {
       const token = await ensureOAuthFlow().refreshToken(refreshTokenBeforeRefresh)
+      // Reuse the cached username so a failing GET /user cannot prevent persisting rotated tokens.
       await handleTokenResponse(token, userState.username)
     } catch (e) {
       capture(e, 'Failed to refresh access token')
