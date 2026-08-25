@@ -96,10 +96,10 @@ describe('extname', () => {
 
 describe('validatePathSegment', () => {
   it.each([
-    ['.', 'The path segment cannot be . or ..'],
-    ['..', 'The path segment cannot be . or ..'],
-    ['a/b', 'The path segment must not contain /'],
-    ['a\0b', 'The path segment contains an unsupported character']
+    ['.', 'Cannot be . or ..'],
+    ['..', 'Cannot be . or ..'],
+    ['a/b', 'Must not contain /'],
+    ['a\0b', 'Contains an unsupported character']
   ])('explains why %j is rejected', (value, message) => {
     expect(validatePathSegment(value)).toMatchObject({ en: message })
   })
