@@ -45,3 +45,8 @@ export function extname(path: string) {
 export function isSafePathSegment(value: string) {
   return value !== '' && value !== '.' && value !== '..' && !value.includes('/') && !value.includes('\0')
 }
+
+/** Encode a value as one POSIX-style path segment. */
+export function encodePathSegment(value: string) {
+  return encodeURIComponent(value).replaceAll('.', '%2E')
+}

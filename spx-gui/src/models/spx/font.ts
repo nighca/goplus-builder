@@ -46,7 +46,7 @@ export class FontFamily {
 
   export(): Files {
     const prefix = join(fontAssetPath, this.name)
-    const filename = getAssetFilename('font', this.name, extname(this.file.name))
+    const filename = getAssetFilename(this.name, extname(this.file.name))
     const config: RawFontConfig = { faces: [{ path: filename }] }
     return {
       [join(prefix, fontConfigFileName)]: fromConfig(fontConfigFileName, config),

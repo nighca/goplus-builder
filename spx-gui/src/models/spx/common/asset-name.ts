@@ -1,5 +1,5 @@
 import type { LocaleMessage } from '@/utils/i18n'
-import { isSafePathSegment } from '@/utils/path'
+import { encodePathSegment, isSafePathSegment } from '@/utils/path'
 import { assetDisplayNameMaxLength } from '@/apis/asset'
 import { getStringLengthInCodePoints, lowFirst, unicodeSafeSlice, upFirst } from '@/utils/utils'
 import { getXGoIdentifierNameTip, normalizeXGoIdentifierAssetName, validateXGoIdentifierName } from '@/utils/xgo'
@@ -24,14 +24,12 @@ function validateAssetName(name: string) {
 }
 
 export function getAssetFilename(
-  /** ASCII resource type, without path separators. */
-  prefix: string,
-  /** Logical asset name; it will be encoded with `encodeURIComponent`. */
+  /** Logical asset name; it will be encoded as a POSIX-style path segment. */
   name: string,
   /** Filename extension, including the leading dot, or an empty string. */
   ext: string
 ) {
-  return `${prefix}-${encodeURIComponent(name)}${ext}`
+  return `${encodePathSegment(name)}${ext}`
 }
 
 function getAssetNameTip(asset: LocaleMessage) {

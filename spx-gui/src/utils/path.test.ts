@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { resolve, filename, stripExt, extname, isSafePathSegment } from './path'
+import { encodePathSegment, resolve, filename, stripExt, extname, isSafePathSegment } from './path'
 
 describe('resolve', () => {
   it('should work well with path', () => {
@@ -103,5 +103,13 @@ describe('isSafePathSegment', () => {
     expect(isSafePathSegment('中文 😀')).toBe(true)
     expect(isSafePathSegment('CON')).toBe(true)
     expect(isSafePathSegment('a\\b')).toBe(true)
+  })
+})
+
+describe('encodePathSegment', () => {
+  it('uses percent encoding and encodes dots', () => {
+    expect(encodePathSegment('=/')).toBe('%3D%2F')
+    expect(encodePathSegment('.')).toBe('%2E')
+    expect(encodePathSegment('..')).toBe('%2E%2E')
   })
 })

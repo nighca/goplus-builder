@@ -118,9 +118,9 @@ describe('validateFontName', () => {
 })
 
 describe('getAssetFilename', () => {
-  it('preserves the resource prefix and extension', () => {
-    expect(getAssetFilename('costume', '=/', '.svg')).toBe('costume-%3D%2F.svg')
-    expect(getAssetFilename('backdrop', '中文 😀', '.png')).toBe('backdrop-%E4%B8%AD%E6%96%87%20%F0%9F%98%80.png')
+  it('preserves the encoded name and extension', () => {
+    expect(getAssetFilename('=/', '.svg')).toBe('%3D%2F.svg')
+    expect(getAssetFilename('中文 😀', '.png')).toBe('%E4%B8%AD%E6%96%87%20%F0%9F%98%80.png')
   })
 })
 

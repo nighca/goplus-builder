@@ -51,9 +51,9 @@ describe('Sound', () => {
     const sound = new Sound('sound', fromText('sound.mp3', 'sound'))
     const files = sound.export()
 
-    expect(Object.keys(files).sort()).toEqual(['assets/sounds/sound/index.json', 'assets/sounds/sound/sound-sound.mp3'])
+    expect(Object.keys(files).sort()).toEqual(['assets/sounds/sound/index.json', 'assets/sounds/sound/sound.mp3'])
     expect(await toConfig(files['assets/sounds/sound/index.json']!)).toMatchObject({
-      path: 'sound-sound.mp3'
+      path: 'sound.mp3'
     })
     await expect(Sound.loadAll(files)).resolves.toMatchObject([{ name: 'sound' }])
   })

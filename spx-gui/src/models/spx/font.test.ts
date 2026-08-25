@@ -18,7 +18,7 @@ describe('FontFamily', () => {
     expect(fontFamily.name).toBe('basic-chinese')
     expect(fontFamily.file.name).toBe('font.otf')
     expect(await toConfig(fontFamily.export()['assets/fonts/basic-chinese/index.json']!)).toEqual({
-      faces: [{ path: 'font-basic-chinese.otf' }]
+      faces: [{ path: 'basic-chinese.otf' }]
     })
   })
 
