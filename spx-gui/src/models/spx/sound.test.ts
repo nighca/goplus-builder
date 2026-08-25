@@ -47,14 +47,14 @@ describe('Sound', () => {
     expect(animation.sound).not.toBe(clone.id)
   })
 
-  it('uses the logical name as the resource directory and a safe filename', async () => {
-    const sound = new Sound('sound', fromText('sound.mp3', 'sound'))
+  it('uses the logical name as the resource directory and a fixed filename', async () => {
+    const sound = new Sound('laser', fromText('sound.mp3', 'sound'))
     const files = sound.export()
 
-    expect(Object.keys(files).sort()).toEqual(['assets/sounds/sound/index.json', 'assets/sounds/sound/sound.mp3'])
-    expect(await toConfig(files['assets/sounds/sound/index.json']!)).toMatchObject({
-      path: 'sound.mp3'
+    expect(Object.keys(files).sort()).toEqual(['assets/sounds/laser/audio.mp3', 'assets/sounds/laser/index.json'])
+    expect(await toConfig(files['assets/sounds/laser/index.json']!)).toMatchObject({
+      path: 'audio.mp3'
     })
-    await expect(Sound.loadAll(files)).resolves.toMatchObject([{ name: 'sound' }])
+    await expect(Sound.loadAll(files)).resolves.toMatchObject([{ name: 'laser' }])
   })
 })
