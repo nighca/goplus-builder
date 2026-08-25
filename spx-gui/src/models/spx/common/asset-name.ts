@@ -1,5 +1,5 @@
 import type { LocaleMessage } from '@/utils/i18n'
-import { encodePathSegment, isSafePathSegment } from '@/utils/path'
+import { isSafePathSegment } from '@/utils/path'
 import { assetDisplayNameMaxLength } from '@/apis/asset'
 import { getStringLengthInCodePoints, lowFirst, unicodeSafeSlice, upFirst } from '@/utils/utils'
 import { getXGoIdentifierNameTip, normalizeXGoIdentifierAssetName, validateXGoIdentifierName } from '@/utils/xgo'
@@ -21,15 +21,6 @@ function validateAssetName(name: string) {
       en: `The name is too long (maximum is ${assetNameMaxLength} characters)`,
       zh: `名字长度超出限制（最多 ${assetNameMaxLength} 个字符）`
     }
-}
-
-export function getAssetFilename(
-  /** Logical asset name; it will be encoded as a POSIX-style path segment. */
-  name: string,
-  /** Filename extension, including the leading dot, or an empty string. */
-  ext: string
-) {
-  return `${encodePathSegment(name)}${ext}`
 }
 
 function getAssetNameTip(asset: LocaleMessage) {

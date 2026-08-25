@@ -1,9 +1,9 @@
 import { reactive } from 'vue'
 
-import { extname, join } from '@/utils/path'
+import { encodePathSegment, extname, join } from '@/utils/path'
 import { createFileWithWebUrl } from '../common/cloud'
 import { File, fromConfig, listDirs, toConfig, type Files } from '../common/file'
-import { getAssetFilename, validateFontName } from './common/asset-name'
+import { validateFontName } from './common/asset-name'
 
 export const fontAssetPath = 'assets/fonts'
 const fontConfigFileName = 'index.json'
@@ -46,7 +46,7 @@ export class FontFamily {
 
   export(): Files {
     const prefix = join(fontAssetPath, this.name)
-    const filename = getAssetFilename(this.name, extname(this.file.name))
+    const filename = encodePathSegment(this.name) + extname(this.file.name)
     const config: RawFontConfig = { faces: [{ path: filename }] }
     return {
       [join(prefix, fontConfigFileName)]: fromConfig(fontConfigFileName, config),

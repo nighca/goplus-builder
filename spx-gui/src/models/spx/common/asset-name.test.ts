@@ -1,12 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  getAssetFilename,
-  getSoundName,
-  getSpriteName,
-  normalizeAssetName,
-  validateFontName,
-  validateSoundName
-} from './asset-name'
+import { getSoundName, getSpriteName, normalizeAssetName, validateFontName, validateSoundName } from './asset-name'
 import { SpxProject } from '../project'
 import { Sprite } from '../sprite'
 import { Sound } from '../sound'
@@ -114,13 +107,6 @@ describe('validateFontName', () => {
     expect(validateFontName('a/b')).toMatchObject({ en: 'font family name must be a safe path segment' })
     expect(validateFontName('default')).toMatchObject({ en: 'font family default is reserved' })
     expect(validateFontName('font')).toBeUndefined()
-  })
-})
-
-describe('getAssetFilename', () => {
-  it('preserves the encoded name and extension', () => {
-    expect(getAssetFilename('=/', '.svg')).toBe('%3D%2F.svg')
-    expect(getAssetFilename('中文 😀', '.png')).toBe('%E4%B8%AD%E6%96%87%20%F0%9F%98%80.png')
   })
 })
 

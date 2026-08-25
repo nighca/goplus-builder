@@ -46,7 +46,9 @@ export function isSafePathSegment(value: string) {
   return value !== '' && value !== '.' && value !== '..' && !value.includes('/') && !value.includes('\0')
 }
 
-/** Encode a value as one POSIX-style path segment. */
+/** Encode a non-empty value as one POSIX-style path segment. */
 export function encodePathSegment(value: string) {
-  return encodeURIComponent(value).replaceAll('.', '%2E')
+  if (value === '.') return '%2E'
+  if (value === '..') return '%2E%2E'
+  return value.replaceAll('%', '%25').replaceAll('/', '%2F').replaceAll('\0', '%00')
 }

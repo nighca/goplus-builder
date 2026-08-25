@@ -107,8 +107,10 @@ describe('isSafePathSegment', () => {
 })
 
 describe('encodePathSegment', () => {
-  it('uses percent encoding and encodes dots', () => {
-    expect(encodePathSegment('=/')).toBe('%3D%2F')
+  it('escapes only path syntax and the escape marker', () => {
+    expect(encodePathSegment('=/')).toBe('=%2F')
+    expect(encodePathSegment('中文 😀')).toBe('中文 😀')
+    expect(encodePathSegment('%2F')).toBe('%252F')
     expect(encodePathSegment('.')).toBe('%2E')
     expect(encodePathSegment('..')).toBe('%2E%2E')
   })
