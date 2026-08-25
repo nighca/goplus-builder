@@ -32,6 +32,26 @@ describe('CostumeGen', () => {
     expect(Object.keys(files)).toContain('gen/assets/sprites/TestSprite/costumes/a%2Fb/image.png')
   })
 
+  it('does not repeatedly encode a costume name across export/load cycles', () => {
+    const project = makeSpxProject()
+    const sprite = Sprite.create('TestSprite', '')
+    const basePath = 'gen/assets/sprites/TestSprite'
+    let gen = new CostumeGen(i18n, sprite, project, {
+      settings: { name: 'a/b' },
+      image: mockFile('image.png')
+    })
+
+    for (let i = 0; i < 3; i++) {
+      const [rawConfig, rawFiles] = gen.export(basePath)
+      const files = sndFiles(rawFiles)
+      expect(Object.keys(files)).toContain(`${basePath}/costumes/a%2Fb/image.png`)
+      expect(Object.keys(files)).not.toContain(`${basePath}/costumes/a%252Fb/image.png`)
+
+      gen = CostumeGen.load(i18n, sprite, project, sndConfig(rawConfig), files, basePath)
+      expect(gen.name).toBe('a/b')
+    }
+  })
+
   it('should work well', async () => {
     const project = makeSpxProject()
     const sprite = Sprite.create('TestSprite', '')
