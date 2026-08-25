@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { resolve, filename, stripExt, extname } from './path'
+import { resolve, filename, stripExt, extname, isSafePathSegment } from './path'
 
 describe('resolve', () => {
   it('should work well with path', () => {
@@ -91,5 +91,17 @@ describe('extname', () => {
   })
   it('keeps question marks in POSIX paths', () => {
     expect(extname('foo/image?draft.png')).toBe('.png')
+  })
+})
+
+describe('isSafePathSegment', () => {
+  it.each(['', '.', '..', 'a/b', 'a\0b'])('rejects %j', (value) => {
+    expect(isSafePathSegment(value)).toBe(false)
+  })
+
+  it('accepts ordinary names', () => {
+    expect(isSafePathSegment('中文 😀')).toBe(true)
+    expect(isSafePathSegment('CON')).toBe(true)
+    expect(isSafePathSegment('a\\b')).toBe(true)
   })
 })

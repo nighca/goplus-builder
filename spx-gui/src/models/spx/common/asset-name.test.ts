@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest'
-import { isSafePathSegment } from '@/utils/path'
 import {
   getAssetFilename,
   getSoundName,
@@ -107,18 +106,6 @@ describe('validateSoundName', () => {
     expect(validateSoundName('a/b', null)).toMatchObject({ en: 'The name must be a safe path segment' })
     expect(validateSoundName('CON', null)).toBeUndefined()
     expect(validateSoundName('sound', null)).toBeUndefined()
-  })
-})
-
-describe('isSafePathSegment', () => {
-  it.each(['', '.', '..', 'a/b', 'a\0b'])('rejects %j', (value) => {
-    expect(isSafePathSegment(value)).toBe(false)
-  })
-
-  it('accepts ordinary names', () => {
-    expect(isSafePathSegment('中文 😀')).toBe(true)
-    expect(isSafePathSegment('CON')).toBe(true)
-    expect(isSafePathSegment('a\\b')).toBe(true)
   })
 })
 
