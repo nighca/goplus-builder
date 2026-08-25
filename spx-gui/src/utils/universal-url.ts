@@ -15,13 +15,18 @@ export const enum UniversalUrlScheme {
   Https = 'https',
   /** For inlineable data, usually plain text or json, e.g. `data:text/plain,hello%20world` */
   Data = 'data',
-  /** For objects stored in Qiniu Kodo, e.g. `kodo://bucket/key` */
+  /** For objects stored in Qiniu Kodo, e.g. `kodo://bucket/key`; the key is opaque and may contain `?` */
   Kodo = 'kodo'
 }
 
 export type HttpUrlParsed = { scheme: UniversalUrlScheme.Http | UniversalUrlScheme.Https; url: string }
 export type DataUrlParsed = { scheme: UniversalUrlScheme.Data; url: string }
-export type KodoUrlParsed = { scheme: UniversalUrlScheme.Kodo; bucket: string; key: string }
+export type KodoUrlParsed = {
+  scheme: UniversalUrlScheme.Kodo
+  bucket: string
+  /** Opaque object key, which may contain URL-like characters such as `?`. */
+  key: string
+}
 
 export type UniversalUrlParsed = HttpUrlParsed | DataUrlParsed | KodoUrlParsed
 
@@ -66,7 +71,7 @@ export function parseUniversalUrl(urlStr: string): UniversalUrlParsed {
   }
 }
 
-/** Get the filename from the POSIX-style path contained in a universal URL. */
+/** Get the filename from an HTTP URL pathname or a Kodo object key. */
 export function getUniversalUrlFilename(urlStr: string) {
   const parsed = parseUniversalUrl(urlStr)
   switch (parsed.scheme) {

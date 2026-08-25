@@ -49,8 +49,8 @@ describe('getUniversalUrlFilename', () => {
     expect(getUniversalUrlFilename('https://example.com/path/file.png?version=1')).toBe('file.png')
   })
 
-  it('gets Kodo object filenames from their keys', () => {
-    expect(getUniversalUrlFilename('kodo://bucket/path/to/file.png')).toBe('file.png')
+  it('gets Kodo object filenames from opaque keys', () => {
+    expect(getUniversalUrlFilename('kodo://bucket/path/to/file.png?version=1')).toBe('file.png?version=1')
   })
 })
 
@@ -126,6 +126,11 @@ describe('parseUniversalUrl', () => {
       expect(result.scheme).toBe(UniversalUrlScheme.Kodo)
       expect(result.bucket).toBe('test-bucket')
       expect(result.key).toBe('deep/nested/path/file-name.jpg')
+    })
+
+    it('treats URL-like characters as part of the key', () => {
+      const result = parseUniversalUrl('kodo://bucket/path/file.png?version=1') as KodoUrlParsed
+      expect(result.key).toBe('path/file.png?version=1')
     })
 
     it('should throw error for invalid kodo url without slash', () => {
