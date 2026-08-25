@@ -96,7 +96,7 @@ describe('getSoundName', () => {
 
 describe('validateSoundName', () => {
   it('rejects names that cannot be sound resource directories', () => {
-    expect(validateSoundName('a/b', null)).toMatchObject({ en: '`/` is not allowed' })
+    expect(validateSoundName('a/b', null)).toMatchObject({ en: 'The value must not contain /' })
     expect(validateSoundName('CON', null)).toBeUndefined()
     expect(validateSoundName('sound', null)).toBeUndefined()
   })
@@ -104,7 +104,7 @@ describe('validateSoundName', () => {
 
 describe('validateFontName', () => {
   it('shares the path segment requirement with sound names', () => {
-    expect(validateFontName('a/b')).toMatchObject({ en: '`/` is not allowed' })
+    expect(validateFontName('a/b')).toMatchObject({ en: 'The value must not contain /' })
     expect(validateFontName('default')).toMatchObject({ en: 'font family default is reserved' })
     expect(validateFontName('font')).toBeUndefined()
   })

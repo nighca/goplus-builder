@@ -23,7 +23,7 @@ describe('FontFamily', () => {
   })
 
   it('rejects unsafe family names', () => {
-    expect(() => new FontFamily('a/b', fromText('font.ttf', 'font'))).toThrow('`/` is not allowed')
+    expect(() => new FontFamily('a/b', fromText('font.ttf', 'font'))).toThrow('The value must not contain /')
   })
 
   it('rejects the reserved default family', async () => {
