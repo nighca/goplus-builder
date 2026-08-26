@@ -4,9 +4,10 @@ import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
 import type { PlaygroundCourse } from '@/apis/course'
 import type { CourseSeries } from '@/apis/course-series'
+import { createDefaultProject } from '@/components/project/default-project'
+import { fromConfig, fromText, prefixFiles, type File, type Files } from '@/models/common/file'
 import { TutorialProject } from '@/models/tutorial/project'
 import { useQuery } from '@/utils/query'
-import { stringifyDataUrl } from '@/utils/universal-url'
 import CoursePlayground from '@/components/tutorials/playground/CoursePlayground.vue'
 import CoursePlaygroundCompletionModal, {
   type CompletionAction
@@ -33,43 +34,68 @@ type PlaygroundSession = {
 
 const session = shallowRef<PlaygroundSession | null>(null)
 
-const mockCourse: PlaygroundCourse = {
-  id: 'playground-demo-course',
-  owner: 'tutorial-demo',
-  kind: 'playground',
-  title: 'Playground Demo',
-  thumbnail: '',
-  content: {
-    'index.json': stringifyDataUrl(
-      'application/json',
-      JSON.stringify({
-        project: { type: 'spx', root: 'project' },
-        inEditorPath: '',
-        copilotContext: 'Help the learner explore the Playground Course.'
-      })
-    ),
-    'project/assets/index.json': stringifyDataUrl('application/json', '{}'),
-    'main_course.gox': stringifyDataUrl('text/plain', 'onStart => {}')
-  }
+type MockSession = Pick<PlaygroundSession, 'course' | 'series'>
+
+let mockSession: Promise<MockSession> | null = null
+
+function getMockSession() {
+  if (mockSession == null) mockSession = createMockSession()
+  return mockSession
 }
 
-const mockCourseSeries: CourseSeries = {
-  id: 'playground-demo-series',
-  owner: 'tutorial-demo',
-  kind: 'playground',
-  title: 'Playground Demo Series',
-  thumbnail: '',
-  description: 'A temporary Course playground for Tutorial v2 development.',
-  courseIDs: [mockCourse.id],
-  order: 1,
-  createdAt: '2026-08-26T00:00:00Z',
-  updatedAt: '2026-08-26T00:00:00Z'
+async function createMockSession(): Promise<MockSession> {
+  const project = await createDefaultProject('', '', [])
+  const files: Files = {
+    'index.json': fromConfig('index.json', {
+      project: { type: 'spx', root: 'project' },
+      inEditorPath: '/sprites/NiuXiaoQi/code',
+      copilotContext: 'Help the learner explore the Playground Course.'
+    }),
+    'main_course.gox': fromText('main_course.gox', 'onStart => {}'),
+    ...prefixFiles(project.exportFiles(), 'project')
+  }
+  project.dispose()
+
+  const course: PlaygroundCourse = {
+    id: 'playground-demo-course',
+    owner: 'tutorial-demo',
+    kind: 'playground',
+    title: 'Playground Demo',
+    thumbnail: '',
+    content: await toFileCollection(files)
+  }
+  const series: CourseSeries = {
+    id: 'playground-demo-series',
+    owner: 'tutorial-demo',
+    kind: 'playground',
+    title: 'Playground Demo Series',
+    thumbnail: '',
+    description: 'A temporary Course playground for Tutorial v2 development.',
+    courseIDs: [course.id],
+    order: 1,
+    createdAt: '2026-08-26T00:00:00Z',
+    updatedAt: '2026-08-26T00:00:00Z'
+  }
+  return { course, series }
+}
+
+async function toFileCollection(files: Files) {
+  return Object.fromEntries(
+    await Promise.all(Object.entries(files).map(async ([path, file]) => [path, await toDataUrl(file!)] as const))
+  )
+}
+
+async function toDataUrl(file: File) {
+  const bytes = new Uint8Array(await file.arrayBuffer())
+  let content = ''
+  for (const byte of bytes) content += String.fromCharCode(byte)
+  return `data:${file.type};base64,${btoa(content)}`
 }
 
 const entryQueryRet = useQuery(
   async () => {
     // TODO: Load the Course and Course Series from Course APIs once the Tutorial v2 backend data is available.
-    const [course, series] = [mockCourse, mockCourseSeries]
+    const { course, series } = await getMockSession()
     if (course.kind !== 'playground') throw new Error(`course ${course.id} is not a Playground Course`)
     if (!series.courseIDs.includes(course.id)) throw new Error(`course ${course.id} is not in series ${series.id}`)
 
