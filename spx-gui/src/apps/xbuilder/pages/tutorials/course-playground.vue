@@ -48,7 +48,7 @@ async function createMockSession(): Promise<MockSession> {
   const files: Files = {
     'index.json': fromConfig('index.json', {
       project: { type: 'spx', root: 'project' },
-      inEditorPath: '/sprites/NiuXiaoQi/code',
+      inEditorPath: '/stage/code',
       copilotContext: 'Help the learner explore the Playground Course.'
     }),
     'main_course.gox': fromText('main_course.gox', 'onStart => {}'),
