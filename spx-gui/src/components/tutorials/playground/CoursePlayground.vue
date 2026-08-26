@@ -107,20 +107,15 @@ const stopRunnerStart = watch([() => monacoQueryRet.data.value, state], async ([
   stopRunnerStart()
   await nextTick()
   if (disposed) return
+  runner?.dispose()
   const nextRunner = new PlaygroundCourseRunner({
     project: props.project,
     editorState,
     copilot,
     presentation
   })
-  nextRunner.on('completed', (completion) => {
-    nextRunner.dispose()
-    emit('courseCompleted', completion)
-  })
-  nextRunner.on('failed', (error) => {
-    nextRunner.dispose()
-    emit('failed', error)
-  })
+  nextRunner.on('completed', (completion) => emit('courseCompleted', completion))
+  nextRunner.on('failed', (error) => emit('failed', error))
   runner = nextRunner
   void nextRunner.start().catch(() => {})
 })

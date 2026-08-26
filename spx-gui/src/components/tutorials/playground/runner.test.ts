@@ -1,5 +1,5 @@
 import { nextTick, reactive, shallowReactive } from 'vue'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { XGoExecutorOptions } from '@/utils/xgoexec'
 import { mainCourseFilePath } from '@/models/tutorial/course'
@@ -8,9 +8,36 @@ import { RoundState, type Round, type Topic } from '@/components/copilot/copilot
 import { Runtime, RuntimeOutputKind } from '@/components/editor/runtime'
 import type { EditorState } from '@/components/editor/editor-state'
 import type { Copilot } from '@/components/copilot/copilot'
-import type { XGoExecutor } from '@/utils/xgoexec'
 
 import { PlaygroundCourseRunner } from './runner'
+
+const executorMocks = vi.hoisted(() => ({
+  instances: [] as Array<{
+    options: XGoExecutorOptions
+    run: ReturnType<typeof vi.fn>
+    stop: ReturnType<typeof vi.fn>
+    dispatchEvent: ReturnType<typeof vi.fn>
+  }>
+}))
+
+vi.mock('@/utils/xgoexec', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/utils/xgoexec')>()
+  return {
+    ...actual,
+    XGoExecutor: class {
+      constructor(options: XGoExecutorOptions) {
+        const instance = {
+          options,
+          run: vi.fn().mockResolvedValue(undefined),
+          stop: vi.fn().mockResolvedValue(undefined),
+          dispatchEvent: vi.fn().mockResolvedValue(undefined)
+        }
+        executorMocks.instances.push(instance)
+        return instance
+      }
+    }
+  }
+})
 
 function makeProject() {
   const project = new TutorialProject()
@@ -48,12 +75,6 @@ function makeHarness() {
   const editorRuntime = new Runtime(project.project)
   const editorState = { runtime: editorRuntime } as EditorState
   const { session, controller: copilot } = makeCopilot()
-  let executorOptions: XGoExecutorOptions | null = null
-  const executor = {
-    run: vi.fn().mockResolvedValue(undefined),
-    stop: vi.fn().mockResolvedValue(undefined),
-    dispatchEvent: vi.fn().mockResolvedValue(undefined)
-  }
   const presentation = {
     showMessage: vi.fn().mockResolvedValue(undefined)
   }
@@ -61,12 +82,9 @@ function makeHarness() {
     project,
     editorState,
     copilot: copilot as unknown as Copilot,
-    presentation,
-    createExecutor(options) {
-      executorOptions = options
-      return executor as unknown as XGoExecutor
-    }
+    presentation
   })
+  const executor = executorMocks.instances.at(-1)!
   return {
     project,
     editorRuntime,
@@ -76,11 +94,15 @@ function makeHarness() {
     executor,
     presentation,
     runner,
-    getExecutorOptions: () => executorOptions!
+    getExecutorOptions: () => executor.options
   }
 }
 
 describe('PlaygroundCourseRunner', () => {
+  beforeEach(() => {
+    executorMocks.instances.length = 0
+  })
+
   it('starts one Playground Copilot session and the main Course program', async () => {
     const harness = makeHarness()
 

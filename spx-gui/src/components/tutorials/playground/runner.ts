@@ -2,7 +2,7 @@ import { watch } from 'vue'
 import type { WatchStopHandle } from 'vue'
 
 import Emitter from '@/utils/emitter'
-import { XGoExecutor, type XGoExecutorOptions, type XGoExitReason, type XGoFramework } from '@/utils/xgoexec'
+import { XGoExecutor, type XGoExitReason, type XGoFramework } from '@/utils/xgoexec'
 import { mainCourseFilePath } from '@/models/tutorial/course'
 import type { TutorialProject } from '@/models/tutorial/project'
 import type { Copilot, Round, Session, Topic } from '@/components/copilot/copilot'
@@ -23,7 +23,6 @@ export type PlaygroundCourseRunnerOptions = {
   editorState: EditorState
   copilot: Copilot
   presentation: PlaygroundCoursePresentation
-  createExecutor?: (options: XGoExecutorOptions) => XGoExecutor
 }
 
 export class PlaygroundCourseRunner extends Emitter<{
@@ -37,14 +36,13 @@ export class PlaygroundCourseRunner extends Emitter<{
   private completionTimer: ReturnType<typeof setTimeout> | null = null
   private lastRuntimeOutputID = -1
   private lastError: Error | null = null
-  private state: 'idle' | 'starting' | 'running' | 'finished' = 'idle'
+  private started = false
   private settled = false
   private executorStarted = deferred<void>()
 
   constructor(private options: PlaygroundCourseRunnerOptions) {
     super()
-    const createExecutor = options.createExecutor ?? ((executorOptions) => new XGoExecutor(executorOptions))
-    this.executor = createExecutor({
+    this.executor = new XGoExecutor({
       framework: this.createFramework(),
       onError: (phase, message) => {
         this.lastError = new Error(`Tutorial ${phase}: ${message}`)
@@ -55,13 +53,13 @@ export class PlaygroundCourseRunner extends Emitter<{
   }
 
   async start() {
-    if (this.state !== 'idle') throw new Error('Playground Course runtime has already started')
-    this.state = 'starting'
+    if (this.started) throw new Error('Playground Course runner has already started')
+    this.started = true
 
     const { project, copilot } = this.options
     await copilot.startSession(this.createCopilotTopic(project))
     this.session = copilot.currentSession
-    if (this.state !== 'starting') {
+    if (this.isDisposed) {
       if (copilot.currentSession === this.session) copilot.endCurrentSession()
       return
     }
@@ -73,21 +71,17 @@ export class PlaygroundCourseRunner extends Emitter<{
 
     try {
       await this.executor.run({ [mainCourseFilePath]: project.mainCourse.code })
-      if (this.state !== 'starting') return
-      this.state = 'running'
+      if (this.isDisposed) return
       this.executorStarted.resolve()
     } catch (error) {
       this.executorStarted.reject(error)
-      if (this.state === 'starting' || this.state === 'running') {
-        this.finishWithFailure(errorOf(error))
-      }
+      if (!this.isDisposed) this.finishWithFailure(errorOf(error))
       throw error
     }
   }
 
   dispose() {
-    if (this.state === 'finished') return
-    this.state = 'finished'
+    if (this.isDisposed) return
     if (this.completionTimer != null) clearTimeout(this.completionTimer)
     this.completionTimer = null
     super.dispose()
@@ -158,11 +152,11 @@ export class PlaygroundCourseRunner extends Emitter<{
     this.eventQueue = this.eventQueue
       .then(async () => {
         await this.executorStarted.promise
-        if (this.state !== 'running') return
+        if (this.isDisposed) return
         await this.executor.dispatchEvent(name, payload)
       })
       .catch((error) => {
-        if (this.state === 'running') void this.finishWithFailure(errorOf(error))
+        if (!this.isDisposed) this.finishWithFailure(errorOf(error))
       })
   }
 
@@ -176,7 +170,7 @@ export class PlaygroundCourseRunner extends Emitter<{
   }
 
   private handleExecutorExit(reason: XGoExitReason) {
-    if (this.state === 'finished') return
+    if (this.isDisposed) return
     if (reason === 'completed') {
       if (this.completion != null) this.finishWithCompletion()
       else this.finishWithFailure(new Error('Tutorial Course ended without completing'))
