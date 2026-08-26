@@ -81,6 +81,8 @@ describe('ensureAccessToken', () => {
   })
 
   it('keeps the cached username without fetching it after refresh', async () => {
+    const now = Date.now()
+    vi.spyOn(Date, 'now').mockReturnValue(now)
     localStorage.setItem(
       userStateStorageKey,
       JSON.stringify({
@@ -110,7 +112,7 @@ describe('ensureAccessToken', () => {
     expect(getSignedInUser).not.toHaveBeenCalled()
     expect(JSON.parse(localStorage.getItem(userStateStorageKey)!)).toEqual({
       accessToken: 'new-access-token',
-      accessTokenExpiresAt: Date.now() + 60 * 60 * 1000,
+      accessTokenExpiresAt: now + 60 * 60 * 1000,
       refreshToken: 'new-refresh-token',
       username: 'alice'
     })
