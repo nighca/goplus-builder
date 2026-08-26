@@ -52,7 +52,6 @@ export function configureApp(app: VueApp, router: Router | undefined, config: Ap
     queryClientConfig: {
       defaultOptions: {
         queries: {
-          refetchOnMount: false,
           refetchOnReconnect: false,
           refetchOnWindowFocus: false
         }
