@@ -15,9 +15,10 @@ import { EditorState } from '@/components/editor/editor-state'
 import EditorNavbar from '@/components/editor/navbar/EditorNavbar.vue'
 import ProjectEditor from '@/components/editor/ProjectEditor.vue'
 import { CodeEditorProvider, loadMonaco } from '@/components/editor/spx-code-editor'
-import { UIButton, UIDetailedLoading, UIError, UIModal, UIModalClose } from '@/components/ui'
+import { UIDetailedLoading, UIError, useModal } from '@/components/ui'
 
-import { PlaygroundCourseRunner, type PlaygroundCourseCompletion, type PlaygroundCoursePresentation } from './runner'
+import { PlaygroundCourseRunner, type PlaygroundCourseCompletion } from './runner'
+import CoursePlaygroundMessageModal from './CoursePlaygroundMessageModal.vue'
 
 const props = defineProps<{
   project: TutorialProject
@@ -93,27 +94,11 @@ const monacoQueryRet = useQuery(() => loadMonaco(i18n.lang.value), {
   zh: '加载代码编辑器失败'
 })
 
-type PendingMessage = {
-  content: string
-  resolve(): void
-}
-
-const pendingMessage = shallowRef<PendingMessage | null>(null)
-
-function dismissMessage() {
-  const message = pendingMessage.value
-  pendingMessage.value = null
-  message?.resolve()
-}
-
-const presentation: PlaygroundCoursePresentation = {
-  showMessage(content) {
-    dismissMessage()
-    return new Promise<void>((resolve) => {
-      pendingMessage.value = { content, resolve }
-    })
-  },
-  dismiss: dismissMessage
+const openMessage = useModal(CoursePlaygroundMessageModal)
+const presentation = {
+  showMessage(content: string) {
+    return openMessage({ content })
+  }
 }
 
 let runner: PlaygroundCourseRunner | null = null
@@ -136,7 +121,6 @@ const stopRunnerStart = watch([() => monacoQueryRet.data.value, state], async ([
 onUnmounted(() => {
   disposed = true
   stopRunnerStart()
-  dismissMessage()
   void runner?.dispose()
   state.value?.dispose()
   props.project.project.dispose()
@@ -170,17 +154,5 @@ onUnmounted(() => {
         </CodeEditorProvider>
       </EditorContextProvider>
     </main>
-
-    <UIModal :visible="pendingMessage != null" size="small" @update:visible="dismissMessage">
-      <div v-if="pendingMessage != null" class="px-5 pt-4 pb-6">
-        <div class="flex justify-end">
-          <UIModalClose @click="dismissMessage" />
-        </div>
-        <p class="mt-2 whitespace-pre-wrap text-base">{{ pendingMessage.content }}</p>
-        <div class="mt-6 flex justify-end">
-          <UIButton @click="dismissMessage">{{ $t({ en: 'Continue', zh: '继续' }) }}</UIButton>
-        </div>
-      </div>
-    </UIModal>
   </section>
 </template>

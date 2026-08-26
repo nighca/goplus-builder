@@ -51,8 +51,7 @@ function makeHarness() {
     dispatchEvent: vi.fn().mockResolvedValue(undefined)
   }
   const presentation = {
-    showMessage: vi.fn().mockResolvedValue(undefined),
-    dismiss: vi.fn()
+    showMessage: vi.fn().mockResolvedValue(undefined)
   }
   const onComplete = vi.fn()
   const onFailure = vi.fn()
@@ -151,7 +150,6 @@ describe('PlaygroundCourseRunner', () => {
 
     await vi.waitFor(() => expect(harness.onComplete).toHaveBeenCalledWith({ feedback: 'Nice work' }))
     expect(harness.executor.stop).toHaveBeenCalledOnce()
-    expect(harness.presentation.dismiss).toHaveBeenCalledOnce()
     expect(harness.copilot.endCurrentSession).toHaveBeenCalledOnce()
     expect(harness.executor.stop.mock.invocationCallOrder[0]).toBeLessThan(
       harness.onComplete.mock.invocationCallOrder[0]

@@ -20,7 +20,6 @@ type CreateExecutor = (options: XGoExecutorOptions) => PlaygroundExecutor
 
 export type PlaygroundCoursePresentation = {
   showMessage(content: string): Promise<void>
-  dismiss(): void
 }
 
 export type PlaygroundCourseCompletion = {
@@ -98,7 +97,6 @@ export class PlaygroundCourseRunner {
     if (this.completionTimer != null) clearTimeout(this.completionTimer)
     this.completionTimer = null
     this.eventBridgeDisposers.splice(0).forEach((dispose) => dispose())
-    this.options.presentation.dismiss()
     if (this.options.copilot.currentSession === this.session) this.options.copilot.endCurrentSession()
     await this.executor.stop()
     this.state = 'finished'
