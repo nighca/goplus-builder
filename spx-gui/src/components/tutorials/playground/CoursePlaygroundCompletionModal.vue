@@ -1,5 +1,5 @@
 <script lang="ts">
-export type CompletionAction = 'next' | 'exit'
+export type CompletionAction = 'continueEditing' | 'next' | 'exit'
 </script>
 
 <script setup lang="ts">
@@ -30,10 +30,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <UIModal :visible="visible" size="small" @update:visible="emit('resolved', 'exit')">
+  <UIModal :visible="visible" size="small" @update:visible="emit('resolved', 'continueEditing')">
     <div class="px-5 pt-4 pb-6">
       <div class="flex justify-end">
-        <UIModalClose @click="emit('resolved', 'exit')" />
+        <UIModalClose @click="emit('resolved', 'continueEditing')" />
       </div>
 
       <div class="flex flex-col items-center text-center">

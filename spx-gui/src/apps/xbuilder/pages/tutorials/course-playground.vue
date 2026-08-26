@@ -132,15 +132,16 @@ async function handleCompleted(completion: PlaygroundCourseCompletion) {
   const completedSession = session.value
   if (completedSession == null) return
 
-  await disposeSession()
-  await tutorial.endCurrentCourse()
   const action: CompletionAction = await openCompletion({
     course: completedSession.course,
     series: completedSession.series,
     feedback: completion.feedback
   })
+  if (action === 'continueEditing') return
+
   const courseIndex = completedSession.series.courseIDs.indexOf(completedSession.course.id)
   const nextCourseID = completedSession.series.courseIDs[courseIndex + 1] ?? null
+  await disposeSession()
   if (action === 'next' && nextCourseID != null) {
     await tutorial.startCourse(completedSession.series.id, nextCourseID)
   } else {
@@ -163,7 +164,7 @@ onUnmounted(() => void disposeSession())
     v-else-if="session != null"
     :key="session.course.id"
     :project="session.project"
-    @completed="handleCompleted"
+    @course-completed="handleCompleted"
     @failed="runtimeError = $event"
   />
   <section v-else class="h-full w-full flex items-center justify-center">

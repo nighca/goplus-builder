@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  completed: [completion: PlaygroundCourseCompletion]
+  courseCompleted: [completion: PlaygroundCourseCompletion]
   failed: [error: Error]
 }>()
 
@@ -112,7 +112,7 @@ const stopRunnerStart = watch([() => monacoQueryRet.data.value, state], async ([
     editorRuntime: editorState.runtime,
     copilot,
     presentation,
-    onComplete: (completion) => emit('completed', completion),
+    onComplete: (completion) => emit('courseCompleted', completion),
     onFailure: (error) => emit('failed', error)
   })
   void runner.start().catch(() => {})
