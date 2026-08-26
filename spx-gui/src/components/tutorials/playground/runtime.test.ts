@@ -14,7 +14,7 @@ function makeProject() {
   project.title = 'Build a game'
   project.config = {
     project: { type: 'spx', root: 'project' },
-    inEditorRoute: '/sprites/Bird/code',
+    inEditorPath: '/sprites/Bird/code',
     copilotContext: 'Help with this Course'
   }
   project.mainCourse.code = 'onStart => { complete }'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onUnmounted, shallowRef, watch } from 'vue'
+import { nextTick, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useI18n } from '@/utils/i18n'
@@ -42,9 +42,51 @@ const copilot = useCopilot()
 const { isOnline } = useNetwork()
 const signedInStateQuery = useSignedInStateQuery()
 
-const state = new EditorState(i18n, props.project.project, isOnline, signedInStateQuery, cloudHelpers, localCache)
-state.editing.startEditing()
-state.syncWithRouter(router)
+const state = shallowRef<EditorState | null>(null)
+const initializationError = ref<Error | null>(null)
+
+let disposed = false
+async function initialize() {
+  const previousState = state.value
+  state.value = null
+  initializationError.value = null
+  await nextTick()
+  previousState?.dispose()
+
+  try {
+    const inEditorPath = props.project.config?.inEditorPath ?? ''
+    await router.replace({
+      params: {
+        ...router.currentRoute.value.params,
+        inEditorPath: inEditorPath.split('/').filter((segment) => segment !== '')
+      },
+      query: router.currentRoute.value.query,
+      hash: router.currentRoute.value.hash
+    })
+    if (disposed) return
+
+    const nextState = new EditorState(
+      i18n,
+      props.project.project,
+      isOnline,
+      signedInStateQuery,
+      cloudHelpers,
+      localCache
+    )
+    nextState.editing.startEditing()
+    nextState.syncWithRouter(router)
+    state.value = nextState
+  } catch (error) {
+    if (disposed) return
+    initializationError.value = error instanceof Error ? error : new Error(String(error))
+  }
+}
+
+watch(
+  () => props.project,
+  () => void initialize(),
+  { immediate: true }
+)
 
 const monacoQueryRet = useQuery(() => loadMonaco(i18n.lang.value), {
   en: 'Failed to load code editor',
@@ -75,48 +117,54 @@ const presentation: PlaygroundCoursePresentation = {
 }
 
 let runtime: PlaygroundCourseRuntime | null = null
-let disposed = false
-const stopRuntimeStart = watch(
-  () => monacoQueryRet.data.value,
-  async (monaco) => {
-    if (monaco == null) return
-    stopRuntimeStart()
-    await nextTick()
-    if (disposed) return
-    runtime = new PlaygroundCourseRuntime({
-      project: props.project,
-      editorRuntime: state.runtime,
-      copilot,
-      presentation,
-      onComplete: (completion) => emit('completed', completion),
-      onFailure: (error) => emit('failed', error)
-    })
-    void runtime.start().catch(() => {})
-  }
-)
+const stopRuntimeStart = watch([() => monacoQueryRet.data.value, state], async ([monaco, editorState]) => {
+  if (monaco == null || editorState == null) return
+  stopRuntimeStart()
+  await nextTick()
+  if (disposed) return
+  runtime = new PlaygroundCourseRuntime({
+    project: props.project,
+    editorRuntime: editorState.runtime,
+    copilot,
+    presentation,
+    onComplete: (completion) => emit('completed', completion),
+    onFailure: (error) => emit('failed', error)
+  })
+  void runtime.start().catch(() => {})
+})
 
 onUnmounted(() => {
   disposed = true
   stopRuntimeStart()
   dismissMessage()
   void runtime?.dispose()
-  state.dispose()
+  state.value?.dispose()
+  props.project.project.dispose()
 })
 </script>
 
 <template>
   <section class="relative min-h-full w-full flex flex-col bg-grey-300">
     <header class="flex-none">
-      <EditorNavbar :project="state.project" :state="state" />
+      <EditorNavbar v-if="state != null" :project="state.project" :state="state" />
     </header>
     <main class="flex-[1_1_0] flex gap-xl p-4 pt-2">
-      <UIDetailedLoading v-if="monacoQueryRet.isLoading.value" :percentage="monacoQueryRet.progress.value.percentage">
+      <UIDetailedLoading v-if="state == null && initializationError == null" :percentage="0">
+        <span>{{ $t({ en: 'Preparing course...', zh: '准备课程中...' }) }}</span>
+      </UIDetailedLoading>
+      <UIError v-else-if="initializationError != null" :retry="initialize">
+        {{ initializationError.message }}
+      </UIError>
+      <UIDetailedLoading
+        v-else-if="monacoQueryRet.isLoading.value"
+        :percentage="monacoQueryRet.progress.value.percentage"
+      >
         <span>{{ $t({ en: 'Loading editor...', zh: '加载编辑器中...' }) }}</span>
       </UIDetailedLoading>
       <UIError v-else-if="monacoQueryRet.error.value != null" :retry="monacoQueryRet.refetch">
         {{ $t(monacoQueryRet.error.value.userMessage) }}
       </UIError>
-      <EditorContextProvider v-else :project="state.project" :state="state">
+      <EditorContextProvider v-else-if="state != null" :project="state.project" :state="state">
         <CodeEditorProvider :monaco="monacoQueryRet.data.value!">
           <ProjectEditor />
         </CodeEditorProvider>

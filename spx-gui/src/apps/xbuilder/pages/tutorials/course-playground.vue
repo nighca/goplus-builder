@@ -42,11 +42,6 @@ const entryQueryRet = useQuery(
     if (!series.courseIDs.includes(course.id)) throw new Error(`course ${course.id} is not in series ${series.id}`)
 
     const project = await TutorialProject.load(course)
-    const inEditorRoute = project.config?.inEditorRoute ?? ''
-    const route = `/course/${encodeURIComponent(series.id)}/${encodeURIComponent(course.id)}/playground${
-      inEditorRoute.startsWith('/') ? inEditorRoute : `/${inEditorRoute}`
-    }`
-    await router.replace(route)
     return { course, series, project }
   },
   {
@@ -56,10 +51,8 @@ const entryQueryRet = useQuery(
 )
 
 async function disposeSession() {
-  const current = session.value
   session.value = null
   await nextTick()
-  current?.project.project.dispose()
 }
 
 watch(entryQueryRet.data, async (next) => {

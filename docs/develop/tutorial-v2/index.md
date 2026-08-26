@@ -25,7 +25,7 @@ See [Course APIs](./module_CourseApis.ts) and [Course storage](./course-storage.
 
 Tutorial is a thin application entry facade. Its public boundary accepts a Course Series ID and Course ID, loads their canonical data, and starts or ends the appropriate internal mechanism. It does not expose the current Course, Course Series, or a separate Series-start operation. Guided Courses use a global, session-storage-backed runtime because they span routes; Playground Courses use a memory-only entry and a route-local runtime.
 
-For a Playground Course, the facade interprets the opaque Course content as one `TutorialProject` and navigates to Course playground. That route builds an `EditorState` from the embedded, ownerless `SpxProject`, applies `inEditorRoute`, and composes the SPX Project Editor UI. Its local runtime starts a Copilot Topic, combines presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions`, and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these route-local resources down together.
+For a Playground Course, the facade interprets the opaque Course content as one `TutorialProject` and navigates to Course playground. That route builds an `EditorState` from the embedded, ownerless `SpxProject`, applies `inEditorPath`, and composes the SPX Project Editor UI. Its local runtime starts a Copilot Topic, combines presentation and completion capabilities with the available editor and Copilot capabilities, creates the Tutorial `XGoFramework`, passes that framework through `XGoExecutorOptions`, and runs the conventional root `main_course.gox`. Stopping or completing the Course tears these route-local resources down together.
 
 Tutorial is also the event dispatcher for the running Tutorial program: it observes editor and Copilot activity and delivers the framework's events, and it interprets how a run ended.
 
@@ -41,7 +41,7 @@ See [XGo Executor](./module_XGoExecutor.ts).
 
 ### Tutorial Class Framework
 
-The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, Course-author-provided Copilot instructions that are not shown in the learner UI, and the initial in-editor route; root `main_course.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
+The Tutorial Class Framework defines both the Tutorial-project format and the Course-author-facing XGo API. The format contract owns the content directory layout and configuration schemas. Root `index.json` identifies the SPX project, Course-author-provided Copilot instructions that are not shown in the learner UI, and the initial in-editor path; root `main_course.gox` is the conventional Tutorial entry file. Course APIs and storage do not depend on these internal details.
 
 Its Course-author-facing Go contract is included in this design:
 
@@ -67,7 +67,7 @@ SPX Project Editor comprises the existing `ProjectEditor`, `EditorContextProvide
 
 Course projects omit owner and cloud-project identity, so the existing ownership rule naturally selects effect-free editing. Course learning does not call the normal route's `editing.loadProject`, avoiding cloud and local-cache loading. The Project Editor module implements the learner-facing "Save as my project" action through its existing project persistence dependencies, creating an owned regular Project from the current session-local state.
 
-Course playground, or Course Editor during Preview, initializes the existing in-editor route from the Course's `inEditorRoute`, for example `/sprites/Bird/code` or `/simple/sprites/Lita`. The route selects the initial editor mode and selection. This is the sole declarative presentation configuration: runtime tools such as API filtering and the Ruler remain controlled by the Tutorial program.
+Course playground, or Course Editor during Preview, initializes the existing in-editor path from the Course's `inEditorPath`, for example `/sprites/Bird/code` or `/simple/sprites/Lita`. The path selects the initial editor mode and selection. This is the sole declarative presentation configuration: runtime tools such as API filtering and the Ruler remain controlled by the Tutorial program.
 
 Simple Mode is implemented inside the existing `ProjectEditor`, like Map Mode. `EditorState` recognizes `/simple/sprites/<sprite-name>` and stores Simple as the current edit mode; `ProjectEditor` renders the reduced composition for the selected sprite. No separate `SimpleProjectEditor` component or dynamic mode API is introduced.
 

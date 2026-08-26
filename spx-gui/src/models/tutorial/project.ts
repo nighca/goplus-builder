@@ -18,7 +18,7 @@ export type TutorialProjectConfig = {
     root: string
   }
   /** The route initially displayed in the editor. */
-  inEditorRoute: string
+  inEditorPath: string
   /** Copilot instructions supplied by the course author. */
   copilotContext: string
 }
