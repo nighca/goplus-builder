@@ -15,7 +15,7 @@ import { EditorState } from '@/components/editor/editor-state'
 import EditorNavbar from '@/components/editor/navbar/EditorNavbar.vue'
 import ProjectEditor from '@/components/editor/ProjectEditor.vue'
 import { CodeEditorProvider, loadMonaco } from '@/components/editor/spx-code-editor'
-import { UIButton, UICard, UIDetailedLoading, UIError } from '@/components/ui'
+import { UIButton, UIDetailedLoading, UIError, UIModal, UIModalClose } from '@/components/ui'
 
 import { PlaygroundCourseRunner, type PlaygroundCourseCompletion, type PlaygroundCoursePresentation } from './runner'
 
@@ -171,13 +171,16 @@ onUnmounted(() => {
       </EditorContextProvider>
     </main>
 
-    <div v-if="pendingMessage != null" class="absolute inset-0 flex items-center justify-center bg-black/30 p-8">
-      <UICard class="max-w-xl w-full p-6">
-        <p class="whitespace-pre-wrap text-base">{{ pendingMessage.content }}</p>
+    <UIModal :visible="pendingMessage != null" size="small" @update:visible="dismissMessage">
+      <div v-if="pendingMessage != null" class="px-5 pt-4 pb-6">
+        <div class="flex justify-end">
+          <UIModalClose @click="dismissMessage" />
+        </div>
+        <p class="mt-2 whitespace-pre-wrap text-base">{{ pendingMessage.content }}</p>
         <div class="mt-6 flex justify-end">
           <UIButton @click="dismissMessage">{{ $t({ en: 'Continue', zh: '继续' }) }}</UIButton>
         </div>
-      </UICard>
-    </div>
+      </div>
+    </UIModal>
   </section>
 </template>
