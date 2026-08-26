@@ -139,7 +139,7 @@ components/tutorials/
 ├── TutorialRoot.vue            facade wiring and Guided global integrations
 ├── playground/
 │   ├── CoursePlayground.vue    route/Preview-owned editor composition
-│   └── runtime.ts              one Playground Course runtime
+│   └── runner.ts               one Playground Course runner
 └── ...                         existing Guided presentation components
 
 apps/xbuilder/pages/tutorials/
@@ -288,7 +288,7 @@ The current prototype validates the central boundary without requiring the publi
 
 The second prototype adds a deliberately narrow end-to-end runtime example:
 
-- `CoursePlayground` waits until the editor providers are mounted, then creates one route-local `PlaygroundCourseRuntime`;
+- `CoursePlayground` waits until the editor providers are mounted, then creates one route-local `PlaygroundCourseRunner`;
 - the runtime starts a non-proactive Copilot Topic, runs only `main_course.gox`, and owns all executor, Copilot, Runtime, and presentation subscriptions;
 - the current Runtime start, exit, and log signals plus Copilot round completion are serialized through one executor-event queue;
 - `showMessage` is represented by route-local blocking presentation, while `complete` and `completeWith` dispose the runtime before publishing completion to the page;

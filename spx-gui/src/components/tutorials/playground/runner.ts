@@ -27,7 +27,7 @@ export type PlaygroundCourseCompletion = {
   feedback: string | null
 }
 
-export type PlaygroundCourseRuntimeOptions = {
+export type PlaygroundCourseRunnerOptions = {
   project: TutorialProject
   editorRuntime: Runtime
   copilot: PlaygroundCopilot
@@ -41,7 +41,7 @@ type CompletionWithRequest = {
   feedback: string
 }
 
-export class PlaygroundCourseRuntime {
+export class PlaygroundCourseRunner {
   private executor: PlaygroundExecutor
   private session: PlaygroundSession | null = null
   private eventQueue = Promise.resolve()
@@ -54,7 +54,7 @@ export class PlaygroundCourseRuntime {
   private settled = false
   private executorStarted = deferred<void>()
 
-  constructor(private options: PlaygroundCourseRuntimeOptions) {
+  constructor(private options: PlaygroundCourseRunnerOptions) {
     const createExecutor = options.createExecutor ?? ((executorOptions) => new XGoExecutor(executorOptions))
     this.executor = createExecutor({
       framework: this.createFramework(),

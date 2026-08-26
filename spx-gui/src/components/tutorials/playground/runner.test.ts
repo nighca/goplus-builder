@@ -7,7 +7,7 @@ import { TutorialProject } from '@/models/tutorial/project'
 import { RoundState, type Round, type Topic } from '@/components/copilot/copilot'
 import { Runtime, RuntimeOutputKind } from '@/components/editor/runtime'
 
-import { PlaygroundCourseRuntime } from './runtime'
+import { PlaygroundCourseRunner } from './runner'
 
 function makeProject() {
   const project = new TutorialProject()
@@ -56,7 +56,7 @@ function makeHarness() {
   }
   const onComplete = vi.fn()
   const onFailure = vi.fn()
-  const runtime = new PlaygroundCourseRuntime({
+  const runner = new PlaygroundCourseRunner({
     project,
     editorRuntime,
     copilot,
@@ -77,16 +77,16 @@ function makeHarness() {
     presentation,
     onComplete,
     onFailure,
-    runtime,
+    runner,
     getExecutorOptions: () => executorOptions!
   }
 }
 
-describe('PlaygroundCourseRuntime', () => {
+describe('PlaygroundCourseRunner', () => {
   it('starts one Playground Copilot session and the main Course program', async () => {
     const harness = makeHarness()
 
-    await harness.runtime.start()
+    await harness.runner.start()
 
     expect(harness.copilot.startSession).toHaveBeenCalledWith({
       title: { en: 'Build a game', zh: 'Build a game' },
@@ -106,7 +106,7 @@ describe('PlaygroundCourseRuntime', () => {
     })
     vi.stubGlobal('cancelAnimationFrame', () => {})
     const harness = makeHarness()
-    await harness.runtime.start()
+    await harness.runner.start()
 
     harness.editorRuntime.setRunning({ mode: 'debug', initializing: false }, 'files-hash')
     await nextTick()
@@ -143,7 +143,7 @@ describe('PlaygroundCourseRuntime', () => {
 
   it('stops route-local resources before publishing completion', async () => {
     const harness = makeHarness()
-    await harness.runtime.start()
+    await harness.runner.start()
     const completeWith = harness.getExecutorOptions().framework?.capabilities.course_completeWith
     if (completeWith == null) throw new Error('course_completeWith capability not found')
 

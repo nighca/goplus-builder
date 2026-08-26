@@ -17,7 +17,7 @@ import ProjectEditor from '@/components/editor/ProjectEditor.vue'
 import { CodeEditorProvider, loadMonaco } from '@/components/editor/spx-code-editor'
 import { UIButton, UICard, UIDetailedLoading, UIError } from '@/components/ui'
 
-import { PlaygroundCourseRuntime, type PlaygroundCourseCompletion, type PlaygroundCoursePresentation } from './runtime'
+import { PlaygroundCourseRunner, type PlaygroundCourseCompletion, type PlaygroundCoursePresentation } from './runner'
 
 const props = defineProps<{
   project: TutorialProject
@@ -116,13 +116,13 @@ const presentation: PlaygroundCoursePresentation = {
   dismiss: dismissMessage
 }
 
-let runtime: PlaygroundCourseRuntime | null = null
-const stopRuntimeStart = watch([() => monacoQueryRet.data.value, state], async ([monaco, editorState]) => {
+let runner: PlaygroundCourseRunner | null = null
+const stopRunnerStart = watch([() => monacoQueryRet.data.value, state], async ([monaco, editorState]) => {
   if (monaco == null || editorState == null) return
-  stopRuntimeStart()
+  stopRunnerStart()
   await nextTick()
   if (disposed) return
-  runtime = new PlaygroundCourseRuntime({
+  runner = new PlaygroundCourseRunner({
     project: props.project,
     editorRuntime: editorState.runtime,
     copilot,
@@ -130,14 +130,14 @@ const stopRuntimeStart = watch([() => monacoQueryRet.data.value, state], async (
     onComplete: (completion) => emit('completed', completion),
     onFailure: (error) => emit('failed', error)
   })
-  void runtime.start().catch(() => {})
+  void runner.start().catch(() => {})
 })
 
 onUnmounted(() => {
   disposed = true
-  stopRuntimeStart()
+  stopRunnerStart()
   dismissMessage()
-  void runtime?.dispose()
+  void runner?.dispose()
   state.value?.dispose()
   props.project.project.dispose()
 })

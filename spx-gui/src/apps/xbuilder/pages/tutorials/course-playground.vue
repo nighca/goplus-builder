@@ -10,7 +10,7 @@ import CoursePlayground from '@/components/tutorials/playground/CoursePlayground
 import CoursePlaygroundCompletionModal, {
   type CompletionAction
 } from '@/components/tutorials/playground/CoursePlaygroundCompletionModal.vue'
-import type { PlaygroundCourseCompletion } from '@/components/tutorials/playground/runtime'
+import type { PlaygroundCourseCompletion } from '@/components/tutorials/playground/runner'
 import { useTutorial } from '@/components/tutorials/tutorial'
 import { UIDetailedLoading, UIError, useModal } from '@/components/ui'
 
