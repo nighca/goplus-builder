@@ -8,26 +8,35 @@ export const courseTitleMaxLength = 200
  */
 export const coursePromptMaxLength = 12000
 
+/** The way a Course is delivered to the learner. */
 export type CourseKind = 'guided' | 'playground'
 
 export type CourseBase = {
+  /** Unique identifier */
   id: string
+  /** Username of the course's owner */
   owner: string
+  /** Selects the Course content shape and learning flow. */
   kind: CourseKind
+  /** Title of the course */
   title: string
+  /** Universal URL of the course's thumbnail image */
   thumbnail: string
 }
 
 export type GuidedCourse = CourseBase & {
   kind: 'guided'
   content: {
+    /** Starting URL of the guided course */
     entrypoint: string
+    /** Prompt for the Tutorial Copilot */
     prompt: string
   }
 }
 
 export type PlaygroundCourse = CourseBase & {
   kind: 'playground'
+  /** Authored Tutorial-project files loaded into a session-local project for the learner. */
   content: FileCollection
 }
 
