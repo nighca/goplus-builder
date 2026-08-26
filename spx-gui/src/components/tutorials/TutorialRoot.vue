@@ -6,12 +6,12 @@ import { useIsRouteLoaded } from '@/utils/route-loading'
 
 import { useCopilot } from '@/components/copilot/context'
 
-import { GuidedTutorial, isGuidedTutorialTopic, provideGuidedTutorial } from './guided-tutorial'
+import { GuidedTutorial, isGuidedTutorialTopic, provideGuidedTutorial } from './guided/guided-tutorial'
 import { provideTutorial, Tutorial } from './tutorial'
-import * as tutorialCourseSuccess from './TutorialCourseSuccess.vue'
-import * as tutorialCourseExitLink from './TutorialCourseExitLink'
-import * as tutorialStateIndicator from './TutorialStateIndicator.vue'
-import { tutorialCourseAbandonPrediction, tutorialCourseAbandonDismissal } from './tutorial-course-abandon'
+import * as tutorialCourseSuccess from './guided/TutorialCourseSuccess.vue'
+import * as tutorialCourseExitLink from './guided/TutorialCourseExitLink'
+import * as tutorialStateIndicator from './guided/TutorialStateIndicator.vue'
+import { tutorialCourseAbandonPrediction, tutorialCourseAbandonDismissal } from './guided/tutorial-course-abandon'
 
 const i18n = useI18n()
 const copilot = useCopilot()

@@ -64,7 +64,7 @@ There is intentionally no public:
 - editor host/context argument: Playground editor composition remains route-owned;
 - Preview overload: Course Editor Preview uses the reusable Playground implementation directly with snapshots.
 
-`endCurrentCourse` performs cleanup only. The UI action that exits a Course decides where to navigate after cleanup, such as the current Course Series page or Course list. In particular, it does not navigate away from the Playground route.
+`endCurrentCourse` ends Guided state when it is active. When the current route is a Playground Course route, it exits that route to the corresponding Course Series page; route leave then disposes the route-local Playground session.
 
 ## Start flow
 
@@ -113,8 +113,8 @@ Course Series progression is ordinary Course start plus UI knowledge of the Seri
 - Entering a Series starts its first Course with `startCourse(series.id, firstCourseID)`.
 - The completion UI reads the canonical Series already held by the active branch.
 - Choosing Next calls `startCourse(series.id, nextCourseID)`.
-- `startCourse` first cleans up the previous Course, so every Course receives a fresh Guided session or Playground route-local runtime.
-- Exiting calls `endCurrentCourse()`, then navigates to the selected destination.
+- `startCourse` first ends any active Guided state. Navigating to another Course then leaves and disposes any active Playground route-local runtime.
+- Public exit calls `endCurrentCourse()`, which returns an active Playground route to its Course Series page.
 
 The facade does not preload every Course in a Series and does not own an array of Course snapshots.
 
@@ -135,8 +135,8 @@ This still runs the real Playground lifecycle. It only bypasses ID loading and l
 ```text
 components/tutorials/
 ├── tutorial.ts                 thin public facade and injection
-├── guided-tutorial.ts          current global Guided runtime and persisted state
 ├── TutorialRoot.vue            facade wiring and Guided global integrations
+├── guided/                     Guided runtime, Copilot elements, and persisted state
 ├── playground/
 │   ├── CoursePlayground.vue    route/Preview-owned editor composition
 │   └── runner.ts               one Playground Course runner
@@ -234,11 +234,12 @@ Choosing Next disposes the current page-owned session, then invokes the thin fac
 Public `endCurrentCourse` is idempotent:
 
 - if Guided state is active, delegate to `GuidedTutorial.endCurrentCourse` and clear its session storage;
+- if the current route is a Playground Course, navigate to its Course Series page so route leave disposes the local session;
 - otherwise, do nothing.
 
 Completion disposes the local Course runtime but keeps the Playground session, including its project and editor state, mounted behind the completion UI. The page disposes the project and editor state only on route leave, replacement, explicit exit, or transition to the next Course. Its local runtime disposal is idempotent.
 
-Starting any Course calls `endCurrentCourse` first, preventing a restored Guided session from remaining active when a Playground Course is entered.
+Starting any Course ends Guided state first, preventing a restored Guided session from remaining active when a Playground Course is entered.
 
 ## Dependencies
 
@@ -261,7 +262,7 @@ Facade tests:
 - Guided data delegates only to `GuidedTutorial`;
 - Playground data navigates to its root route;
 - starting another Course ends the previous branch first;
-- `endCurrentCourse` is idempotent and ends Guided state without navigating;
+- `endCurrentCourse` is idempotent, ends Guided state, and exits an active Playground route to its Course Series;
 - starting the next Series Course uses the same public `startCourse` operation;
 - Guided state restores from session storage while Playground state does not.
 
@@ -298,7 +299,7 @@ The second prototype adds a deliberately narrow end-to-end runtime example:
 This confirms that XGo/Copilot integration does not require broadening the facade. It also sharpens the internal responsibility split:
 
 ```text
-Tutorial facade       load by ID, dispatch kind, end Guided state
+Tutorial facade       load by ID, dispatch kind, end Guided state or exit Playground route
 Playground page       load TutorialProject, failure/completion UI, Series Next/Exit policy, session disposal
 CoursePlayground      EditorState, editor providers, route-local presentation
 Playground runtime    XGo, Copilot session, framework host, event bridge, runtime cleanup

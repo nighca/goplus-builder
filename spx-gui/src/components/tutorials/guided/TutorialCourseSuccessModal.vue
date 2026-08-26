@@ -9,8 +9,8 @@ import { useI18n } from '@/utils/i18n'
 import { UIButton, UIImg, UIModal, UIModalClose } from '@/components/ui'
 import { DefaultException, useMessageHandle } from '@/utils/exception'
 
-import { useTutorial } from './tutorial'
-import successImg from './success.png'
+import { useTutorial } from '../tutorial'
+import successImg from '../success.png'
 
 const props = defineProps<{
   visible: boolean

@@ -12,6 +12,6 @@
 export interface Tutorial {
   /** Loads the identified Course and Course Series, then enters the appropriate runtime. */
   startCourse(courseSeriesID: string, courseID: string): Promise<void>;
-  /** Cleans up the active Course without choosing an exit route. */
+  /** Ends Guided state or exits the active Playground route to its Course Series. */
   endCurrentCourse(): Promise<void>;
 }

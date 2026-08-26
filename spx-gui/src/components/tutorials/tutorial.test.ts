@@ -1,3 +1,5 @@
+import { ref } from 'vue'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { describe, expect, it, vi } from 'vitest'
 
 import type { GuidedCourse, PlaygroundCourse } from '@/apis/course'
@@ -42,13 +44,15 @@ function makePlaygroundCourse(): PlaygroundCourse {
   }
 }
 
-function makeControllers() {
+function makeControllers(
+  route: Pick<RouteLocationNormalizedLoaded, 'matched' | 'params'> = { matched: [], params: {} }
+) {
   return {
     guided: {
       startCourse: vi.fn().mockResolvedValue(undefined),
       endCurrentCourse: vi.fn()
     },
-    router: { push: vi.fn().mockResolvedValue(undefined) }
+    router: { currentRoute: ref(route), push: vi.fn().mockResolvedValue(undefined) }
   }
 }
 
@@ -93,6 +97,24 @@ describe('Tutorial', () => {
     expect(guided.endCurrentCourse.mock.invocationCallOrder[0]).toBeLessThan(
       guided.startCourse.mock.invocationCallOrder[0]
     )
+  })
+
+  it('exits an active Playground Course to its Course Series', async () => {
+    const series = makeSeries()
+    const { guided, router } = makeControllers({
+      matched: [
+        {
+          path: '/course/:courseSeriesIdInput/:courseIdInput/playground/:inEditorPath*'
+        } as RouteLocationNormalizedLoaded['matched'][number]
+      ],
+      params: { courseSeriesIdInput: series.id, courseIdInput: 'course-1' }
+    })
+    const tutorial = new Tutorial(guided, router)
+
+    await tutorial.endCurrentCourse()
+
+    expect(guided.endCurrentCourse).toHaveBeenCalledOnce()
+    expect(router.push).toHaveBeenCalledWith('/course-series/series-1')
   })
 
   it('rejects a Course outside the requested Series', async () => {
