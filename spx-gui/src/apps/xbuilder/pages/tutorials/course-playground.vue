@@ -2,10 +2,11 @@
 import { nextTick, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
-import { getCourse, type PlaygroundCourse } from '@/apis/course'
-import { getCourseSeries, type CourseSeries } from '@/apis/course-series'
+import type { PlaygroundCourse } from '@/apis/course'
+import type { CourseSeries } from '@/apis/course-series'
 import { TutorialProject } from '@/models/tutorial/project'
 import { useQuery } from '@/utils/query'
+import { stringifyDataUrl } from '@/utils/universal-url'
 import CoursePlayground from '@/components/tutorials/playground/CoursePlayground.vue'
 import CoursePlaygroundCompletionModal, {
   type CompletionAction
@@ -14,7 +15,7 @@ import type { PlaygroundCourseCompletion } from '@/components/tutorials/playgrou
 import { useTutorial } from '@/components/tutorials/tutorial'
 import { UIDetailedLoading, UIError, useModal } from '@/components/ui'
 
-const props = defineProps<{
+defineProps<{
   courseSeriesIdInput: string
   courseIdInput: string
 }>()
@@ -32,12 +33,43 @@ type PlaygroundSession = {
 
 const session = shallowRef<PlaygroundSession | null>(null)
 
+const mockCourse: PlaygroundCourse = {
+  id: 'playground-demo-course',
+  owner: 'tutorial-demo',
+  kind: 'playground',
+  title: 'Playground Demo',
+  thumbnail: '',
+  content: {
+    'index.json': stringifyDataUrl(
+      'application/json',
+      JSON.stringify({
+        project: { type: 'spx', root: 'project' },
+        inEditorPath: '',
+        copilotContext: 'Help the learner explore the Playground Course.'
+      })
+    ),
+    'project/assets/index.json': stringifyDataUrl('application/json', '{}'),
+    'main_course.gox': stringifyDataUrl('text/plain', 'onStart => {}')
+  }
+}
+
+const mockCourseSeries: CourseSeries = {
+  id: 'playground-demo-series',
+  owner: 'tutorial-demo',
+  kind: 'playground',
+  title: 'Playground Demo Series',
+  thumbnail: '',
+  description: 'A temporary Course playground for Tutorial v2 development.',
+  courseIDs: [mockCourse.id],
+  order: 1,
+  createdAt: '2026-08-26T00:00:00Z',
+  updatedAt: '2026-08-26T00:00:00Z'
+}
+
 const entryQueryRet = useQuery(
-  async (ctx) => {
-    const [course, series] = await Promise.all([
-      getCourse(props.courseIdInput, ctx.signal),
-      getCourseSeries(props.courseSeriesIdInput, ctx.signal)
-    ])
+  async () => {
+    // TODO: Load the Course and Course Series from Course APIs once the Tutorial v2 backend data is available.
+    const [course, series] = [mockCourse, mockCourseSeries]
     if (course.kind !== 'playground') throw new Error(`course ${course.id} is not a Playground Course`)
     if (!series.courseIDs.includes(course.id)) throw new Error(`course ${course.id} is not in series ${series.id}`)
 
