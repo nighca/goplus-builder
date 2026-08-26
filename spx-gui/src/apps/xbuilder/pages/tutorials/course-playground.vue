@@ -24,13 +24,13 @@ const router = useRouter()
 const openCompletion = useModal(CoursePlaygroundCompletionModal)
 const runtimeError = ref<Error | null>(null)
 
-type PlaygroundEntry = {
+type PlaygroundSession = {
   course: PlaygroundCourse
   series: CourseSeries
   project: TutorialProject
 }
 
-const entry = shallowRef<PlaygroundEntry | null>(null)
+const session = shallowRef<PlaygroundSession | null>(null)
 
 const entryQueryRet = useQuery(
   async (ctx) => {
@@ -55,16 +55,16 @@ const entryQueryRet = useQuery(
   }
 )
 
-async function disposeEntry() {
-  const current = entry.value
-  entry.value = null
+async function disposeSession() {
+  const current = session.value
+  session.value = null
   await nextTick()
   current?.project.project.dispose()
 }
 
 watch(entryQueryRet.data, async (next) => {
-  await disposeEntry()
-  entry.value = next
+  await disposeSession()
+  session.value = next
 })
 
 async function retryRuntime() {
@@ -72,30 +72,30 @@ async function retryRuntime() {
 }
 
 async function handleCompleted(completion: PlaygroundCourseCompletion) {
-  const completedEntry = entry.value
-  if (completedEntry == null) return
-  const courseIndex = completedEntry.series.courseIDs.indexOf(completedEntry.course.id)
-  const nextCourseID = completedEntry.series.courseIDs[courseIndex + 1] ?? null
+  const completedSession = session.value
+  if (completedSession == null) return
+  const courseIndex = completedSession.series.courseIDs.indexOf(completedSession.course.id)
+  const nextCourseID = completedSession.series.courseIDs[courseIndex + 1] ?? null
 
-  await disposeEntry()
+  await disposeSession()
   await tutorial.endCurrentCourse()
   const action: CompletionAction = await openCompletion({
-    courseTitle: completedEntry.course.title,
+    courseTitle: completedSession.course.title,
     feedback: completion.feedback,
     hasNextCourse: nextCourseID != null
   })
   if (action === 'next' && nextCourseID != null) {
-    await tutorial.startCourse(completedEntry.series.id, nextCourseID)
+    await tutorial.startCourse(completedSession.series.id, nextCourseID)
   } else {
-    await router.push(`/course-series/${encodeURIComponent(completedEntry.series.id)}`)
+    await router.push(`/course-series/${encodeURIComponent(completedSession.series.id)}`)
   }
 }
 
 onBeforeRouteLeave(() => {
-  return disposeEntry()
+  return disposeSession()
 })
 
-onUnmounted(() => void disposeEntry())
+onUnmounted(() => void disposeSession())
 </script>
 
 <template>
@@ -103,9 +103,9 @@ onUnmounted(() => void disposeEntry())
     {{ runtimeError.message }}
   </UIError>
   <CoursePlayground
-    v-else-if="entry != null"
-    :key="entry.course.id"
-    :project="entry.project"
+    v-else-if="session != null"
+    :key="session.course.id"
+    :project="session.project"
     @completed="handleCompleted"
     @failed="runtimeError = $event"
   />
