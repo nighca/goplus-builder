@@ -51,10 +51,12 @@ export function getCourse(id: string, signal?: AbortSignal) {
   return client.get(`/courses/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<Course>
 }
 
-export type GuidedCourseInput = Omit<GuidedCourse, 'id' | 'owner'>
-export type PlaygroundCourseInput = Omit<PlaygroundCourse, 'id' | 'owner'>
-export type CourseInput = GuidedCourseInput | PlaygroundCourseInput
-export type CourseUpdate = Omit<GuidedCourseInput, 'kind'> | Omit<PlaygroundCourseInput, 'kind'>
+export type AddCourseParams =
+  | Pick<GuidedCourse, 'kind' | 'title' | 'thumbnail' | 'content'>
+  | Pick<PlaygroundCourse, 'kind' | 'title' | 'thumbnail' | 'content'>
+export type UpdateCourseParams =
+  | Pick<GuidedCourse, 'title' | 'thumbnail' | 'content'>
+  | Pick<PlaygroundCourse, 'title' | 'thumbnail' | 'content'>
 
 export type GeneratePlaygroundCourseCopilotContextInput = {
   title: string
@@ -78,12 +80,12 @@ export function generatePlaygroundCourseCopilotContext(
 }
 
 /** Add a new course */
-export function addCourse(params: CourseInput, signal?: AbortSignal) {
+export function addCourse(params: AddCourseParams, signal?: AbortSignal) {
   return client.post('/user/courses', params, { signal }) as Promise<Course>
 }
 
 /** Update an existing course */
-export function updateCourse(id: string, params: CourseUpdate, signal?: AbortSignal) {
+export function updateCourse(id: string, params: UpdateCourseParams, signal?: AbortSignal) {
   return client.patch(`/courses/${encodeURIComponent(id)}`, params, { signal }) as Promise<Course>
 }
 
@@ -94,7 +96,7 @@ export function deleteCourse(id: string) {
 
 export type ListCoursesParams = PaginationParams & {
   /** Filter courses by the course series ID */
-  courseSeriesID?: string | null
+  courseSeriesID?: string
   /** Field by which to order the results */
   orderBy?: 'createdAt' | 'updatedAt' | 'sequenceInCourseSeries'
   /** Order in which to sort the results */

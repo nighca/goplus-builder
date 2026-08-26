@@ -7,8 +7,8 @@ import {
   coursePromptMaxLength,
   courseTitleMaxLength,
   updateCourse,
-  type GuidedCourse,
-  type GuidedCourseInput
+  type AddCourseParams,
+  type GuidedCourse
 } from '@/apis/course'
 import { UIFormModal, UIForm, UIFormItem, UITextInput, UIButton, useMessage, useForm } from '@/components/ui'
 import ThumbnailUploader from './ThumbnailUploader.vue'
@@ -88,8 +88,8 @@ const handleSubmit = useMessageHandle(
       await m.withLoading(updateCourse(props.course.id, formData), i18n.t({ en: 'Updating course', zh: '更新课程中' }))
       m.success(i18n.t({ en: 'Course updated successfully', zh: '课程更新成功' }))
     } else {
-      const input: GuidedCourseInput = { ...formData, kind: 'guided' }
-      await m.withLoading(addCourse(input), i18n.t({ en: 'Creating course', zh: '创建课程中' }))
+      const params: AddCourseParams = { ...formData, kind: 'guided' }
+      await m.withLoading(addCourse(params), i18n.t({ en: 'Creating course', zh: '创建课程中' }))
       m.success(i18n.t({ en: 'Course created successfully', zh: '课程创建成功' }))
     }
 

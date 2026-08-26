@@ -36,7 +36,6 @@ const queryRet = useQuery(
     return listSignedInUserCourses({
       pageSize,
       pageIndex: page.value,
-      courseSeriesID: null,
       orderBy: 'updatedAt',
       sortOrder: 'desc'
     }).then((result) => ({ ...result, data: result.data.filter(isGuidedCourse) }))

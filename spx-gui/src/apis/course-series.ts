@@ -9,6 +9,7 @@ export type CourseSeries = {
   id: string
   /** Username of the course series's owner */
   owner: string
+  /** Selects the Course kinds included in this series. */
   kind: CourseKind
   /** Title of the course series */
   title: string
@@ -29,15 +30,18 @@ export function getCourseSeries(id: string, signal?: AbortSignal) {
   return client.get(`/course-series/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<CourseSeries>
 }
 
-export type CourseSeriesInput = Omit<CourseSeries, 'id' | 'owner' | 'createdAt' | 'updatedAt'>
+export type AddUpdateCourseSeriesParams = Pick<
+  CourseSeries,
+  'kind' | 'title' | 'thumbnail' | 'description' | 'courseIDs' | 'order'
+>
 
 /** Add a new course series */
-export function addCourseSeries(params: CourseSeriesInput, signal?: AbortSignal) {
+export function addCourseSeries(params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
   return client.post('/user/course-series', params, { signal }) as Promise<CourseSeries>
 }
 
 /** Update an existing course series */
-export function updateCourseSeries(id: string, params: CourseSeriesInput, signal?: AbortSignal) {
+export function updateCourseSeries(id: string, params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
   return client.patch(`/course-series/${encodeURIComponent(id)}`, params, { signal }) as Promise<CourseSeries>
 }
 
@@ -47,7 +51,7 @@ export function deleteCourseSeries(id: string) {
 }
 
 export type ListCourseSeriesParams = PaginationParams & {
-  kind?: CourseKind | null
+  kind?: CourseKind
   /** Field by which to order the results */
   orderBy?: 'createdAt' | 'updatedAt' | 'order'
   /** Order in which to sort the results */

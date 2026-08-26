@@ -69,7 +69,6 @@ const courseSeriesQuery = useQuery(
       {
         pageIndex: page.value,
         pageSize: pageSize.value,
-        kind: null,
         orderBy: 'order',
         sortOrder: 'asc'
       },

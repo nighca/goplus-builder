@@ -50,19 +50,19 @@ export type CourseSeries = {
   updatedAt: string;
 };
 
-export type GuidedCourseInput = Omit<GuidedCourse, "id" | "owner">;
-export type PlaygroundCourseInput = Omit<PlaygroundCourse, "id" | "owner">;
-export type CourseInput = GuidedCourseInput | PlaygroundCourseInput;
-export type CourseUpdate =
-  | Omit<GuidedCourseInput, "kind">
-  | Omit<PlaygroundCourseInput, "kind">;
-export type CourseSeriesInput = Omit<
+export type AddCourseParams =
+  | Pick<GuidedCourse, "kind" | "title" | "thumbnail" | "content">
+  | Pick<PlaygroundCourse, "kind" | "title" | "thumbnail" | "content">;
+export type UpdateCourseParams =
+  | Pick<GuidedCourse, "title" | "thumbnail" | "content">
+  | Pick<PlaygroundCourse, "title" | "thumbnail" | "content">;
+export type AddUpdateCourseSeriesParams = Pick<
   CourseSeries,
-  "id" | "owner" | "createdAt" | "updatedAt"
+  "kind" | "title" | "thumbnail" | "description" | "courseIDs" | "order"
 >;
 
 export type ListCoursesParams = {
-  courseSeriesID?: string | null;
+  courseSeriesID?: string;
   pageIndex: number;
   pageSize: number;
   orderBy?: "createdAt" | "updatedAt" | "sequenceInCourseSeries";
@@ -70,7 +70,7 @@ export type ListCoursesParams = {
 };
 
 export type ListCourseSeriesParams = {
-  kind?: CourseKind | null;
+  kind?: CourseKind;
   pageIndex: number;
   pageSize: number;
   orderBy?: "createdAt" | "updatedAt" | "order";
@@ -106,12 +106,12 @@ export interface CourseApis {
   ): Promise<ByPage<Course>>;
 
   /** `POST /user/courses` */
-  addCourse(input: CourseInput, signal?: AbortSignal): Promise<Course>;
+  addCourse(params: AddCourseParams, signal?: AbortSignal): Promise<Course>;
 
   /** `PATCH /courses/{courseID}`. Course kind cannot be changed. */
   updateCourse(
     id: string,
-    input: CourseUpdate,
+    params: UpdateCourseParams,
     signal?: AbortSignal,
   ): Promise<Course>;
 
@@ -135,14 +135,14 @@ export interface CourseApis {
 
   /** `POST /user/course-series` */
   addCourseSeries(
-    input: CourseSeriesInput,
+    params: AddUpdateCourseSeriesParams,
     signal?: AbortSignal,
   ): Promise<CourseSeries>;
 
   /** `PATCH /course-series/{courseSeriesID}` */
   updateCourseSeries(
     id: string,
-    input: CourseSeriesInput,
+    params: AddUpdateCourseSeriesParams,
     signal?: AbortSignal,
   ): Promise<CourseSeries>;
 

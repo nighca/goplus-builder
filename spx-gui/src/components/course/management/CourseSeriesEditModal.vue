@@ -9,8 +9,8 @@ import {
   courseSeriesDescriptionMaxLength,
   courseSeriesTitleMaxLength,
   updateCourseSeries,
-  type CourseSeries,
-  type CourseSeriesInput
+  type AddUpdateCourseSeriesParams,
+  type CourseSeries
 } from '@/apis/course-series'
 import { isGuidedCourse, listSignedInUserCourses, type GuidedCourse } from '@/apis/course'
 import { useSignedInUser } from '@/stores/user'
@@ -111,7 +111,6 @@ const loadCourses = useMessageHandle(
       const result = await listSignedInUserCourses({
         pageSize: 100,
         pageIndex: 1,
-        courseSeriesID: null,
         orderBy: 'updatedAt',
         sortOrder: 'desc'
       })
@@ -152,7 +151,7 @@ watch(
 
 const handleSubmit = useMessageHandle(
   async () => {
-    const formData: CourseSeriesInput = {
+    const formData: AddUpdateCourseSeriesParams = {
       kind: props.courseSeries?.kind ?? 'guided',
       title: form.value.title,
       thumbnail: form.value.thumbnail,
