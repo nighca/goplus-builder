@@ -135,8 +135,8 @@ This still runs the real Playground lifecycle. It only bypasses ID loading and l
 ```text
 components/tutorials/
 ├── tutorial.ts                 thin public facade and injection
-├── TutorialRoot.vue            facade wiring and Guided global integrations
-├── guided/                     Guided runtime, Copilot elements, and persisted state
+├── TutorialRoot.vue            facade wiring and Root composition
+├── guided/                     Guided Root, runtime, Copilot elements, and persisted state
 ├── playground/
 │   ├── CoursePlayground.vue    route/Preview-owned editor composition
 │   └── runner.ts               one Playground Course runner
