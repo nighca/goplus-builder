@@ -18,12 +18,11 @@ export type GuidedCourse = CourseBase & {
   };
 };
 
-export type GeneratePlaygroundCourseCopilotContextInput = {
-  title: string;
-  thumbnail: string;
-  /** Current unsaved Course content. */
-  content: FileCollection;
-};
+/** Current unsaved Playground Course content used to generate its Copilot context. */
+export type GeneratePlaygroundCourseCopilotContextParams = Pick<
+  PlaygroundCourse,
+  "title" | "thumbnail" | "content"
+>;
 
 export type GeneratePlaygroundCourseCopilotContextResult = {
   copilotContext: string;
@@ -56,9 +55,13 @@ export type AddCourseParams =
 export type UpdateCourseParams =
   | Pick<GuidedCourse, "title" | "thumbnail" | "content">
   | Pick<PlaygroundCourse, "title" | "thumbnail" | "content">;
-export type AddUpdateCourseSeriesParams = Pick<
+export type AddCourseSeriesParams = Pick<
   CourseSeries,
   "kind" | "title" | "thumbnail" | "description" | "courseIDs" | "order"
+>;
+export type UpdateCourseSeriesParams = Pick<
+  CourseSeries,
+  "title" | "thumbnail" | "description" | "courseIDs" | "order"
 >;
 
 export type ListCoursesParams = {
@@ -86,7 +89,7 @@ export type ByPage<T> = {
 export interface CourseApis {
   /** `POST /user/courses/playground/copilot-context`. Generates an editable context. */
   generatePlaygroundCourseCopilotContext(
-    input: GeneratePlaygroundCourseCopilotContextInput,
+    params: GeneratePlaygroundCourseCopilotContextParams,
     signal?: AbortSignal,
   ): Promise<GeneratePlaygroundCourseCopilotContextResult>;
 
@@ -135,14 +138,14 @@ export interface CourseApis {
 
   /** `POST /user/course-series` */
   addCourseSeries(
-    params: AddUpdateCourseSeriesParams,
+    params: AddCourseSeriesParams,
     signal?: AbortSignal,
   ): Promise<CourseSeries>;
 
   /** `PATCH /course-series/{courseSeriesID}` */
   updateCourseSeries(
     id: string,
-    params: AddUpdateCourseSeriesParams,
+    params: UpdateCourseSeriesParams,
     signal?: AbortSignal,
   ): Promise<CourseSeries>;
 

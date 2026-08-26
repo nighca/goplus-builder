@@ -58,12 +58,8 @@ export type UpdateCourseParams =
   | Pick<GuidedCourse, 'title' | 'thumbnail' | 'content'>
   | Pick<PlaygroundCourse, 'title' | 'thumbnail' | 'content'>
 
-export type GeneratePlaygroundCourseCopilotContextInput = {
-  title: string
-  thumbnail: string
-  /** Current unsaved Course content. */
-  content: FileCollection
-}
+/** Current unsaved Playground Course content used to generate its Copilot context. */
+export type GeneratePlaygroundCourseCopilotContextParams = Pick<PlaygroundCourse, 'title' | 'thumbnail' | 'content'>
 
 export type GeneratePlaygroundCourseCopilotContextResult = {
   copilotContext: string
@@ -71,7 +67,7 @@ export type GeneratePlaygroundCourseCopilotContextResult = {
 
 /** Generates an editable Copilot context for an unsaved Playground Course. */
 export function generatePlaygroundCourseCopilotContext(
-  params: GeneratePlaygroundCourseCopilotContextInput,
+  params: GeneratePlaygroundCourseCopilotContextParams,
   signal?: AbortSignal
 ) {
   return client.post('/user/courses/playground/copilot-context', params, {

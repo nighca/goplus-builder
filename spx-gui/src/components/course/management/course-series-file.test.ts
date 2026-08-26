@@ -164,6 +164,7 @@ beforeEach(() => {
   vi.mocked(updateCourseSeries).mockImplementation(async (id, params) => ({
     id,
     owner: 'alice',
+    kind: existingSeries.kind,
     createdAt: existingSeries.createdAt,
     updatedAt: existingSeries.updatedAt,
     ...params

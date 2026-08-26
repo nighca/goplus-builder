@@ -30,18 +30,19 @@ export function getCourseSeries(id: string, signal?: AbortSignal) {
   return client.get(`/course-series/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<CourseSeries>
 }
 
-export type AddUpdateCourseSeriesParams = Pick<
+export type AddCourseSeriesParams = Pick<
   CourseSeries,
   'kind' | 'title' | 'thumbnail' | 'description' | 'courseIDs' | 'order'
 >
+export type UpdateCourseSeriesParams = Pick<CourseSeries, 'title' | 'thumbnail' | 'description' | 'courseIDs' | 'order'>
 
 /** Add a new course series */
-export function addCourseSeries(params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
+export function addCourseSeries(params: AddCourseSeriesParams, signal?: AbortSignal) {
   return client.post('/user/course-series', params, { signal }) as Promise<CourseSeries>
 }
 
 /** Update an existing course series */
-export function updateCourseSeries(id: string, params: AddUpdateCourseSeriesParams, signal?: AbortSignal) {
+export function updateCourseSeries(id: string, params: UpdateCourseSeriesParams, signal?: AbortSignal) {
   return client.patch(`/course-series/${encodeURIComponent(id)}`, params, { signal }) as Promise<CourseSeries>
 }
 

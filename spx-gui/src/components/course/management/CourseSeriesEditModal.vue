@@ -9,8 +9,9 @@ import {
   courseSeriesDescriptionMaxLength,
   courseSeriesTitleMaxLength,
   updateCourseSeries,
-  type AddUpdateCourseSeriesParams,
-  type CourseSeries
+  type AddCourseSeriesParams,
+  type CourseSeries,
+  type UpdateCourseSeriesParams
 } from '@/apis/course-series'
 import { isGuidedCourse, listSignedInUserCourses, type GuidedCourse } from '@/apis/course'
 import { useSignedInUser } from '@/stores/user'
@@ -151,8 +152,7 @@ watch(
 
 const handleSubmit = useMessageHandle(
   async () => {
-    const formData: AddUpdateCourseSeriesParams = {
-      kind: props.courseSeries?.kind ?? 'guided',
+    const formData: UpdateCourseSeriesParams = {
       title: form.value.title,
       thumbnail: form.value.thumbnail,
       description: form.value.description,
@@ -167,7 +167,8 @@ const handleSubmit = useMessageHandle(
       )
       m.success(i18n.t({ en: 'Course series updated successfully', zh: '课程系列更新成功' }))
     } else {
-      await m.withLoading(addCourseSeries(formData), i18n.t({ en: 'Creating course series', zh: '创建课程系列中' }))
+      const params: AddCourseSeriesParams = { ...formData, kind: 'guided' }
+      await m.withLoading(addCourseSeries(params), i18n.t({ en: 'Creating course series', zh: '创建课程系列中' }))
       m.success(i18n.t({ en: 'Course series created successfully', zh: '课程系列创建成功' }))
     }
 
