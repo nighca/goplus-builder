@@ -51,7 +51,13 @@ async function createMockSession(): Promise<MockSession> {
       inEditorPath: '/stage/code',
       copilotContext: 'Help the learner explore the Playground Course.'
     }),
-    'main_course.gox': fromText('main_course.gox', 'onStart => {}'),
+    'main_course.gox': fromText(
+      'main_course.gox',
+      `onStart => {
+	showMessage "Welcome to the Playground Course mock."
+	completeWith "You have completed the Playground Course mock."
+}`
+    ),
     ...prefixFiles(project.exportFiles(), 'project')
   }
   project.dispose()
