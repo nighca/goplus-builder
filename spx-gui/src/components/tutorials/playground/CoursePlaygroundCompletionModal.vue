@@ -3,16 +3,25 @@ export type CompletionAction = 'next' | 'exit'
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
+import type { Course } from '@/apis/course'
+import type { CourseSeries } from '@/apis/course-series'
 import { UIButton, UIImg, UIModal, UIModalClose } from '@/components/ui'
 
 import successImg from '../success.png'
 
-defineProps<{
+const props = defineProps<{
   visible: boolean
-  courseTitle: string
+  course: Course
+  series: CourseSeries
   feedback: string | null
-  hasNextCourse: boolean
 }>()
+
+const hasNextCourse = computed(() => {
+  const courseIndex = props.series.courseIDs.indexOf(props.course.id)
+  return courseIndex >= 0 && courseIndex < props.series.courseIDs.length - 1
+})
 
 const emit = defineEmits<{
   cancelled: []
@@ -31,7 +40,7 @@ const emit = defineEmits<{
         <UIImg :src="successImg" class="h-47.5 w-67.5" />
         <div class="mt-5 text-2xl">{{ $t({ en: 'Great!', zh: '太棒了！' }) }}</div>
         <div class="mt-2 text-base">
-          {{ $t({ en: `${courseTitle} course completed`, zh: `${courseTitle}课程已完成` }) }}
+          {{ $t({ en: `${course.title} course completed`, zh: `${course.title}课程已完成` }) }}
         </div>
         <p v-if="feedback != null" class="mt-3 whitespace-pre-wrap text-sm text-grey-900">{{ feedback }}</p>
 

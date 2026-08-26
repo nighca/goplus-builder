@@ -67,16 +67,16 @@ async function retryRuntime() {
 async function handleCompleted(completion: PlaygroundCourseCompletion) {
   const completedSession = session.value
   if (completedSession == null) return
-  const courseIndex = completedSession.series.courseIDs.indexOf(completedSession.course.id)
-  const nextCourseID = completedSession.series.courseIDs[courseIndex + 1] ?? null
 
   await disposeSession()
   await tutorial.endCurrentCourse()
   const action: CompletionAction = await openCompletion({
-    courseTitle: completedSession.course.title,
-    feedback: completion.feedback,
-    hasNextCourse: nextCourseID != null
+    course: completedSession.course,
+    series: completedSession.series,
+    feedback: completion.feedback
   })
+  const courseIndex = completedSession.series.courseIDs.indexOf(completedSession.course.id)
+  const nextCourseID = completedSession.series.courseIDs[courseIndex + 1] ?? null
   if (action === 'next' && nextCourseID != null) {
     await tutorial.startCourse(completedSession.series.id, nextCourseID)
   } else {
