@@ -1,22 +1,14 @@
 import { watch } from 'vue'
 import type { WatchStopHandle } from 'vue'
 
+import Emitter from '@/utils/emitter'
 import { XGoExecutor, type XGoExecutorOptions, type XGoExitReason, type XGoFramework } from '@/utils/xgoexec'
 import { mainCourseFilePath } from '@/models/tutorial/course'
 import type { TutorialProject } from '@/models/tutorial/project'
-import type { Copilot, Round, Topic } from '@/components/copilot/copilot'
+import type { Copilot, Round, Session, Topic } from '@/components/copilot/copilot'
 import { RoundState } from '@/components/copilot/copilot'
-import type { Runtime } from '@/components/editor/runtime'
 import { RuntimeOutputKind } from '@/components/editor/runtime'
-
-type PlaygroundSession = {
-  readonly currentRound: Round | null
-}
-type PlaygroundCopilot = Pick<Copilot, 'startSession' | 'endCurrentSession'> & {
-  readonly currentSession: PlaygroundSession | null
-}
-type PlaygroundExecutor = Pick<XGoExecutor, 'run' | 'stop' | 'dispatchEvent'>
-type CreateExecutor = (options: XGoExecutorOptions) => PlaygroundExecutor
+import type { EditorState } from '@/components/editor/editor-state'
 
 export type PlaygroundCoursePresentation = {
   showMessage(content: string): Promise<void>
@@ -28,32 +20,29 @@ export type PlaygroundCourseCompletion = {
 
 export type PlaygroundCourseRunnerOptions = {
   project: TutorialProject
-  editorRuntime: Runtime
-  copilot: PlaygroundCopilot
+  editorState: EditorState
+  copilot: Copilot
   presentation: PlaygroundCoursePresentation
-  onComplete(completion: PlaygroundCourseCompletion): void
-  onFailure(error: Error): void
-  createExecutor?: CreateExecutor
+  createExecutor?: (options: XGoExecutorOptions) => XGoExecutor
 }
 
-type CompletionWithRequest = {
-  feedback: string
-}
-
-export class PlaygroundCourseRunner {
-  private executor: PlaygroundExecutor
-  private session: PlaygroundSession | null = null
+export class PlaygroundCourseRunner extends Emitter<{
+  completed: PlaygroundCourseCompletion
+  failed: Error
+}> {
+  private executor: XGoExecutor
+  private session: Session | null = null
   private eventQueue = Promise.resolve()
-  private eventBridgeDisposers: Array<() => void> = []
   private completion: PlaygroundCourseCompletion | null = null
   private completionTimer: ReturnType<typeof setTimeout> | null = null
   private lastRuntimeOutputID = -1
   private lastError: Error | null = null
-  private state: 'idle' | 'starting' | 'running' | 'stopping' | 'finished' = 'idle'
+  private state: 'idle' | 'starting' | 'running' | 'finished' = 'idle'
   private settled = false
   private executorStarted = deferred<void>()
 
   constructor(private options: PlaygroundCourseRunnerOptions) {
+    super()
     const createExecutor = options.createExecutor ?? ((executorOptions) => new XGoExecutor(executorOptions))
     this.executor = createExecutor({
       framework: this.createFramework(),
@@ -62,6 +51,7 @@ export class PlaygroundCourseRunner {
       },
       onExit: (reason) => this.handleExecutorExit(reason)
     })
+    this.addDisposer(() => void this.executor.stop())
   }
 
   async start() {
@@ -75,6 +65,10 @@ export class PlaygroundCourseRunner {
       if (copilot.currentSession === this.session) copilot.endCurrentSession()
       return
     }
+    const session = this.session
+    this.addDisposer(() => {
+      if (copilot.currentSession === session) copilot.endCurrentSession()
+    })
     this.installEventBridge()
 
     try {
@@ -85,30 +79,28 @@ export class PlaygroundCourseRunner {
     } catch (error) {
       this.executorStarted.reject(error)
       if (this.state === 'starting' || this.state === 'running') {
-        void this.finishWithFailure(errorOf(error))
+        this.finishWithFailure(errorOf(error))
       }
       throw error
     }
   }
 
-  async dispose() {
-    if (this.state === 'stopping' || this.state === 'finished') return
-    this.state = 'stopping'
+  dispose() {
+    if (this.state === 'finished') return
+    this.state = 'finished'
     if (this.completionTimer != null) clearTimeout(this.completionTimer)
     this.completionTimer = null
-    this.eventBridgeDisposers.splice(0).forEach((dispose) => dispose())
-    if (this.options.copilot.currentSession === this.session) this.options.copilot.endCurrentSession()
-    await this.executor.stop()
-    this.state = 'finished'
+    super.dispose()
   }
 
   private createFramework(): XGoFramework {
     return {
       name: 'tutorial',
       capabilities: {
-        course_showMessage: (request) => this.options.presentation.showMessage(readString(request, 'content')),
+        course_showMessage: (request) =>
+          this.options.presentation.showMessage((request as { content: string }).content),
         course_complete: () => this.acceptCompletion(null),
-        course_completeWith: (request) => this.acceptCompletion(readCompletionWithRequest(request).feedback)
+        course_completeWith: (request) => this.acceptCompletion((request as { feedback: string }).feedback)
       }
     }
   }
@@ -123,16 +115,18 @@ export class PlaygroundCourseRunner {
   }
 
   private installEventBridge() {
-    const runtime = this.options.editorRuntime
-    this.eventBridgeDisposers.push(
+    const runtime = this.options.editorState.runtime
+    this.addDisposer(
       runtime.on('didChangeOutput', () => {
         for (const output of runtime.outputs) {
           if (output.id <= this.lastRuntimeOutputID) continue
           this.lastRuntimeOutputID = output.id
           if (output.kind === RuntimeOutputKind.Log) this.dispatchEvent('editor.runtime.log', { log: output.message })
         }
-      }),
-      runtime.on('didExit', (code) => this.dispatchEvent('editor.runtime.exit', { code })),
+      })
+    )
+    this.addDisposer(runtime.on('didExit', (code) => this.dispatchEvent('editor.runtime.exit', { code })))
+    this.addDisposer(
       watch(
         () => runtime.running,
         (running, previous) => {
@@ -141,9 +135,9 @@ export class PlaygroundCourseRunner {
           if (started && !wasStarted) this.dispatchEvent('editor.runtime.start', null)
         },
         { immediate: true }
-      ),
-      this.watchCopilotRoundFinish()
+      )
     )
+    this.addDisposer(this.watchCopilotRoundFinish())
   }
 
   private watchCopilotRoundFinish(): WatchStopHandle {
@@ -177,35 +171,32 @@ export class PlaygroundCourseRunner {
     this.completion = { feedback }
     this.completionTimer = setTimeout(() => {
       this.completionTimer = null
-      void this.finishWithCompletion()
+      this.finishWithCompletion()
     })
   }
 
   private handleExecutorExit(reason: XGoExitReason) {
-    if (this.state === 'stopping' || this.state === 'finished') return
+    if (this.state === 'finished') return
     if (reason === 'completed') {
-      if (this.completion != null) void this.finishWithCompletion()
-      else void this.finishWithFailure(new Error('Tutorial Course ended without completing'))
+      if (this.completion != null) this.finishWithCompletion()
+      else this.finishWithFailure(new Error('Tutorial Course ended without completing'))
       return
     }
     if (reason === 'error') {
-      void this.finishWithFailure(this.lastError ?? new Error('Tutorial Course failed'))
+      this.finishWithFailure(this.lastError ?? new Error('Tutorial Course failed'))
     }
   }
 
-  private async finishWithCompletion() {
+  private finishWithCompletion() {
     if (this.settled || this.completion == null) return
     this.settled = true
-    const completion = this.completion
-    await this.dispose()
-    this.options.onComplete(completion)
+    this.emit('completed', this.completion)
   }
 
-  private async finishWithFailure(error: Error) {
+  private finishWithFailure(error: Error) {
     if (this.settled) return
     this.settled = true
-    await this.dispose()
-    this.options.onFailure(error)
+    this.emit('failed', error)
   }
 }
 
@@ -216,17 +207,6 @@ function serializeRound(round: Round) {
       resultMessages: round.resultMessages
     })
   )
-}
-
-function readCompletionWithRequest(request: unknown): CompletionWithRequest {
-  return { feedback: readString(request, 'feedback') }
-}
-
-function readString(value: unknown, key: string) {
-  if (typeof value !== 'object' || value == null || !(key in value)) throw new Error(`missing ${key}`)
-  const result = value[key as keyof typeof value]
-  if (typeof result !== 'string') throw new Error(`${key} must be a string`)
-  return result
 }
 
 function errorOf(value: unknown) {

@@ -222,10 +222,10 @@ The first `course_complete` or `course_completeWith` stores the completion resul
 
 | Executor result | Completion requested | Result                                                             |
 | --------------- | -------------------- | ------------------------------------------------------------------ |
-| `completed`     | yes                  | Dispose active runtime resources, then show completion UI          |
+| `completed`     | yes                  | Publish completion; page disposes runtime resources, then shows UI |
 | `completed`     | no                   | Report that the Course program fell through without completing     |
 | `stopped`       | irrelevant           | Expected route leave, replacement, or public end; no completion UI |
-| `error`         | irrelevant           | Dispose runtime resources and show a Course failure                |
+| `error`         | irrelevant           | Publish failure; page disposes runtime resources and shows failure |
 
 Choosing Next disposes the current page-owned session, then invokes the thin facade's `startCourse` with the next Course ID.
 
@@ -237,7 +237,7 @@ Public `endCurrentCourse` is idempotent:
 - if the current route is a Playground Course, navigate to its Course Series page so route leave disposes the local session;
 - otherwise, do nothing.
 
-Completion disposes the local Course runtime but keeps the Playground session, including its project and editor state, mounted behind the completion UI. The page disposes the project and editor state only on route leave, replacement, explicit exit, or transition to the next Course. Its local runtime disposal is idempotent.
+When the Course runner publishes completion or failure, `CoursePlayground`, which created and started it, disposes it synchronously before forwarding the result to the page. This keeps the Playground session, including its project and editor state, mounted behind the completion UI. The page disposes the project and editor state only on route leave, replacement, explicit exit, or transition to the next Course. Runner disposal is idempotent.
 
 Starting any Course ends Guided state first, preventing a restored Guided session from remaining active when a Playground Course is entered.
 
@@ -273,7 +273,7 @@ Playground tests:
 - the configured in-editor path is applied;
 - only `main_course.gox` is passed to XGo Executor;
 - logs are forwarded once and in order;
-- completion disposes runtime resources before completion UI while retaining the editor session;
+- `CoursePlayground` disposes runtime resources after completion and before completion UI while retaining the editor session;
 - route leave and snapshot replacement dispose runtime and `EditorState` once;
 - Preview snapshots use the same Playground runtime without invoking the ID-based facade.
 
@@ -290,9 +290,9 @@ The current prototype validates the central boundary without requiring the publi
 The second prototype adds a deliberately narrow end-to-end runtime example:
 
 - `CoursePlayground` waits until the editor providers are mounted, then creates one route-local `PlaygroundCourseRunner`;
-- the runtime starts a non-proactive Copilot Topic, runs only `main_course.gox`, and owns all executor, Copilot, Runtime, and presentation subscriptions;
+- the runner starts a non-proactive Copilot Topic, runs only `main_course.gox`, and owns its executor, Copilot, Runtime, and presentation subscriptions until its owner disposes it;
 - the current Runtime start, exit, and log signals plus Copilot round completion are serialized through one executor-event queue;
-- `showMessage` is represented by route-local blocking presentation, while `complete` and `completeWith` dispose the runtime before publishing completion to the page;
+- `showMessage` is represented by route-local blocking presentation, while `complete` and `completeWith` publish a terminal outcome; `CoursePlayground` then disposes the runner before forwarding it to the page;
 - the page, rather than the runtime or facade, displays completion UI and chooses to continue editing, start Next, or exit based on the active Series;
 - replacing a page-owned Playground session waits one Vue render turn before disposing its project, allowing the child runtime and `EditorState` to unmount first.
 
@@ -302,7 +302,7 @@ This confirms that XGo/Copilot integration does not require broadening the facad
 Tutorial facade       load by ID, dispatch kind, end Guided state or exit Playground route
 Playground page       load TutorialProject, failure/completion UI, Series Next/Exit policy, session disposal
 CoursePlayground      EditorState, editor providers, route-local presentation
-Playground runtime    XGo, Copilot session, framework host, event bridge, runtime cleanup
+Playground runner     XGo, Copilot session, framework host, event bridge, terminal events
 ```
 
 The prototype still exposes implementation questions that do not change the public boundary:

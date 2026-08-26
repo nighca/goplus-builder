@@ -6,6 +6,9 @@ import { mainCourseFilePath } from '@/models/tutorial/course'
 import { TutorialProject } from '@/models/tutorial/project'
 import { RoundState, type Round, type Topic } from '@/components/copilot/copilot'
 import { Runtime, RuntimeOutputKind } from '@/components/editor/runtime'
+import type { EditorState } from '@/components/editor/editor-state'
+import type { Copilot } from '@/components/copilot/copilot'
+import type { XGoExecutor } from '@/utils/xgoexec'
 
 import { PlaygroundCourseRunner } from './runner'
 
@@ -43,6 +46,7 @@ function makeCopilot() {
 function makeHarness() {
   const project = makeProject()
   const editorRuntime = new Runtime(project.project)
+  const editorState = { runtime: editorRuntime } as EditorState
   const { session, controller: copilot } = makeCopilot()
   let executorOptions: XGoExecutorOptions | null = null
   const executor = {
@@ -53,29 +57,24 @@ function makeHarness() {
   const presentation = {
     showMessage: vi.fn().mockResolvedValue(undefined)
   }
-  const onComplete = vi.fn()
-  const onFailure = vi.fn()
   const runner = new PlaygroundCourseRunner({
     project,
-    editorRuntime,
-    copilot,
+    editorState,
+    copilot: copilot as unknown as Copilot,
     presentation,
-    onComplete,
-    onFailure,
     createExecutor(options) {
       executorOptions = options
-      return executor
+      return executor as unknown as XGoExecutor
     }
   })
   return {
     project,
     editorRuntime,
+    editorState,
     session,
     copilot,
     executor,
     presentation,
-    onComplete,
-    onFailure,
     runner,
     getExecutorOptions: () => executorOptions!
   }
@@ -140,19 +139,39 @@ describe('PlaygroundCourseRunner', () => {
     vi.unstubAllGlobals()
   })
 
-  it('stops route-local resources before publishing completion', async () => {
+  it('publishes completion for its owner to dispose', async () => {
     const harness = makeHarness()
+    const completed = vi.fn()
+    harness.runner.on('completed', completed)
     await harness.runner.start()
     const completeWith = harness.getExecutorOptions().framework?.capabilities.course_completeWith
     if (completeWith == null) throw new Error('course_completeWith capability not found')
 
     await completeWith({ feedback: 'Nice work' })
 
-    await vi.waitFor(() => expect(harness.onComplete).toHaveBeenCalledWith({ feedback: 'Nice work' }))
+    await vi.waitFor(() => expect(completed).toHaveBeenCalledWith({ feedback: 'Nice work' }))
+    expect(harness.executor.stop).not.toHaveBeenCalled()
+    expect(harness.copilot.endCurrentSession).not.toHaveBeenCalled()
+
+    harness.runner.dispose()
+
     expect(harness.executor.stop).toHaveBeenCalledOnce()
     expect(harness.copilot.endCurrentSession).toHaveBeenCalledOnce()
-    expect(harness.executor.stop.mock.invocationCallOrder[0]).toBeLessThan(
-      harness.onComplete.mock.invocationCallOrder[0]
-    )
+  })
+
+  it('publishes executor failures for its owner to dispose', async () => {
+    const harness = makeHarness()
+    const failed = vi.fn()
+    harness.runner.on('failed', failed)
+    await harness.runner.start()
+
+    harness.getExecutorOptions().onExit?.('error')
+
+    await vi.waitFor(() => expect(failed).toHaveBeenCalledWith(new Error('Tutorial Course failed')))
+    expect(harness.executor.stop).not.toHaveBeenCalled()
+
+    harness.runner.dispose()
+
+    expect(harness.executor.stop).toHaveBeenCalledOnce()
   })
 })
