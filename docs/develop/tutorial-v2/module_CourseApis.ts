@@ -46,6 +46,8 @@ export type CourseSeries = {
   description: string;
   courseIDs: string[];
   order: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GuidedCourseInput = Omit<GuidedCourse, "id" | "owner">;
@@ -54,18 +56,25 @@ export type CourseInput = GuidedCourseInput | PlaygroundCourseInput;
 export type CourseUpdate =
   | Omit<GuidedCourseInput, "kind">
   | Omit<PlaygroundCourseInput, "kind">;
-export type CourseSeriesInput = Omit<CourseSeries, "id" | "owner">;
+export type CourseSeriesInput = Omit<
+  CourseSeries,
+  "id" | "owner" | "createdAt" | "updatedAt"
+>;
 
 export type ListCoursesParams = {
-  courseSeriesID: string | null;
+  courseSeriesID?: string | null;
   pageIndex: number;
   pageSize: number;
+  orderBy?: "createdAt" | "updatedAt" | "sequenceInCourseSeries";
+  sortOrder?: "asc" | "desc";
 };
 
 export type ListCourseSeriesParams = {
-  kind: CourseKind | null;
+  kind?: CourseKind | null;
   pageIndex: number;
   pageSize: number;
+  orderBy?: "createdAt" | "updatedAt" | "order";
+  sortOrder?: "asc" | "desc";
 };
 
 export type ByPage<T> = {

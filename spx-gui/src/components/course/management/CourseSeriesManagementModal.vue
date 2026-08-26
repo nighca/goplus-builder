@@ -36,7 +36,9 @@ const queryRet = useQuery(
     return listSignedInUserCourseSeries({
       pageSize,
       pageIndex: page.value,
-      kind: 'guided'
+      kind: 'guided',
+      orderBy: 'order',
+      sortOrder: 'asc'
     })
   },
   {

@@ -111,7 +111,9 @@ const loadCourses = useMessageHandle(
       const result = await listSignedInUserCourses({
         pageSize: 100,
         pageIndex: 1,
-        courseSeriesID: null
+        courseSeriesID: null,
+        orderBy: 'updatedAt',
+        sortOrder: 'desc'
       })
       allCourses.value = result.data.filter(isGuidedCourse)
     } finally {

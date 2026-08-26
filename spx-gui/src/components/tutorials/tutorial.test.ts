@@ -14,7 +14,9 @@ function makeSeries(courseIDs = ['course-1']): CourseSeries {
     thumbnail: '',
     description: '',
     courseIDs,
-    order: 1
+    order: 1,
+    createdAt: '2026-01-01T00:00:00Z',
+    updatedAt: '2026-01-01T00:00:00Z'
   }
 }
 

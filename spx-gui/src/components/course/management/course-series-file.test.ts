@@ -67,7 +67,9 @@ const existingSeries: CourseSeries = {
   thumbnail: 'kodo://bucket/series-thumbnail.png',
   description: 'Course series description',
   order: 42,
-  courseIDs: ['course-1']
+  courseIDs: ['course-1'],
+  createdAt: '2026-01-01T00:00:00Z',
+  updatedAt: '2026-01-01T00:00:00Z'
 }
 
 const existingCourse: GuidedCourse = {
@@ -162,12 +164,16 @@ beforeEach(() => {
   vi.mocked(updateCourseSeries).mockImplementation(async (id, params) => ({
     id,
     owner: 'alice',
-    ...params,
+    createdAt: existingSeries.createdAt,
+    updatedAt: existingSeries.updatedAt,
+    ...params
   }))
   vi.mocked(addCourseSeries).mockImplementation(async (params) => ({
     id: 'created-series',
     owner: 'alice',
-    ...params,
+    createdAt: existingSeries.createdAt,
+    updatedAt: existingSeries.updatedAt,
+    ...params
   }))
   vi.mocked(deleteCourse).mockResolvedValue(undefined)
   vi.mocked(updateProject).mockImplementation(

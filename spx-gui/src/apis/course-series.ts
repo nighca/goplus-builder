@@ -20,6 +20,8 @@ export type CourseSeries = {
   courseIDs: string[]
   /** Order/priority of the course series for sorting */
   order: number
+  createdAt: string
+  updatedAt: string
 }
 
 /** Get a course series by ID */
@@ -27,7 +29,7 @@ export function getCourseSeries(id: string, signal?: AbortSignal) {
   return client.get(`/course-series/${encodeURIComponent(id)}`, undefined, { signal }) as Promise<CourseSeries>
 }
 
-export type CourseSeriesInput = Omit<CourseSeries, 'id' | 'owner'>
+export type CourseSeriesInput = Omit<CourseSeries, 'id' | 'owner' | 'createdAt' | 'updatedAt'>
 
 /** Add a new course series */
 export function addCourseSeries(params: CourseSeriesInput, signal?: AbortSignal) {
@@ -44,12 +46,18 @@ export function deleteCourseSeries(id: string) {
   return client.delete(`/course-series/${encodeURIComponent(id)}`) as Promise<void>
 }
 
-export type ListCourseSeriesParams = PaginationParams & { kind: CourseKind | null }
+export type ListCourseSeriesParams = PaginationParams & {
+  kind?: CourseKind | null
+  /** Field by which to order the results */
+  orderBy?: 'createdAt' | 'updatedAt' | 'order'
+  /** Order in which to sort the results */
+  sortOrder?: 'asc' | 'desc'
+}
 
-export function listCourseSeries(params: ListCourseSeriesParams, signal?: AbortSignal) {
+export function listCourseSeries(params?: ListCourseSeriesParams, signal?: AbortSignal) {
   return client.get('/course-series', params, { signal }) as Promise<ByPage<CourseSeries>>
 }
 
-export function listSignedInUserCourseSeries(params: ListCourseSeriesParams, signal?: AbortSignal) {
+export function listSignedInUserCourseSeries(params?: ListCourseSeriesParams, signal?: AbortSignal) {
   return client.get('/user/course-series', params, { signal }) as Promise<ByPage<CourseSeries>>
 }

@@ -63,7 +63,9 @@ export function generatePlaygroundCourseCopilotContext(
   params: GeneratePlaygroundCourseCopilotContextInput,
   signal?: AbortSignal
 ) {
-  return client.post('/user/courses/playground/copilot-context', params, { signal }) as Promise<GeneratePlaygroundCourseCopilotContextResult>
+  return client.post('/user/courses/playground/copilot-context', params, {
+    signal
+  }) as Promise<GeneratePlaygroundCourseCopilotContextResult>
 }
 
 /** Add a new course */
@@ -83,13 +85,17 @@ export function deleteCourse(id: string) {
 
 export type ListCoursesParams = PaginationParams & {
   /** Filter courses by the course series ID */
-  courseSeriesID: string | null
+  courseSeriesID?: string | null
+  /** Field by which to order the results */
+  orderBy?: 'createdAt' | 'updatedAt' | 'sequenceInCourseSeries'
+  /** Order in which to sort the results */
+  sortOrder?: 'asc' | 'desc'
 }
 
-export function listCourses(params: ListCoursesParams, signal?: AbortSignal) {
+export function listCourses(params?: ListCoursesParams, signal?: AbortSignal) {
   return client.get('/courses', params, { signal }) as Promise<ByPage<Course>>
 }
 
-export function listSignedInUserCourses(params: ListCoursesParams, signal?: AbortSignal) {
+export function listSignedInUserCourses(params?: ListCoursesParams, signal?: AbortSignal) {
   return client.get('/user/courses', params, { signal }) as Promise<ByPage<Course>>
 }
