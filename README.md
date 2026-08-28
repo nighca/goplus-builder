@@ -21,3 +21,7 @@ Read other content in [product docs directory](./docs/product/) to learn more ab
 ## How to develop
 
 For information like project structure, environment requirements, etc., refer to [Develop XBuilder](./docs/develop/index.md).
+
+## Agent skills
+
+When a task changes the default project created by the frontend's **New project...** flow, read and follow [XBuilder Default Project](./skills/xbuilder-default-project/SKILL.md) before editing template assets or creation code.
