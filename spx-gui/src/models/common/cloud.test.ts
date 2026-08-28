@@ -180,9 +180,10 @@ describe('saveFile', () => {
       onError: vi.fn(),
       onComplete: vi.fn((callback) => callback('{"key":"files/uploaded.png","hash":"hash"}'))
     } as unknown as ReturnType<typeof createDirectUploadTask>)
-    const file = fromBlob('asset.png', new Blob([new Uint8Array(10 * 1024 + 1).fill(1)], { type: 'image/png' }))
+    const file = fromBlob('asset.png', new Blob([new Uint8Array(1024 * 1024).fill(1)], { type: 'image/png' }))
 
     await expect(saveFile(file)).resolves.toBe('kodo://bucket/files/uploaded.png')
+    expect(fetch).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({ method: 'HEAD' }))
     expect(createDirectUploadTask).toHaveBeenCalledOnce()
   })
 
@@ -194,9 +195,24 @@ describe('saveFile', () => {
       onError: vi.fn(),
       onComplete: vi.fn((callback) => callback('{"key":"files/uploaded.bin","hash":"hash"}'))
     } as unknown as ReturnType<typeof createDirectUploadTask>)
-    const file = fromBlob('asset.bin', new Blob([new Uint8Array(0)], { type: 'application/octet-stream' }))
+    const file = fromBlob('asset.bin', new Blob([new Uint8Array(1024 * 1024)], { type: 'application/octet-stream' }))
 
     await expect(saveFile(file)).resolves.toBe('kodo://bucket/files/uploaded.bin')
+    expect(createDirectUploadTask).toHaveBeenCalledOnce()
+  })
+
+  it('uploads a small file without checking for reuse', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('unexpected fetch'))
+    vi.mocked(createDirectUploadTask).mockReturnValue({
+      start: vi.fn(),
+      cancel: vi.fn(),
+      onError: vi.fn(),
+      onComplete: vi.fn((callback) => callback('{"key":"files/uploaded.png","hash":"hash"}'))
+    } as unknown as ReturnType<typeof createDirectUploadTask>)
+    const file = fromBlob('asset.png', new Blob([new Uint8Array(1024 * 1024 - 1)], { type: 'image/png' }))
+
+    await expect(saveFile(file)).resolves.toBe('kodo://bucket/files/uploaded.png')
+    expect(fetchSpy).not.toHaveBeenCalled()
     expect(createDirectUploadTask).toHaveBeenCalledOnce()
   })
 })

@@ -328,6 +328,7 @@ type KodoUploadRes = {
   hash: string
 }
 
+const minReusableKodoFileSize = 1024 * 1024
 const qiniuEtagBlockSize = 4 * 1024 * 1024
 const qiniuSingleBlockEtagPrefix = 0x16
 const qiniuMultiBlockEtagPrefix = 0x96
@@ -381,7 +382,8 @@ const uploadToKodo = (file: File, signal?: AbortSignal) =>
     const { token, maxSize, bucket, region } = await getUploadSessionWithCache()
     signal?.throwIfAborted()
     if (ab.byteLength > maxSize) throw new Error(`file size exceeds the limit (${maxSize} bytes)`)
-    const reusableUrl = await getReusableKodoUrl(file, ab, bucket, signal)
+    const reusableUrl =
+      ab.byteLength >= minReusableKodoFileSize ? await getReusableKodoUrl(file, ab, bucket, signal) : null
     if (reusableUrl != null) return reusableUrl
     const task = createDirectUploadTask(
       {
