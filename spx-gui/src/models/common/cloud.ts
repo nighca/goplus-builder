@@ -306,7 +306,7 @@ export async function saveFile(file: File, signal?: AbortSignal) {
   if (savedUrl != null) return savedUrl
 
   // TODO: Implement file compression (see https://github.com/goplus/builder/issues/492)
-  const url = await ((await isInlineable(file, signal)) ? inlineFile(file) : uploadToKodo(file, signal))
+  const url = await ((await isInlineable(file, signal)) ? inlineFile(file) : saveToKodo(file, signal))
   setUniversalUrl(file, url)
   return url
 }
@@ -374,10 +374,10 @@ async function getReusableKodoUrl(
   }
 }
 
-const uploadToKodoController = new ConcurrencyLimitController(20)
+const saveToKodoController = new ConcurrencyLimitController(20)
 
-const uploadToKodo = (file: File, signal?: AbortSignal) =>
-  uploadToKodoController.run<UniversalUrl>(async () => {
+const saveToKodo = (file: File, signal?: AbortSignal) =>
+  saveToKodoController.run<UniversalUrl>(async () => {
     const ab = await file.arrayBuffer(signal)
     const { token, maxSize, bucket, region } = await getUploadSessionWithCache()
     signal?.throwIfAborted()
