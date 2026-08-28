@@ -33,7 +33,7 @@ Copy only the requested user-facing defaults. The normal set is:
 1. The selected backdrop file.
 2. Each selected sprite directory, including its `index.json` and every referenced costume/animation file.
 3. Sounds required by selected animations, including each sound's configuration and audio file.
-4. `builder-thumbnail.jpeg` when the template preview should match the exported project.
+4. The exported `builder-thumbnail.*` when the template preview should match the exported project. Copy it to `default-project/thumbnail.jpeg`, outside `assets/`.
 
 Do not copy `main.spx`, `<Sprite>.spx`, fonts, `builder-meta.json`, inactive backdrops, or unrelated stage configuration unless the request explicitly calls for them. Delete obsolete template assets when replacing a default, so the frontend bundle does not retain unused old resources.
 
@@ -41,7 +41,7 @@ Use English asset filenames and display names when requested. Update both the co
 
 ## Wire the selected resources into the template
 
-`default-project.ts` loads all files under `default-project/assets/` through `import.meta.glob`. Keep copied files under that tree so `getTemplateAssets()` exposes their archive-relative paths.
+`default-project.ts` loads stage, sprite, and sound files under `default-project/assets/` through `import.meta.glob`. Keep those files under that tree so `getTemplateAssets()` exposes their archive-relative paths. The thumbnail is an exception: it is loaded separately from `default-project/thumbnail.jpeg` with `new URL(...)`.
 
 - Create the stage backdrop from the selected asset and use the intended display name.
 - Load all template sounds with `Sound.loadAll(files)` and add them to the `SpxProject` before loading sprites. Pass the same `sounds` array to `Sprite.load` so animation sound names resolve to sound IDs.
